@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fortune Pro V4.12 - 归一圆满版</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Noto+Serif+SC:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --tarot-bg: #0b0718;
+            --tarot-accent: #c084fc;
+            --tarot-text: #f3f4f6;
+            --bg: var(--tarot-bg);
+            --accent: var(--tarot-accent);
+            --gyro-x: 0deg;
+            --gyro-y: 0deg;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 450px;
+            background: var(--bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            perspective: 1000px;
+        }
+
+        /* 统一视觉舞台 */
+        .stage-box {
+            width: 100%;
+            height: 42vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 深度校准的中心容器 */
+        .visual-center {
+            width: 360px;
+            height: 360px;
+            position: relative;
+            display: grid;
+            place-items: center;
+            transform: rotateX(var(--gyro-y)) rotateY(var(--gyro-x));
+            transition: transform 0.15s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* 图层容器：统一使用 50% 居中 */
+        .graphics-layer {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+            transition: all 1.5s ease;
+        }
+
+        /* 占星轨道 */
+        #astro-core {
+            transition: transform 4.5s cubic-bezier(0.15, 0.75, 0.25, 1);
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
+
+        .planet-node {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #fff, 0 0 25px var(--accent);
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            z-index: 30;
+        }
+
+        .planet-label {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            width: 85px;
+            text-align: center;
+            left: -38px;
+            top: 20px;
+            transform: rotate(0deg) !important;
+            pointer-events: none;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .constellation-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .star-link {
+            stroke: rgba(192, 132, 252, 0.25);
+            stroke-width: 0.8;
+            stroke-dasharray: 4, 12;
+            animation: linkFlow 25s linear infinite;
+        }
+
+        @keyframes linkFlow {
+            from {
+                stroke-dashoffset: 200;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* 量子气旋按钮：强化对齐感 */
+        .nebula-trigger {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, rgba(192, 132, 252, 0.1) 40%, transparent 75%);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: nebulaPulse 4s infinite ease-in-out;
+            margin-bottom: 35px;
+        }
+
+        .nebula-core {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #fff;
+            filter: blur(14px);
+            opacity: 0.65;
+            box-shadow: 0 0 28px #fff;
+            z-index: 1;
+        }
+
+        .nebula-aura {
+            position: absolute;
+            inset: -18px;
+            border: 1.2px solid rgba(192, 132, 252, 0.12);
+            border-radius: 50%;
+            animation: RotateLoop 15s linear infinite;
+        }
+
+        .nebula-hint {
+            position: absolute;
+            bottom: -38px;
+            width: 140px;
+            font-size: 0.74rem;
+            color: var(--accent);
+            letter-spacing: 4px;
+            opacity: 0.5;
+            text-align: center;
+            animation: textBreath 3s infinite;
+        }
+
+        @keyframes nebulaPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.85;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+        }
+
+        @keyframes RotateLoop {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes textBreath {
+
+            0%,
+            100% {
+                opacity: 0.35;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: translateY(-4px);
+            }
+        }
+
+        /* 易经元素 */
+        .symbols-ring {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            animation: RotateLoop 40s linear infinite;
+            opacity: 0.15;
+        }
+
+        .taiji-center {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            z-index: 5;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 25px var(--accent));
+            transition: all 1s;
+        }
+
+        .yao-core {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 9px;
+            z-index: 20;
+            position: relative;
+            transition: transform 0.8s ease-out;
+        }
+
+        .yao-line {
+            width: 62px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.45);
+            border-radius: 2.2px;
+            opacity: 0;
+            transform: scaleX(0);
+            transition: 0.6s cubic-bezier(0.1, 0.8, 0.3, 1);
+        }
+
+        .yao-line.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .yao-line.yin {
+            background: transparent;
+            border: 2.5px solid rgba(255, 255, 255, 0.45);
+            position: relative;
+        }
+
+        .yao-line.yin::after {
+            content: '';
+            position: absolute;
+            left: 44%;
+            width: 12%;
+            height: 100%;
+            background: var(--bg);
+        }
+
+        .yao-line.moving {
+            background: var(--accent);
+            border: none;
+            box-shadow: 0 0 22px var(--accent);
+        }
+
+        /* 交互面板 */
+        .panel-ui {
+            position: absolute;
+            top: 56%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.8s ease;
+            z-index: 50;
+        }
+
+        .input-pill {
+            background: rgba(192, 132, 252, 0.05);
+            border: 1px solid rgba(192, 132, 252, 0.12);
+            color: #fff;
+            padding: 13px 22px;
+            border-radius: 18px;
+            font-family: 'Montserrat';
+            font-size: 1.05rem;
+            letter-spacing: 2px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-pill::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -10px;
+            left: 18px;
+            font-size: 0.65rem;
+            color: var(--accent);
+            background: var(--bg);
+            padding: 0 6px;
+            opacity: 0.8;
+        }
+
+        .btn-mode {
+            background: transparent;
+            border: 1.2px solid rgba(192, 132, 252, 0.3);
+            color: var(--accent);
+            padding: 9px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            margin-top: 18px;
+            transition: 0.3s;
+        }
+
+        .btn-mode:hover {
+            background: rgba(192, 132, 252, 0.1);
+            border-color: var(--accent);
+        }
+
+        /* 结果层 */
+        .result-container {
+            position: absolute;
+            top: 42%;
+            left: 0;
+            width: 100%;
+            padding: 0 32px;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+
+        .feather-in {
+            animation: featherReveal 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes featherReveal {
+            0% {
+                opacity: 0;
+                filter: blur(16px);
+                transform: translateY(28px);
+            }
+
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+
+        .res-title {
+            font-size: 2.4rem;
+            font-family: 'Noto Serif SC';
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 5px;
+        }
+
+        .res-tag {
+            color: var(--accent);
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .card {
+            flex: 1;
+            padding: 18px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(192, 132, 252, 0.22);
+            background: rgba(192, 132, 252, 0.08);
+        }
+
+        .main-btn {
+            background: var(--accent);
+            border: none;
+            padding: 18px;
+            border-radius: 25px;
+            color: var(--bg);
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.05rem;
+            margin-top: 18px;
+            box-shadow: 0 8px 24px rgba(192, 132, 252, 0.3);
+        }
+
+        /* 修正后的粒子层：必须随容器移动 */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .star-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            animation: starPulse var(--speed) ease-in-out infinite var(--delay);
+        }
+
+        @keyframes starPulse {
+
+            0%,
+            100% {
+                opacity: 0.12;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.75;
+                transform: scale(1.4);
+            }
+        }
+    </style>
+</head>
+
+<body class="iching-mode" id="body-ctx">
+    <div class="app-container" id="app">
+        <div class="stage-box">
+            <div class="visual-center" id="gyro-stage">
+                <!-- 修正：粒子层放入陀螺仪容器内 -->
+                <div id="stars-background" class="graphics-layer" style="z-index: 60;"></div>
+
+                <!-- 易经层 -->
+                <div class="graphics-layer" id="iching-graphics">
+                    <div id="ring" class="symbols-ring"></div>
+                    <svg class="taiji-center" id="taiji" viewBox="0 0 100 100">
+                        <path d="M50 0 A50 50 0 0 1 50 100 A25 25 0 0 1 50 50 A25 25 0 0 0 50 0 Z" fill="#fff" />
+                        <path d="M50 100 A50 50 0 0 1 50 0 A25 25 0 0 1 50 50 A25 25 0 0 0 50 100 Z"
+                            fill="rgba(192, 132, 252, 0.4)" />
+                    </svg>
+                    <div id="yao-box" class="yao-core"></div>
+                </div>
+
+                <!-- 占星层 -->
+                <div class="graphics-layer" id="astro-graphics" style="display:none; opacity:0;">
+                    <div id="astro-core">
+                        <div id="star-vault" style="position:absolute; inset:-120px;"></div>
+                        <svg class="constellation-svg" id="star-links"></svg>
+                        <div id="planets-layer" style="position:absolute; inset:0;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-ui" id="iching-input">
+            <div class="nebula-trigger" onclick="runIChing()">
+                <div class="nebula-aura"></div>
+                <div class="nebula-core"></div>
+                <!-- 修正对齐：✨ 图标放到按钮绝对中心 -->
+                <span style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 8px #fff);">✨</span>
+                <div class="nebula-hint">触碰 · 开启卦象</div>
+            </div>
+            <h2 style="font-family:'Noto Serif SC'; color:white; margin:0; font-size:1.8rem; letter-spacing:3px;">易经起卦
+            </h2>
+            <button class="btn-mode" onclick="saveModeAndSwitch('astro')">切换：西占星历 ➔</button>
+        </div>
+
+        <div class="panel-ui" id="astro-input" style="display:none;">
+            <div style="width:100%; padding:0 45px; margin-bottom:28px;">
+                <div class="input-pill" data-label="出生日期">1995 . 05 . 20</div>
+                <div class="input-pill" data-label="出生时间">北京 · 12:00</div>
+            </div>
+            <div class="nebula-trigger" onclick="runAstro()">
+                <div class="nebula-aura"></div>
+                <div class="nebula-core"></div>
+                <div class="nebula-hint">触碰 · 开启星门</div>
+            </div>
+            <h2 style="font-family:'Noto Serif SC'; color:white; margin:0; font-size:1.8rem; letter-spacing:3px;">星轨校准
+            </h2>
+            <button class="btn-mode" onclick="saveModeAndSwitch('iching')">➔ 切换：易经起卦</button>
+        </div>
+
+        <div class="result-container" id="result-board">
+            <div class="res-title" id="r-name">标题</div>
+            <div class="res-tag" id="r-tag">★ 特征描述 ★</div>
+            <div class="card-row">
+                <div class="card">
+                    <div style="font-family:'Noto Serif SC';font-size:1.4rem;color:var(--accent);margin-bottom:8px;">宜
+                    </div>
+                    <div id="yi-text" style="color:white; font-size:0.92rem; font-weight:600;"></div>
+                </div>
+                <div class="card" style="background:rgba(255,255,255,0.03);">
+                    <div style="font-family:'Noto Serif SC';font-size:1.4rem;color:#8e8e93;margin-bottom:8px;">忌</div>
+                    <div id="ji-text" style="color:#8e8e93; font-size:0.92rem; font-weight:600;"></div>
+                </div>
+            </div>
+            <p id="r-desc"
+                style="font-size:0.96rem; line-height:1.75; opacity:0.85; text-align:left; color:white; margin:15px 0 25px 0;">
+            </p>
+            <button class="main-btn" onclick="location.reload()">毕 · 顺应自如</button>
+        </div>
+    </div>
+
+    <script>
+        // ---------------- 陀螺仪逻辑 ----------------
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                const x = Math.max(-12, Math.min(12, e.gamma / 1.5));
+                const y = Math.max(-12, Math.min(12, (e.beta - 45) / 1.5));
+                document.documentElement.style.setProperty('--gyro-x', `${x}deg`);
+                document.documentElement.style.setProperty('--gyro-y', `${y}deg`);
+            });
+        }
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 25;
+            const y = (e.clientY / window.innerHeight - 0.5) * -25;
+            document.documentElement.style.setProperty('--gyro-x', `${x}deg`);
+            document.documentElement.style.setProperty('--gyro-y', `${y}deg`);
+        });
+
+        // ---------------- 模式持久化 ----------------
+        window.addEventListener('load', () => {
+            const last = localStorage.getItem('fortune_last_mode');
+            if (last === 'astro') switchToAstro();
+            else initIchingSymbols();
+        });
+
+        function saveModeAndSwitch(mode) {
+            localStorage.setItem('fortune_last_mode', mode);
+            if (mode === 'astro') switchToAstro();
+            else location.reload();
+        }
+
+        // ---------------- 核心视觉逻辑 ----------------
+        function initIchingSymbols() {
+            const ring = document.getElementById('ring');
+            if (!ring) return;
+            const syms = [{ l: [1, 1, 1] }, { l: [0, 1, 1] }, { l: [1, 0, 1] }, { l: [0, 0, 1] }, { l: [1, 1, 0] }, { l: [0, 1, 0] }, { l: [1, 0, 0] }, { l: [0, 0, 0] }];
+            syms.forEach((s, i) => {
+                const d = document.createElement('div'); d.className = 'symbol';
+                d.style.cssText = `position:absolute; width:30px; height:20px; left:125px; top:0; transform-origin:15px 140px; display:flex; flex-direction:column; gap:3px; transform:rotate(${i * 45}deg);`;
+                s.l.forEach(v => { const l = document.createElement('div'); l.className = v ? 's-line' : 's-line gap'; l.style.cssText = v ? 'height:3px; background:var(--accent); border-radius:1px; width:100%;' : 'height:3px; background:transparent; border:1.5px solid var(--accent); position:relative; border-radius:1px;'; if (!v) { l.innerHTML = '<div style="position:absolute; left:40%; width:20%; height:100%; background:var(--bg);"></div>'; } d.appendChild(l); }); ring.appendChild(d);
+            });
+        }
+
+        // 修正：粒子飞入逻辑。使用 transform 避免坐标系偏移，并设定中心为 50%
+        function spawnIChingParticles() {
+            const field = document.getElementById('stars-background');
+            const cw = field.offsetWidth; const ch = field.offsetHeight;
+            field.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const s = document.createElement('div'); s.className = 'particle';
+                const angle = Math.random() * Math.PI * 2; const dist = 280 + Math.random() * 180;
+                const size = 2 + Math.random() * 3;
+                // 初始位置
+                const startX = cw / 2 + Math.cos(angle) * dist;
+                const startY = ch / 2 + Math.sin(angle) * dist;
+                s.style.cssText = `width:${size}px; height:${size}px; left:${startX}px; top:${startY}px; background:white; box-shadow:0 0 10px white, 0 0 20px var(--accent);`;
+                field.appendChild(s);
+
+                // 修正飞入动画：飞向正中心 (cw/2, ch/2)
+                s.animate([
+                    { transform: 'translate(0, 0)', opacity: 0 },
+                    { opacity: 1, offset: 0.1 },
+                    { transform: `translate(${-Math.cos(angle) * dist}px, ${-Math.sin(angle) * dist}px)`, opacity: 0 }
+                ], {
+                    duration: 3500 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)',
+                    fill: 'forwards'
+                });
+            }
+        }
+
+        async function runIChing() {
+            document.getElementById('iching-input').style.opacity = '0';
+            spawnIChingParticles();
+            document.getElementById('ring').style.animationDuration = '1.2s';
+            const yaoBox = document.getElementById('yao-box');
+            yaoBox.innerHTML = '';
+            const pattern = [0, 1, 0, 0, 0, 1];
+            for (let i = 0; i < 6; i++) {
+                await new Promise(r => setTimeout(r, 666));
+                const y = document.createElement('div');
+                y.className = (pattern[i] ? 'yao-line' : 'yao-line yin') + (i === 1 ? ' moving' : '');
+                yaoBox.appendChild(y);
+                setTimeout(() => y.classList.add('visible'), 50);
+            }
+            await new Promise(r => setTimeout(r, 1000));
+            showResult("水雷屯", "★ 二爻 · 动 ★", "· 纳财<br>· 动土", "· 远行<br>· 急躁", "正如种子破土前的阵痛。虽然过程迟缓，但念力已聚，生机正从厚土中苏醒。", true);
+        }
+
+        function switchToAstro() {
+            document.getElementById('iching-graphics').style.display = 'none';
+            document.getElementById('iching-input').style.display = 'none';
+            document.getElementById('body-ctx').className = 'astro-mode';
+            const astroG = document.getElementById('astro-graphics');
+            astroG.style.display = 'grid'; setTimeout(() => astroG.style.opacity = '1', 50);
+            document.getElementById('astro-input').style.display = 'flex';
+
+            const vault = document.getElementById('star-vault');
+            vault.innerHTML = '';
+            for (let i = 0; i < 320; i++) {
+                const s = document.createElement('div'); s.className = 'star-dot';
+                const size = 0.5 + Math.random() * 2;
+                s.style.cssText = `width:${size}px; height:${size}px; left:${Math.random() * 100}%; top:${Math.random() * 100}%; --delay:${Math.random() * 8}s; --speed:${4 + Math.random() * 4}s;`;
+                vault.appendChild(s);
+            }
+        }
+
+        async function runAstro() {
+            document.getElementById('astro-input').style.opacity = '0';
+            setTimeout(() => document.getElementById('astro-input').style.display = 'none', 800);
+            const core = document.getElementById('astro-core');
+            core.style.transform = 'rotate(360deg)';
+            const planetsLayer = document.getElementById('planets-layer');
+            const svgLayer = document.getElementById('star-links');
+            const planets = ['Sun', 'Moon', 'Mars', 'Jupiter', 'Saturn'];
+            const history = [];
+            planetsLayer.innerHTML = ''; svgLayer.innerHTML = '';
+            for (let i = 0; i < planets.length; i++) {
+                await new Promise(r => setTimeout(r, 600));
+                const node = document.createElement('div'); node.className = 'planet-node';
+                const angle = Math.random() * Math.PI * 2; const r = 70 + Math.random() * 90;
+                const x = 180 + Math.cos(angle) * r; const y = 180 + Math.sin(angle) * r;
+                node.style.left = x + 'px'; node.style.top = y + 'px';
+                history.push({ x, y });
+                const lab = document.createElement('div'); lab.className = 'planet-label'; lab.innerText = planets[i];
+                node.appendChild(lab); planetsLayer.appendChild(node);
+                setTimeout(() => node.style.opacity = '1', 100);
+                if (history.length > 1) {
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("x1", history[i - 1].x); line.setAttribute("y1", history[i - 1].y);
+                    line.setAttribute("x2", history[i].x); line.setAttribute("y2", history[i].y);
+                    line.setAttribute("class", "star-link");
+                    svgLayer.appendChild(line);
+                }
+            }
+            await new Promise(r => setTimeout(r, 1500));
+            showResult("冥王星 · 逆行", "★ 深度蜕变之门 ★", "· 复盘内心<br>· 清理旧物", "· 开启新约<br>· 情绪对抗", "冥王星正在你的潜意识宫位深耕。这并非灾难，而是一场灵魂土壤的翻新。那些被掩埋的真实愿望正在苏醒，请保持诚实。", false);
+        }
+
+        function showResult(name, tag, yi, ji, desc, isIching) {
+            document.getElementById('app').classList.add('is-result');
+            if (isIching) { document.getElementById('ring').style.opacity = '0'; document.getElementById('taiji').style.opacity = '0'; }
+            else { document.getElementById('astro-graphics').style.opacity = '0.92'; }
+            document.getElementById('r-name').innerText = name; document.getElementById('r-tag').innerText = tag;
+            document.getElementById('yi-text').innerHTML = yi; document.getElementById('ji-text').innerHTML = ji;
+            document.getElementById('r-desc').innerText = desc;
+            const board = document.getElementById('result-board'); board.style.display = 'block'; board.classList.add('feather-in');
+        }
+    </script>
+</body>
+
+</html>
