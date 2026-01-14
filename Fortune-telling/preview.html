@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fortune Pro V4.14 - 命运因果版</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Noto+Serif+SC:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --tarot-bg: #0b0718;
+            --tarot-accent: #c084fc;
+            --tarot-text: #f3f4f6;
+            --bg: var(--tarot-bg);
+            --accent: var(--tarot-accent);
+            --gyro-x: 0deg;
+            --gyro-y: 0deg;
+            --gyro-z: 0deg;
+            --stars-offset-x: 0px;
+            --stars-offset-y: 0px;
+            --theme-color: var(--tarot-accent);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100vw;
+            height: 100vh;
+            max-width: 450px;
+            background: var(--bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            perspective: 1200px;
+            transition: background 2s ease;
+        }
+
+        /* 舞台 */
+        .stage-box {
+            width: 100%;
+            height: 42vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #stars-background {
+            position: absolute;
+            inset: -120px;
+            display: grid;
+            place-items: center;
+            transform: translate(calc(var(--stars-offset-x) * 1.5), calc(var(--stars-offset-y) * 1.5)) rotateZ(var(--gyro-z));
+            mask-image: radial-gradient(circle at center, black 10%, transparent 85%);
+            -webkit-mask-image: radial-gradient(circle at center, black 10%, transparent 85%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .visual-center {
+            width: 360px;
+            height: 360px;
+            position: relative;
+            display: grid;
+            place-items: center;
+            transform: rotateX(var(--gyro-y)) rotateY(var(--gyro-x)) translateZ(20px);
+            transition: transform 0.15s ease-out;
+            transform-style: preserve-3d;
+            z-index: 50;
+        }
+
+        .graphics-layer {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+        }
+
+        #astro-core {
+            transition: transform 5s cubic-bezier(0.15, 0.75, 0.25, 1);
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
+
+        /* 行星点位 */
+        .planet-node {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #fff, 0 0 25px var(--theme-color);
+            opacity: 0;
+            transition: all 1.2s ease;
+            z-index: 30;
+        }
+
+        .planet-node.highlight {
+            width: 16px;
+            height: 16px;
+            box-shadow: 0 0 30px #fff, 0 0 60px var(--theme-color);
+        }
+
+        .planet-label {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.78rem;
+            letter-spacing: 1.8px;
+            width: 85px;
+            text-align: center;
+            left: -38px;
+            top: 22px;
+            transform: rotate(0deg) !important;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .planet-node.highlight .planet-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            top: 28px;
+        }
+
+        .constellation-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .star-link {
+            stroke: var(--theme-color);
+            stroke-width: 1.2;
+            opacity: 0.4;
+            stroke-dasharray: 5, 15;
+            animation: linkFlow 25s linear infinite;
+            transition: all 1s ease;
+        }
+
+        @keyframes linkFlow {
+            from {
+                stroke-dashoffset: 200;
+            }
+
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* 气旋按钮 */
+        .nebula-trigger {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, rgba(192, 132, 252, 0.1) 40%, transparent 75%);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: nebulaPulse 4s infinite ease-in-out;
+            margin-bottom: 35px;
+        }
+
+        .nebula-core {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #fff;
+            filter: blur(14px);
+            opacity: 0.65;
+            box-shadow: 0 0 28px #fff;
+            z-index: 1;
+        }
+
+        .nebula-aura {
+            position: absolute;
+            inset: -18px;
+            border: 1.2px solid rgba(192, 132, 252, 0.12);
+            border-radius: 50%;
+            animation: RotateLoop 15s linear infinite;
+        }
+
+        .nebula-hint {
+            position: absolute;
+            bottom: -38px;
+            width: 150px;
+            font-size: 0.74rem;
+            color: var(--accent);
+            letter-spacing: 4px;
+            opacity: 0.5;
+            text-align: center;
+            animation: textBreath 3s infinite;
+        }
+
+        @keyframes nebulaPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes RotateLoop {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes textBreath {
+
+            0%,
+            100% {
+                opacity: 0.35;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: translateY(-4px);
+            }
+        }
+
+        /* 易经元素 */
+        .symbols-ring {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            animation: RotateLoop 40s linear infinite;
+            opacity: 0.15;
+        }
+
+        .taiji-center {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            z-index: 5;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 25px var(--accent));
+            transition: all 1s;
+        }
+
+        .yao-core {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 9px;
+            z-index: 20;
+            position: relative;
+            transition: transform 0.8s ease-out;
+        }
+
+        .yao-line {
+            width: 62px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.45);
+            border-radius: 2.2px;
+            opacity: 0;
+            transform: scaleX(0);
+            transition: 0.6s cubic-bezier(0.1, 0.8, 0.3, 1);
+        }
+
+        .yao-line.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .yao-line.yin {
+            background: transparent;
+            border: 2.5px solid rgba(255, 255, 255, 0.45);
+            position: relative;
+        }
+
+        .yao-line.yin::after {
+            content: '';
+            position: absolute;
+            left: 44%;
+            width: 12%;
+            height: 100%;
+            background: var(--bg);
+        }
+
+        .yao-line.moving {
+            background: var(--accent);
+            border: none;
+            box-shadow: 0 0 22px var(--accent);
+        }
+
+        /* 界面布局 */
+        .panel-ui {
+            position: absolute;
+            top: 51%;
+            /* 从 56% 大幅上移，缩短间距 */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.8s ease;
+            z-index: 150;
+        }
+
+        .input-pill {
+            background: rgba(192, 132, 252, 0.05);
+            border: 1px solid rgba(192, 132, 252, 0.12);
+            color: #fff;
+            padding: 13px 22px;
+            border-radius: 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-pill:focus-within {
+            border-color: var(--accent);
+            background: rgba(192, 132, 252, 0.1);
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.2);
+        }
+
+        .input-pill input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 100%;
+            font-size: 1.05rem;
+            font-family: inherit;
+            outline: none;
+            padding: 0;
+        }
+
+        .input-pill input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .input-pill::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -10px;
+            left: 18px;
+            font-size: 0.65rem;
+            color: var(--accent);
+            background: var(--bg);
+            padding: 0 6px;
+            opacity: 0.8;
+        }
+
+        .btn-mode {
+            background: transparent;
+            border: 1.2px solid rgba(192, 132, 252, 0.3);
+            color: var(--accent);
+            padding: 9px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            margin-top: 10px;
+            z-index: 200;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: -10px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .checkbox-group input {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--accent);
+        }
+
+        /* 响应式紧凑适配 */
+        @media (max-height: 800px) {
+            .visual-center {
+                transform: scale(0.85);
+                top: 30%;
+            }
+
+            .panel-ui {
+                top: 48%;
+            }
+
+            .input-pill {
+                margin-bottom: 12px;
+                padding: 10px 18px;
+            }
+
+            .nebula-trigger {
+                transform: scale(0.9);
+                margin-bottom: 5px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .visual-center {
+                transform: scale(0.75);
+                top: 28%;
+            }
+
+            .panel-ui {
+                top: 46%;
+            }
+
+            .input-pill {
+                margin-bottom: 8px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 结果展示层 */
+        .result-container {
+            position: absolute;
+            top: 42%;
+            left: 0;
+            width: 100%;
+            padding: 0 32px;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+
+        .feather-in {
+            animation: featherReveal 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes featherReveal {
+            0% {
+                opacity: 0;
+                filter: blur(20px);
+                transform: translateY(35px);
+            }
+
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+
+        .res-title {
+            font-size: 2.5rem;
+            font-family: 'Noto Serif SC';
+            color: #fff;
+            margin-bottom: 10px;
+            letter-spacing: 6px;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 14px;
+            margin: 25px 0;
+        }
+
+        .card {
+            flex: 1;
+            padding: 22px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+        }
+
+        .main-btn {
+            background: var(--theme-color);
+            border: none;
+            padding: 20px;
+            border-radius: 25px;
+            color: var(--bg);
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.05rem;
+            margin-top: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .star-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            animation: starPulse var(--speed) ease-in-out infinite var(--delay);
+        }
+
+        @keyframes starPulse {
+
+            0%,
+            100% {
+                opacity: 0.15;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.4);
+            }
+        }
+    </style>
+</head>
+
+<body class="iching-mode" id="body-ctx">
+    <div class="app-container" id="app">
+        <div class="stage-box">
+            <div id="stars-background"></div>
+            <div class="visual-center" id="gyro-stage">
+                <div class="graphics-layer" id="iching-graphics">
+                    <div id="ring" class="symbols-ring"></div>
+                    <svg class="taiji-center" id="taiji" viewBox="0 0 100 100">
+                        <path d="M50 0 A50 50 0 0 1 50 100 A25 25 0 0 1 50 50 A25 25 0 0 0 50 0 Z" fill="#fff" />
+                        <path d="M50 100 A50 50 0 0 1 50 0 A25 25 0 0 1 50 50 A25 25 0 0 0 50 100 Z"
+                            fill="rgba(192, 132, 252, 0.4)" />
+                    </svg>
+                    <div id="yao-box" class="yao-core"></div>
+                </div>
+                <div class="graphics-layer" id="astro-graphics" style="display:none; opacity:0;">
+                    <div id="astro-core">
+                        <div id="star-vault" style="position:absolute; inset:-120px;"></div>
+                        <svg class="constellation-svg" id="star-links"></svg>
+                        <div id="planets-layer" style="position:absolute; inset:0;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-ui" id="iching-input">
+            <div class="nebula-trigger" onclick="runIChing()">
+                <div class="nebula-aura"></div>
+                <div class="nebula-core"></div>
+                <span style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 8px #fff);">✨</span>
+                <div class="nebula-hint">触碰 · 开启卦象</div>
+            </div>
+            <h2 style="font-family:'Noto Serif SC'; color:white; margin:0; font-size:1.8rem; letter-spacing:3px;">易经起卦
+            </h2>
+            <button class="btn-mode" onclick="saveModeAndSwitch('astro')">切换：西占星历 ➔</button>
+        </div>
+        <div class="panel-ui" id="astro-input" style="display:none;">
+            <!-- 核心操作区置顶 -->
+            <div class="nebula-trigger" onclick="runAstro()" style="margin-bottom: 5px;">
+                <div class="nebula-aura"></div>
+                <div class="nebula-core"></div>
+                <!-- 补全星光符号 -->
+                <span
+                    style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 10px #c084fc);">✨</span>
+                <div class="nebula-hint">触碰 · 开启星门</div>
+            </div>
+            <h2
+                style="font-family:'Noto Serif SC'; color:white; margin:0 0 10px 0; font-size:1.75rem; letter-spacing:3px;">
+                星轨校准</h2>
+
+            <!-- 输入区收紧与下沉 -->
+            <div style="width:100%; padding:0 35px; margin-bottom:10px;">
+                <div class="input-pill" data-label="出生日期" style="margin-bottom:12px;">
+                    <input type="date" id="birth-date">
+                </div>
+                <div class="input-pill" data-label="出生地点 (国家 - 省 - 市)" style="margin-bottom:12px;">
+                    <input type="text" placeholder="中国 - 上海 - 静安" id="birth-place">
+                </div>
+                <div style="display:flex; gap:10px; align-items:flex-start;">
+                    <div class="input-pill" data-label="出生时间" style="flex:1; margin-bottom:8px;">
+                        <input type="time" id="birth-time">
+                    </div>
+                    <div class="checkbox-group" style="margin-top:12px;">
+                        <input type="checkbox" id="time-unknown">
+                        <label for="time-unknown" style="white-space:nowrap; font-size:0.7rem;">时间不详</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-mode" onclick="saveModeAndSwitch('iching')" style="margin-top:5px;">➔ 切换：易经起卦</button>
+        </div>
+
+        <div class="result-container" id="result-board">
+            <div class="res-title" id="r-name">标题</div>
+            <div class="res-tag" id="r-tag"
+                style="color:var(--theme-color); font-size:0.85rem; letter-spacing:4px; font-weight:600; margin-bottom:24px;">
+                ★ 特征描述 ★</div>
+            <div class="card-row">
+                <div class="card">
+                    <div
+                        style="font-family:'Noto Serif SC';font-size:1.4rem;color:var(--theme-color);margin-bottom:8px;">
+                        宜</div>
+                    <div id="yi-text" style="color:white; font-size:0.92rem; font-weight:600;"></div>
+                </div>
+                <div class="card" style="background:rgba(255,255,255,0.03);">
+                    <div style="font-family:'Noto Serif SC';font-size:1.4rem;color:#8e8e93;margin-bottom:8px;">忌</div>
+                    <div id="ji-text" style="color:#8e8e93; font-size:0.92rem; font-weight:600;"></div>
+                </div>
+            </div>
+            <p id="r-desc"
+                style="font-size:0.96rem; line-height:1.75; opacity:0.85; text-align:left; color:white; margin:15px 0 25px 0;">
+            </p>
+            <button class="main-btn" onclick="location.reload()">毕 · 顺应自如</button>
+        </div>
+    </div>
+
+    <script>
+        // ---------------- 命运因果映射 (The Destiny Map) ----------------
+        const ASTRO_DESTINIES = [
+            {
+                name: "冥王星 · 涅槃",
+                tag: "★ 深度蜕变之门 ★",
+                yi: "· 复盘内心<br>· 清理旧物",
+                ji: "· 开启新约<br>· 情绪对抗",
+                desc: "冥王星正在你的潜意识宫位深耕。这并非灾难，而是一场灵魂土壤的翻新。那些被掩埋的真实愿望正在苏醒，请保持诚实。",
+                color: "#c084fc",
+                mainPlanet: "Pluto",
+                // 十字形星阵 (十字架)
+                pattern: [
+                    { p: "Sun", r: 140, a: 0 },
+                    { p: "Moon", r: 140, a: Math.PI },
+                    { p: "Mars", r: 80, a: Math.PI / 2 },
+                    { p: "Jupiter", r: 80, a: -Math.PI / 2 },
+                    { p: "Pluto", r: 0, a: 0 } // 居中主星
+                ],
+                links: [[0, 1], [2, 3], [0, 2], [2, 1], [1, 3], [3, 0]]
+            },
+            {
+                name: "金星 · 灵犀",
+                tag: "★ 情感共鸣时刻 ★",
+                yi: "· 邀约聚会<br>· 艺术创作",
+                ji: "· 契约签署<br>· 独处思考",
+                desc: "金星在你的命盘中划出一道柔美的弧线。此时的人际场充满了温润的引力，无需刻意讨好，你的美感即是最好的名片。",
+                color: "#fecdd3",
+                mainPlanet: "Venus",
+                // 五角星阵
+                pattern: [
+                    { p: "Sun", r: 120, a: -Math.PI / 2 },
+                    { p: "Venus", r: 120, a: -Math.PI / 2 + (Math.PI * 2 / 5) },
+                    { p: "Mars", r: 120, a: -Math.PI / 2 + (Math.PI * 4 / 5) },
+                    { p: "Jupiter", r: 120, a: -Math.PI / 2 + (Math.PI * 6 / 5) },
+                    { p: "Saturn", r: 120, a: -Math.PI / 2 + (Math.PI * 8 / 5) }
+                ],
+                links: [[0, 2], [2, 4], [4, 1], [1, 3], [3, 0]]
+            },
+            {
+                name: "木星 · 鸿运",
+                tag: "★ 扩张与机遇 ★",
+                yi: "· 跨界探索<br>· 投资理财",
+                ji: "· 细节纠缠<br>· 维持现状",
+                desc: "木星展现了慷慨的一面。那些曾让你感到束缚的边界正在消失，请大胆地向远方投掷你的意向，世界会给你巨大的回音。",
+                color: "#fef08a",
+                mainPlanet: "Jupiter",
+                // 放射状星阵 (勺子形/北斗)
+                pattern: [
+                    { p: "Jupiter", r: 140, a: -0.5 },
+                    { p: "Saturn", r: 100, a: -0.8 },
+                    { p: "Mars", r: 60, a: -1.2 },
+                    { p: "Sun", r: 40, a: 0.5 },
+                    { p: "Moon", r: 80, a: 1.2 }
+                ],
+                links: [[0, 1], [1, 2], [2, 3], [3, 4]]
+            }
+        ];
+
+        // ---------------- 陀螺仪逻辑 ----------------
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                const x = Math.max(-12, Math.min(12, e.gamma / 1.5));
+                const y = Math.max(-12, Math.min(12, (e.beta - 45) / 1.5));
+                const z = e.alpha ? e.alpha : 0;
+                document.documentElement.style.setProperty('--gyro-x', `${x}deg`);
+                document.documentElement.style.setProperty('--gyro-y', `${y}deg`);
+                document.documentElement.style.setProperty('--gyro-z', `${z}deg`);
+                document.documentElement.style.setProperty('--stars-offset-x', `${-x * 3}px`);
+                document.documentElement.style.setProperty('--stars-offset-y', `${-y * 3}px`);
+            });
+        }
+        window.addEventListener('mousemove', (e) => {
+            const screenX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const screenY = (e.clientY / window.innerHeight - 0.5) * 2;
+            document.documentElement.style.setProperty('--gyro-x', `${screenX * 12}deg`);
+            document.documentElement.style.setProperty('--gyro-y', `${screenY * -12}deg`);
+            document.documentElement.style.setProperty('--stars-offset-x', `${screenX * -30}px`);
+            document.documentElement.style.setProperty('--stars-offset-y', `${screenY * 30}px`);
+        });
+
+        // ---------------- 核心逻辑 ----------------
+        window.addEventListener('load', () => {
+            initStarsBackground();
+            restoreBirthData(); // 自动回填
+            const last = localStorage.getItem('fortune_last_mode');
+            if (last === 'astro') switchToAstro();
+            else initIchingSymbols();
+        });
+
+        function restoreBirthData() {
+            const dIn = document.getElementById('birth-date');
+            const tIn = document.getElementById('birth-time');
+            const pIn = document.getElementById('birth-place');
+            const uCh = document.getElementById('time-unknown');
+            if (!dIn) return;
+
+            const savedDate = localStorage.getItem('astro_birth_date');
+            const savedTime = localStorage.getItem('astro_birth_time');
+            const savedPlace = localStorage.getItem('astro_birth_place');
+            const savedUnknown = localStorage.getItem('astro_time_unknown') === 'true';
+
+            if (savedDate) dIn.value = savedDate;
+            if (savedTime) tIn.value = savedTime;
+            if (savedPlace) pIn.value = savedPlace;
+            if (savedUnknown) {
+                uCh.checked = true;
+                tIn.disabled = true;
+                tIn.style.opacity = "0.3";
+            }
+
+            const sync = () => {
+                localStorage.setItem('astro_birth_date', dIn.value);
+                localStorage.setItem('astro_birth_time', tIn.value);
+                localStorage.setItem('astro_birth_place', pIn.value);
+                localStorage.setItem('astro_time_unknown', uCh.checked);
+            };
+
+            [dIn, tIn, pIn, uCh].forEach(el => {
+                el.addEventListener('input', sync);
+                el.addEventListener('change', sync);
+            });
+
+            uCh.addEventListener('change', (e) => {
+                tIn.disabled = e.target.checked;
+                tIn.style.opacity = e.target.checked ? "0.3" : "1";
+                sync();
+            });
+        }
+
+        function saveModeAndSwitch(mode) {
+            localStorage.setItem('fortune_last_mode', mode);
+            if (mode === 'astro') switchToAstro();
+            else {
+                localStorage.removeItem('fortune_last_mode');
+                location.reload();
+            }
+        }
+
+        function initStarsBackground() {
+            const bg = document.getElementById('stars-background');
+            for (let i = 0; i < 150; i++) {
+                const s = document.createElement('div'); s.className = 'star-dot';
+                const size = 0.8 + Math.random() * 2.2;
+                s.style.cssText = `width:${size}px; height:${size}px; left:${Math.random() * 100}%; top:${Math.random() * 100}%; --delay:${Math.random() * 5}s; --speed:${3 + Math.random() * 4}s;`;
+                bg.appendChild(s);
+            }
+        }
+
+        // ---------------- 易经逻辑 (略) ----------------
+        function initIchingSymbols() {
+            const ring = document.getElementById('ring'); if (!ring) return;
+            const syms = [{ l: [1, 1, 1] }, { l: [0, 1, 1] }, { l: [1, 0, 1] }, { l: [0, 0, 1] }, { l: [1, 1, 0] }, { l: [0, 1, 0] }, { l: [1, 0, 0] }, { l: [0, 0, 0] }];
+            syms.forEach((s, i) => {
+                const d = document.createElement('div'); d.className = 'symbol';
+                d.style.cssText = `position:absolute; width:30px; height:20px; left:125px; top:0; transform-origin:15px 140px; display:flex; flex-direction:column; gap:3px; transform:rotate(${i * 45}deg);`;
+                s.l.forEach(v => { const l = document.createElement('div'); l.className = v ? 's-line' : 's-line gap'; l.style.cssText = v ? 'height:3.2px; background:var(--accent); border-radius:1px; width:100%;' : 'height:3.2px; background:transparent; border:1.5px solid var(--accent); position:relative; border-radius:1px;'; if (!v) { l.innerHTML = '<div style="position:absolute; left:40%; width:20%; height:100%; background:var(--bg);"></div>'; } d.appendChild(l); }); ring.appendChild(d);
+            });
+        }
+
+        async function runIChing() {
+            document.getElementById('iching-input').style.opacity = '0';
+            const stage = document.getElementById('gyro-stage');
+            for (let i = 0; i < 80; i++) {
+                const s = document.createElement('div'); s.className = 'particle';
+                const angle = Math.random() * Math.PI * 2; const dist = 200 + Math.random() * 150;
+                const size = 2 + Math.random() * 2;
+                s.style.cssText = `width:${size}px; height:${size}px; left:${180 + Math.cos(angle) * dist}px; top:${180 + Math.sin(angle) * dist}px; background:white; box-shadow:0 0 10px white; opacity:0;`;
+                stage.appendChild(s);
+                s.animate([{ transform: 'translate(0, 0)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { transform: `translate(${-Math.cos(angle) * dist}px, ${-Math.sin(angle) * dist}px)`, opacity: 0 }], { duration: 3000, easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)', fill: 'forwards' });
+            }
+            document.getElementById('ring').style.animationDuration = '1.2s';
+            const yaoBox = document.getElementById('yao-box');
+            yaoBox.innerHTML = ''; const pattern = [0, 1, 0, 0, 0, 1];
+            for (let i = 0; i < 6; i++) {
+                await new Promise(r => setTimeout(r, 666));
+                const y = document.createElement('div'); y.className = (pattern[i] ? 'yao-line' : 'yao-line yin') + (i === 1 ? ' moving' : '');
+                yaoBox.appendChild(y); setTimeout(() => y.classList.add('visible'), 50);
+            }
+            await new Promise(r => setTimeout(r, 1000));
+            showResult("水雷屯", "★ 二爻 · 动 ★", "· 纳财<br>· 动土", "· 远行<br>· 急躁", "正如种子破土前的阵痛。虽然过程迟缓，但念力已聚，生机正从厚土中苏醒。", true);
+        }
+
+        // ---------------- 占星逻辑 (V4.14 因果强化) ----------------
+        function switchToAstro() {
+            document.getElementById('iching-graphics').style.display = 'none';
+            document.getElementById('iching-input').style.display = 'none';
+            document.getElementById('body-ctx').className = 'astro-mode';
+            const astroG = document.getElementById('astro-graphics');
+            astroG.style.display = 'grid'; setTimeout(() => astroG.style.opacity = '1', 50);
+            document.getElementById('astro-input').style.display = 'flex';
+
+            const vault = document.getElementById('star-vault');
+            vault.innerHTML = '';
+            for (let i = 0; i < 200; i++) {
+                const s = document.createElement('div'); s.className = 'star-dot';
+                const size = 0.5 + Math.random() * 1.5;
+                s.style.cssText = `width:${size}px; height:${size}px; left:${Math.random() * 100}%; top:${Math.random() * 100}%; --delay:${Math.random() * 8}s; --speed:${4 + Math.random() * 4}s;`;
+                vault.appendChild(s);
+            }
+        }
+
+        async function runAstro() {
+            try {
+                // 0. 参数校验与生成种子
+                const bDate = document.getElementById('birth-date').value;
+                const bTime = document.getElementById('time-unknown').checked ? "12:00" : document.getElementById('birth-time').value;
+                const bPlace = document.getElementById('birth-place').value;
+                if (!bDate || !bPlace) {
+                    alert("请填写完整的出生信息，以观测星轨");
+                    return;
+                }
+
+                // 1. 动态确定性天机 (Deterministic Seed + Hour Flow)
+                const destinySeed = bDate + bTime + bPlace;
+                const hourTick = Math.floor(Date.now() / (1000 * 60 * 60)); // 每小时演化一次
+                const inputSeed = destinySeed + hourTick;
+                let hash = 0;
+                for (let i = 0; i < inputSeed.length; i++) {
+                    hash = ((hash << 5) - hash) + inputSeed.charCodeAt(i);
+                    hash |= 0;
+                }
+                const luckyIndex = Math.abs(hash) % ASTRO_DESTINIES.length;
+                const fate = ASTRO_DESTINIES[luckyIndex];
+
+                // 2. 注入主题色与背景
+                document.documentElement.style.setProperty('--theme-color', fate.color);
+                document.getElementById('app').style.background = `radial-gradient(circle at center, ${fate.color}22 0%, #0b0718 100%)`;
+
+                document.getElementById('astro-input').style.opacity = '0';
+                setTimeout(() => document.getElementById('astro-input').style.display = 'none', 800);
+
+                const core = document.getElementById('astro-core');
+                core.style.transform = 'rotate(360deg)';
+
+                const planetsLayer = document.getElementById('planets-layer');
+                const svgLayer = document.getElementById('star-links');
+                const astroG = document.getElementById('astro-graphics');
+                astroG.style.display = 'grid';
+                astroG.style.opacity = '1';
+                planetsLayer.innerHTML = ''; svgLayer.innerHTML = '';
+
+                const nodesRef = [];
+
+                // 3. 按照因果阵法生成星象
+                for (let i = 0; i < fate.pattern.length; i++) {
+                    const cfg = fate.pattern[i];
+                    await new Promise(r => setTimeout(r, 600));
+
+                    const node = document.createElement('div');
+                    node.className = 'planet-node' + (cfg.p === fate.mainPlanet ? ' highlight' : '');
+
+                    const x = 180 + Math.cos(cfg.a) * cfg.r;
+                    const y = 180 + Math.sin(cfg.a) * cfg.r;
+                    node.style.left = x + 'px'; node.style.top = y + 'px';
+
+                    const lab = document.createElement('div'); lab.className = 'planet-label'; lab.innerText = cfg.p;
+                    node.appendChild(lab); planetsLayer.appendChild(node);
+                    nodesRef.push({ x, y, node });
+
+                    setTimeout(() => { if (node) node.style.opacity = '1'; }, 100);
+
+                    if (fate.links) {
+                        fate.links.forEach(link => {
+                            if (link[1] === i && nodesRef[link[0]]) {
+                                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                                line.setAttribute("x1", nodesRef[link[0]].x);
+                                line.setAttribute("y1", nodesRef[link[0]].y);
+                                line.setAttribute("x2", nodesRef[link[1]].x);
+                                line.setAttribute("y2", nodesRef[link[1]].y);
+                                line.setAttribute("class", "star-link");
+                                svgLayer.appendChild(line);
+                            }
+                        });
+                    }
+                }
+
+                await new Promise(r => setTimeout(r, 1200));
+                showResult(fate.name, fate.tag, fate.yi, fate.ji, fate.desc, false);
+            } catch (err) {
+                console.error(err);
+                alert("星轨校准异常，请尝试刷新页面");
+            }
+        }
+
+        function showResult(name, tag, yi, ji, desc, isIching) {
+            document.getElementById('app').classList.add('is-result');
+            if (isIching) { document.getElementById('ring').style.opacity = '0'; document.getElementById('taiji').style.opacity = '0'; }
+            else { document.getElementById('astro-graphics').style.opacity = '0.92'; }
+            document.getElementById('r-name').innerText = name; document.getElementById('r-tag').innerText = tag;
+            document.getElementById('yi-text').innerHTML = yi; document.getElementById('ji-text').innerHTML = ji;
+            document.getElementById('r-desc').innerText = desc;
+            const board = document.getElementById('result-board'); board.style.display = 'block'; board.classList.add('feather-in');
+        }
+    </script>
+</body>
+
+</html>
