@@ -10,17 +10,38 @@
         rel="stylesheet">
     <style>
         :root {
-            --tarot-bg: #0b0718;
-            --tarot-accent: #c084fc;
-            --tarot-text: #f3f4f6;
-            --bg: var(--tarot-bg);
-            --accent: var(--tarot-accent);
+            /* 默认占星模式变量 (Mystic Mode) */
+            --bg: #0b0718;
+            --accent: #c084fc;
+            --panel-bg: rgba(255, 255, 255, 0.03);
+            --panel-border: rgba(192, 132, 252, 0.2);
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.5);
+            --shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            --glass-blur: 15px;
+            --theme-color: #c084fc;
             --gyro-x: 0deg;
             --gyro-y: 0deg;
             --gyro-z: 0deg;
             --stars-offset-x: 0px;
             --stars-offset-y: 0px;
-            --theme-color: var(--tarot-accent);
+        }
+
+        /* 易经模式变量 (Zen Mode) */
+        .zen-mode {
+            --bg: #fdfbf7;
+            /* 和纸白 */
+            --accent: #2d2d2d;
+            /* 水墨黑 */
+            --panel-bg: rgba(255, 255, 255, 0.75);
+            /* 宣纸白 */
+            --panel-border: rgba(45, 45, 45, 0.1);
+            --text-main: #2d2d2d;
+            --text-dim: rgba(45, 45, 45, 0.5);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            --glass-blur: 8px;
+            --theme-color: #d4a017;
+            /* 磨砂金 */
         }
 
         * {
@@ -32,8 +53,10 @@
             height: 100vh;
             width: 100vw;
             margin: 0;
-            background: #000;
+            background: var(--bg);
             overflow: hidden;
+            font-family: 'Montserrat', 'Noto Serif SC', serif;
+            transition: background 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -176,7 +199,7 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(192, 132, 252, 0.4) 0%, rgba(192, 132, 252, 0.1) 40%, transparent 75%);
+            background: radial-gradient(circle, var(--theme-color) 0%, transparent 75%);
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -184,6 +207,11 @@
             align-items: center;
             animation: nebulaPulse 4s infinite ease-in-out;
             margin-bottom: 35px;
+            opacity: 0.8;
+        }
+
+        .zen-mode .nebula-trigger {
+            background: radial-gradient(circle, rgba(212, 160, 23, 0.2) 0%, transparent 75%);
         }
 
         .nebula-core {
@@ -191,17 +219,17 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: #fff;
+            background: var(--text-main);
             filter: blur(14px);
-            opacity: 0.65;
-            box-shadow: 0 0 28px #fff;
+            opacity: 0.6;
+            box-shadow: 0 0 28px var(--theme-color);
             z-index: 1;
         }
 
         .nebula-aura {
             position: absolute;
             inset: -18px;
-            border: 1.2px solid rgba(192, 132, 252, 0.12);
+            border: 1.2px solid var(--panel-border);
             border-radius: 50%;
             animation: RotateLoop 15s linear infinite;
         }
@@ -276,53 +304,101 @@
         .yao-core {
             display: flex;
             flex-direction: column-reverse;
-            gap: 9px;
+            gap: 12px;
+            /* 增加整体间距 */
             z-index: 20;
             position: relative;
-            transition: transform 0.8s ease-out;
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* 内外卦结构化断层 */
+        .yao-core::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 140%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--panel-border), transparent);
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .yao-core.result-state::after {
+            opacity: 1;
+        }
+
+        /* 结果状态下的位移：拉开内外卦间距 */
+        .yao-core.result-state .yao-line:nth-child(n+4) {
+            transform: translateY(-15px);
+            /* 上卦位移 */
+            margin-bottom: 5px;
         }
 
         .yao-line {
             width: 62px;
             height: 5px;
-            background: rgba(255, 255, 255, 0.45);
+            background: var(--accent);
+            opacity: 0.15;
+            /* Mystic 模式下保持微透 */
             border-radius: 2.2px;
             opacity: 0;
             transform: scaleX(0);
             transition: 0.6s cubic-bezier(0.1, 0.8, 0.3, 1);
         }
 
+        .zen-mode .yao-line {
+            background: var(--accent);
+            /* 禅意模式下为水墨黑 */
+            opacity: 0;
+        }
+
         .yao-line.visible {
-            opacity: 1;
+            opacity: 0.8;
             transform: scaleX(1);
         }
 
-        .yao-line.yin {
-            background: transparent;
-            border: 2.5px solid rgba(255, 255, 255, 0.45);
-            position: relative;
+        .zen-mode .yao-line.visible {
+            opacity: 1;
         }
 
+        .yao-line.yin {
+            background: transparent !important;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .yao-line.yin::before,
         .yao-line.yin::after {
             content: '';
-            position: absolute;
-            left: 44%;
-            width: 12%;
+            width: 42%;
             height: 100%;
-            background: var(--bg);
+            background: var(--accent);
+            border-radius: 2.2px;
+            transition: all 0.3s ease;
         }
 
+        /* 动爻在阴爻上的特殊表现：两段都变金 */
+        .yao-line.yin.moving::before,
+        .yao-line.yin.moving::after {
+            background: var(--theme-color);
+            box-shadow: 0 0 15px var(--theme-color);
+        }
+
+        /* 移除旧的遮盖逻辑 */
+
         .yao-line.moving {
-            background: var(--accent);
+            background: var(--theme-color);
             border: none;
-            box-shadow: 0 0 22px var(--accent);
+            box-shadow: 0 0 22px var(--theme-color);
         }
 
         /* 界面布局 */
         .panel-ui {
             position: absolute;
             top: 51%;
-            /* 从 56% 大幅上移，缩短间距 */
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -333,13 +409,13 @@
         }
 
         .input-pill {
-            background: rgba(192, 132, 252, 0.05);
-            border: 1px solid rgba(192, 132, 252, 0.12);
-            color: #fff;
-            padding: 13px 22px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            padding: 12px 22px;
             border-radius: 18px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             width: 100%;
             text-align: left;
@@ -349,23 +425,28 @@
             align-items: center;
             outline: none;
             transition: all 0.3s ease;
+            backdrop-filter: blur(var(--glass-blur));
         }
 
         .input-pill:focus-within {
-            border-color: var(--accent);
-            background: rgba(192, 132, 252, 0.1);
-            box-shadow: 0 0 15px rgba(192, 132, 252, 0.2);
+            border-color: var(--theme-color);
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.15);
         }
 
         .input-pill input {
             background: transparent;
             border: none;
-            color: #fff;
+            color: var(--text-main);
             width: 100%;
             font-size: 1.05rem;
             font-family: inherit;
             outline: none;
             padding: 0;
+        }
+
+        .zen-mode .input-pill input::-webkit-calendar-picker-indicator {
+            filter: invert(0);
+            opacity: 0.6;
         }
 
         .input-pill input::-webkit-calendar-picker-indicator {
@@ -380,22 +461,30 @@
             top: -10px;
             left: 18px;
             font-size: 0.65rem;
-            color: var(--accent);
+            color: var(--theme-color);
             background: var(--bg);
             padding: 0 6px;
             opacity: 0.8;
+            z-index: 10;
         }
 
         .btn-mode {
             background: transparent;
-            border: 1.2px solid rgba(192, 132, 252, 0.3);
-            color: var(--accent);
+            border: 1.2px solid var(--panel-border);
+            color: var(--text-main);
             padding: 9px 20px;
             border-radius: 12px;
             cursor: pointer;
             font-size: 0.82rem;
             margin-top: 10px;
             z-index: 200;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-mode:hover {
+            border-color: var(--theme-color);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .checkbox-group {
@@ -403,7 +492,7 @@
             align-items: center;
             gap: 8px;
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-dim);
             margin-top: -10px;
             margin-bottom: 20px;
             padding-left: 10px;
@@ -412,7 +501,7 @@
         .checkbox-group input {
             width: 14px;
             height: 14px;
-            accent-color: var(--accent);
+            accent-color: var(--theme-color);
         }
 
         /* 响应式紧凑适配 */
@@ -449,44 +538,65 @@
 
             .input-pill {
                 margin-bottom: 8px;
-                font-size: 0.85rem;
+                opacity: 0.85;
             }
         }
 
         /* 结果展示层 */
+        /* 结果展示层 - 升级为底吸式精致卡片 */
         .result-container {
             position: absolute;
-            top: 42%;
-            left: 0;
-            width: 100%;
-            padding: 0 32px;
-            text-align: center;
+            bottom: 30px;
+            /* 改为底吸 */
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            width: 92%;
+            max-width: 420px;
+            background: rgba(var(--panel-bg), 0.85);
+            /* 略微通透，能看到背景粒子 */
+            border: 1px solid var(--panel-border);
+            border-radius: 32px;
+            padding: 35px 24px 85px 24px;
             display: none;
-            z-index: 100;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(25px);
+            /* 增强磨砂感 */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .feather-in {
-            animation: featherReveal 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        .result-container.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
-        @keyframes featherReveal {
-            0% {
-                opacity: 0;
-                filter: blur(20px);
-                transform: translateY(35px);
-            }
+        /* 结果态下的图形联动：上移并微缩 */
+        body.is-result-state .visual-center {
+            top: 22% !important;
+            transform: scale(0.7) !important;
+        }
 
-            100% {
-                opacity: 1;
-                filter: blur(0);
-                transform: translateY(0);
-            }
+        #r-desc {
+            font-size: 0.96rem;
+            line-height: 1.75;
+            opacity: 0.9;
+            text-align: justify;
+            color: var(--text-main);
+            margin: 12px 0;
+            padding: 15px;
+            background: rgba(var(--theme-color), 0.05);
+            border-radius: 16px;
+            width: 100%;
         }
 
         .res-title {
             font-size: 2.5rem;
             font-family: 'Noto Serif SC';
-            color: #fff;
+            color: var(--text-main);
             margin-bottom: 10px;
             letter-spacing: 6px;
         }
@@ -501,25 +611,37 @@
             flex: 1;
             padding: 22px 12px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--panel-border);
+            background: var(--panel-bg);
+            backdrop-filter: blur(var(--glass-blur));
         }
 
         .main-btn {
-            background: var(--theme-color);
-            border: none;
-            padding: 20px;
-            border-radius: 25px;
-            color: var(--bg);
-            font-weight: 800;
-            cursor: pointer;
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            font-size: 1.05rem;
-            margin-top: 18px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            height: 72px;
+            background: var(--panel-bg);
+            border: none;
+            border-top: 1px solid var(--panel-border);
+            color: var(--theme-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            cursor: pointer;
+            transition: all 0.4s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1010;
             text-transform: uppercase;
-            letter-spacing: 2px;
+        }
+
+        .main-btn:hover {
+            background: var(--theme-color);
+            color: var(--bg);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         .particle {
@@ -561,9 +683,10 @@
                 <div class="graphics-layer" id="iching-graphics">
                     <div id="ring" class="symbols-ring"></div>
                     <svg class="taiji-center" id="taiji" viewBox="0 0 100 100">
-                        <path d="M50 0 A50 50 0 0 1 50 100 A25 25 0 0 1 50 50 A25 25 0 0 0 50 0 Z" fill="#fff" />
+                        <path d="M50 0 A50 50 0 0 1 50 100 A25 25 0 0 1 50 50 A25 25 0 0 0 50 0 Z"
+                            fill="var(--accent)" />
                         <path d="M50 100 A50 50 0 0 1 50 0 A25 25 0 0 1 50 50 A25 25 0 0 0 50 100 Z"
-                            fill="rgba(192, 132, 252, 0.4)" />
+                            fill="var(--theme-color)" style="opacity:0.6;" />
                     </svg>
                     <div id="yao-box" class="yao-core"></div>
                 </div>
@@ -581,11 +704,13 @@
             <div class="nebula-trigger" onclick="runIChing()">
                 <div class="nebula-aura"></div>
                 <div class="nebula-core"></div>
-                <span style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 8px #fff);">✨</span>
+                <span
+                    style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 10px var(--theme-color));">✨</span>
                 <div class="nebula-hint">触碰 · 开启卦象</div>
             </div>
-            <h2 style="font-family:'Noto Serif SC'; color:white; margin:0; font-size:1.8rem; letter-spacing:3px;">易经起卦
-            </h2>
+            <h2
+                style="font-family:'Noto Serif SC'; color:var(--text-main); margin:0; font-size:1.8rem; letter-spacing:3px;">
+                易经起卦</h2>
             <button class="btn-mode" onclick="saveModeAndSwitch('astro')">切换：西占星历 ➔</button>
         </div>
         <div class="panel-ui" id="astro-input" style="display:none;">
@@ -595,11 +720,11 @@
                 <div class="nebula-core"></div>
                 <!-- 补全星光符号 -->
                 <span
-                    style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 10px #c084fc);">✨</span>
+                    style="font-size:1.6rem; z-index:2; position:relative; filter:drop-shadow(0 0 10px var(--theme-color));">✨</span>
                 <div class="nebula-hint">触碰 · 开启星门</div>
             </div>
             <h2
-                style="font-family:'Noto Serif SC'; color:white; margin:0 0 10px 0; font-size:1.75rem; letter-spacing:3px;">
+                style="font-family:'Noto Serif SC'; color:var(--text-main); margin:0 0 10px 0; font-size:1.75rem; letter-spacing:3px;">
                 星轨校准</h2>
 
             <!-- 输入区收紧与下沉 -->
@@ -634,16 +759,14 @@
                     <div
                         style="font-family:'Noto Serif SC';font-size:1.4rem;color:var(--theme-color);margin-bottom:8px;">
                         宜</div>
-                    <div id="yi-text" style="color:white; font-size:0.92rem; font-weight:600;"></div>
+                    <div id="yi-text" style="color:var(--text-main); font-size:0.92rem; font-weight:600;"></div>
                 </div>
-                <div class="card" style="background:rgba(255,255,255,0.03);">
+                <div class="card">
                     <div style="font-family:'Noto Serif SC';font-size:1.4rem;color:#8e8e93;margin-bottom:8px;">忌</div>
                     <div id="ji-text" style="color:#8e8e93; font-size:0.92rem; font-weight:600;"></div>
                 </div>
             </div>
-            <p id="r-desc"
-                style="font-size:0.96rem; line-height:1.75; opacity:0.85; text-align:left; color:white; margin:15px 0 25px 0;">
-            </p>
+            <p id="r-desc"></p>
             <button class="main-btn" onclick="location.reload()">毕 · 顺应自如</button>
         </div>
     </div>
@@ -707,6 +830,73 @@
             }
         ];
 
+        // ---------------- 易经六十四卦库 (The I-Ching Library) ----------------
+        const ICHING_LIBRARY = [
+            { name: "乾为天", pattern: [1, 1, 1, 1, 1, 1], tag: "★ 刚健中正 · 飞龙在天 ★", yi: "进取, 开拓", ji: "退缩, 犹豫", desc: "天行健，君子以自强不息。此刻气运正盛，如日中天，宜积极采取行动，展现统御力。" },
+            { name: "坤为地", pattern: [0, 0, 0, 0, 0, 0], tag: "★ 柔顺利贞 · 厚德载物 ★", yi: "配合, 包容", ji: "争抢, 冒进", desc: "地势坤，君子以厚德载物。当前应持守正道，效仿大地之宽广，以柔克刚，跟随强者方能成事。" },
+            { name: "水雷屯", pattern: [1, 0, 0, 0, 1, 0], tag: "★ 刚木破土 · 万物萌发 ★", yi: "纳财, 动土", ji: "远行, 急躁", desc: "正如种子破土前的阵痛。虽然过程迟缓，但念力已聚，生机正从厚土中苏醒，切忌欲速则不达。" },
+            { name: "山水蒙", pattern: [0, 1, 0, 0, 0, 1], tag: "★ 泉水始发 · 启蒙化育 ★", yi: "请教, 学习", ji: "武断, 孤行", desc: "山下出泉，蒙。此刻如迷雾中的行者需要明师指引。保持谦逊，虚心听取他人建议是上策。" },
+            { name: "水天需", pattern: [1, 1, 1, 0, 1, 0], tag: "★ 云等雨降 · 待时而动 ★", yi: "等待, 聚会", ji: "焦虑, 强攻", desc: "需者，待也。虽然目标已定，但时机未至。应储备粮草，放松身心，在等待中捕捉转机。" },
+            { name: "天水讼", pattern: [0, 1, 0, 1, 1, 1], tag: "★ 天水违行 · 慎防争端 ★", yi: "止损, 求和", ji: "固执, 起诉", desc: "上乾下坎，天与水背道而驰。当前容易产生分歧与纷争。凡事退一步海阔天空，不可争强好胜。" },
+            { name: "地水师", pattern: [0, 1, 0, 0, 0, 0], tag: "★ 容民畜众 · 统率之德 ★", yi: "组织, 纪律", ji: "轻敌, 独行", desc: "地下有水，师。解决问题需要组织纪律和威望。此刻宜团结众人，制定明确规则，而非单打独斗。" },
+            { name: "水地比", pattern: [0, 0, 0, 0, 1, 0], tag: "★ 水行地上 · 亲附共赢 ★", yi: "社交, 合作", ji: "清高, 狐疑", desc: "地上有水，比。此刻是建立人际关系的最佳时机。诚信相待，寻找志同道合的伙伴，将获得持久的支持。" },
+            { name: "风天小畜", pattern: [1, 1, 1, 0, 1, 1], tag: "★ 密云不雨 · 蓄势待发 ★", yi: "修善, 积累", ji: "露锋, 盲动", desc: "风行天上。虽然环境尚未完全成熟，但小的积累已在进行。保持耐心，在细节上完善自己，静待大风起。" },
+            { name: "天泽履", pattern: [1, 1, 0, 1, 1, 1], tag: "★ 履虎尾而不唏 · 慎行无咎 ★", yi: "守规, 礼遇", ji: "放肆, 傲慢", desc: "天在上，泽在下。此刻如履薄冰，需以礼待人，遵循客观规律。只要行事谦逊、规矩，虽有风险亦能平安。" },
+            { name: "地天泰", pattern: [1, 1, 1, 0, 0, 0], tag: "★ 天地交感 · 通泰吉祥 ★", yi: "大展, 交流", ji: "保守, 猜忌", desc: "天地交而万物通。现在是阴阳和谐、交流最顺畅的时期。应把握时机，大胆推进计划，万事皆易成。" },
+            { name: "天地否", pattern: [0, 0, 0, 1, 1, 1], tag: "★ 闭塞不通 · 谨守待时 ★", yi: "蛰伏, 自省", ji: "扩张, 辩解", desc: "天地不交。现在是沟通受阻、小道增长的时期。不宜强求，应守住内心底线，积蓄实力，等待局面翻转。" },
+            { name: "天火同人", pattern: [1, 0, 1, 1, 1, 1], tag: "★ 文明大同 · 合作无间 ★", yi: "聚会, 共享", ji: "偏私, 独占", desc: "天与火同。此刻宜打破界限，与人广泛合作。在公正、公开的前提下，众人的力量将带你走向成功。" },
+            { name: "火天大有", pattern: [1, 1, 1, 1, 0, 1], tag: "★ 日丽中天 · 丰厚收获 ★", yi: "投资, 决策", ji: "贪婪, 夸大", desc: "火在天上。这是一个大丰收的季节，资源丰富，声望正隆。应保持正直，妥善分配财富，以德配位。" },
+            { name: "地山谦", pattern: [0, 0, 1, 0, 0, 0], tag: "★ 内实外虚 · 谦尊而光 ★", yi: "退让, 礼遇", ji: "居功, 炫耀", desc: "地中有山。越是有成就，越要保持低调。谦逊不会削弱你的力量，反而会让你获得更广泛的尊敬与安全。" },
+            { name: "雷地豫", pattern: [0, 0, 0, 1, 0, 0], tag: "★ 大地回春 · 欢愉预备 ★", yi: "娱乐, 规划", ji: "沉溺, 懈怠", desc: "雷出地奋。此刻气氛欢快，人心振奋。宜把握情绪，在愉悦中做好未来的风险规划，顺势而为。" },
+            { name: "泽雷随", pattern: [1, 0, 0, 0, 1, 1], tag: "★ 随时随众 · 择善而从 ★", yi: "听取, 跟随", ji: "固执, 抗拒", desc: "泽中有雷。天下趋势不可违，此刻应放下成见，观察大众的需求。顺应自然与人情，你会发现事情变得简单。" },
+            { name: "山风蛊", pattern: [0, 1, 1, 0, 0, 1], tag: "★ 振疲起顿 · 革故鼎新 ★", yi: "整治, 改革", ji: "掩盖, 拖延", desc: "山下有风。平静之下隐藏着腐朽。现在是清理积弊、重新整顿的大好时机。虽然过程繁杂，但势在必行。" },
+            { name: "地泽临", pattern: [1, 1, 0, 0, 0, 0], tag: "★ 泽上有地 · 居高临下 ★", yi: "视察, 推广", ji: "严酷, 傲慢", desc: "泽上有地。机遇正在逼近，运势处于上升期。应以温和而坚定的态度对待下属或下线，把握窗口期。" },
+            { name: "风地观", pattern: [0, 0, 0, 0, 1, 1], tag: "★ 风行大地 · 洗练直觉 ★", yi: "调研, 观察", ji: "轻率, 决策", desc: "风行地上。此刻不宜急于行动，而应作为观察者去审视全局。通过高度的直觉和冷静的分析，看清真相。" },
+            { name: "火雷噬嗑", pattern: [1, 0, 0, 1, 0, 1], tag: "★ 刚柔并济 · 排除障碍 ★", yi: "执行, 严查", ji: "姑息, 软弱", desc: "雷电交作。面前有顽固的阻碍，必须像咬碎硬物一样果断处理。明确赏罚，严明纪律，才能打通局面。" },
+            { name: "山火贲", pattern: [1, 0, 1, 0, 0, 1], tag: "★ 山下火明 · 质感修饰 ★", yi: "包装, 审美", ji: "虚伪, 表象", desc: "山下有火。此刻适合在形式上进行美化或修饰。虽然内在才是核心，但适当的礼仪、包装能让沟通更丝滑。" },
+            { name: "山地剥", pattern: [0, 0, 0, 0, 0, 1], tag: "★ 残叶凋零 · 顺时而止 ★", yi: "止损, 蛰伏", ji: "创业, 投资", desc: "山附于地。阳气衰弱，阴气盛。现在不是扩张的时候，要顺应自然，削减开支，守住根本，等待新生。" },
+            { name: "地雷复", pattern: [1, 0, 0, 0, 0, 0], tag: "★ 一阳初动 · 万象更新 ★", yi: "开始, 回归", ji: "急变, 远行", desc: "地中有雷。这是转折点的出现。虽然力量微小，但代表了新方向的萌芽。应循序渐进，不可操之过急。" },
+            { name: "天雷无妄", pattern: [1, 0, 0, 1, 1, 1], tag: "★ 顺应实相 · 纯粹自然 ★", yi: "真实, 顺势", ji: "贪念, 算计", desc: "天雷行。此刻应摒弃一切投机取巧的念头，按照自然客观规律行事。保持内心的单纯与诚实，自然无灾。" },
+            { name: "山天大畜", pattern: [1, 1, 1, 0, 0, 1], tag: "★ 刚健深厚 · 广博积蓄 ★", yi: "储蓄, 学习", ji: "消耗, 浮夸", desc: "天在山中。这是一个积攒能量的长周期。不论是财富还是知识，此刻的深度积淀将成为未来爆发的基石。" },
+            { name: "山雷颐", pattern: [1, 0, 0, 0, 0, 1], tag: "★ 自求口实 · 慎言节食 ★", yi: "养生, 检言", ji: "多余, 贪婪", desc: "山下有雷。关注你的“输入”与“输出”。饮食要健康，言语要负责。照顾好自己的身心健康是第一要务。" },
+            { name: "泽风大过", pattern: [0, 1, 1, 1, 1, 0], tag: "★ 栋桡屋危 · 极速突围 ★", yi: "决断, 负重", ji: "躺平, 逃避", desc: "泽灭木。此刻面临极大的压力或异常状况。不能按常理出牌，必须鼓起勇气通过非凡的行动来化解危机。" },
+            { name: "坎为水", pattern: [0, 1, 0, 0, 1, 0], tag: "★ 险陷重叠 · 诚信度厄 ★", yi: "坚持, 谨慎", ji: "投机, 恐惧", desc: "水流而不盈。虽然重重困难包围，但只要内心保持诚信，坚守信念，像流水一样不断前行，终能出险。" },
+            { name: "离为火", pattern: [1, 0, 1, 1, 0, 1], tag: "★ 明丽依附 · 守正长明 ★", yi: "宣讲, 展现", ji: "冲动, 炫耀", desc: "明两作离。此刻应寻找合适的平台进行依附。像火需要燃料一样，借助可靠的事物或规矩，才能发挥才智。" },
+            { name: "泽山咸", pattern: [0, 0, 1, 1, 1, 0], tag: "★ 山泽互感 · 灵气沟通 ★", yi: "求婚, 联谊", ji: "生硬, 偏见", desc: "山上有泽。此刻感应力极强，是情感交流、灵魂共鸣的最佳契机。放下理性防卫，用心去感受世界的反馈。" },
+            { name: "雷风恒", pattern: [0, 1, 1, 1, 0, 0], tag: "★ 长久稳定 · 坚守初衷 ★", yi: "坚持, 例行", ji: "多变, 厌倦", desc: "雷动风散。虽然外部环境在变，但内核必须保持稳定。坚持你认为正确的长期主义，时间会给你答案。" },
+            { name: "天山遁", pattern: [0, 0, 1, 1, 1, 1], tag: "★ 退而求其次 · 战略撤退 ★", yi: "回避, 归隐", ji: "强求, 纠缠", desc: "天下有山。这是一种智慧的退却。当环境对你不利时，主动拉开距离不是失败，而是为了寻找更优的战场。" },
+            { name: "雷天大壮", pattern: [1, 1, 1, 1, 0, 0], tag: "★ 震雷在天 · 盛极思静 ★", yi: "正义, 规则", ji: "蛮干, 暴力", desc: "雷在天上。气场极大，极具威慑力。但越是强壮，越要遵守规矩和礼仪，不可仗势欺人，慎防力竭。" },
+            { name: "火地晋", pattern: [0, 0, 0, 1, 0, 1], tag: "★ 旭日初升 · 步步高升 ★", yi: "晋见, 表现", ji: "懒散, 隐瞒", desc: "明出地上。运势上升，适合通过展示才华获得长辈或上级的支持。积极主动，光明磊落，前途无量。" },
+            { name: "地火明夷", pattern: [1, 0, 1, 0, 0, 0], tag: "★ 凤凰浴火 · 晦迹韬光 ★", yi: "隐忍, 避祸", ji: "表现, 冲突", desc: "明入地中。此刻处境艰难，光芒被掩盖。应隐藏锐气，外愚内慧，在黑暗中守护好内心的希望之火。" },
+            { name: "风火家人", pattern: [1, 0, 1, 0, 1, 1], tag: "★ 内部整合 · 齐家治世 ★", yi: "内部, 秩序", ji: "向外, 铺张", desc: "风自火出。此刻重点应放在家庭或团队内部的秩序建设上。只有内部核心稳固，外在的事业才能长久。" },
+            { name: "火泽睽", pattern: [1, 1, 0, 1, 0, 1], tag: "★ 异而不悖 · 寻找公约 ★", yi: "求同, 宽容", ji: "偏激, 差异", desc: "火动而上，泽动而下。现在是意见分歧的时期。不应试图统一所有人，而应在差异中寻找能够合作的小共识。" },
+            { name: "水山蹇", pattern: [0, 0, 1, 0, 1, 0], tag: "★ 山高水险 · 止步静观 ★", yi: "反思, 咨询", ji: "强行, 冒险", desc: "山上有水。路途极其艰辛，甚至此路不通。此时不应硬闯，而应反求诸己，寻找智慧的导师带你绕路。" },
+            { name: "雷水解", pattern: [0, 1, 0, 1, 0, 0], tag: "★ 雷雨大作 · 烦恼消除 ★", yi: "宽恕, 解决", ji: "疑虑, 纠结", desc: "雷雨之动。危机已经过去，积压已久的矛盾开始消散。应抓住时机快速执行，处理遗留问题，然后轻装上阵。" },
+            { name: "山泽损", pattern: [1, 1, 0, 0, 0, 1], tag: "★ 减损表象 · 增益精神 ★", yi: "舍弃, 节约", ji: "贪婪, 夸张", desc: "山下有泽。这是一个减少多余欲望、回归简单的过程。减损外在的虚华，是为了增加内在的诚意与能量。" },
+            { name: "风雷益", pattern: [1, 0, 0, 0, 1, 1], tag: "★ 风雷交加 · 利益增长 ★", yi: "施舍, 扩张", ji: "贪婪, 固步", desc: "风雷益。这是一个利于行动、可以大刀阔斧前进的时期。最好的获益方式是惠及他人，正所谓损上益下。" },
+            { name: "泽天夬", pattern: [1, 1, 1, 1, 1, 0], tag: "★ 决断清除 · 刚健突破 ★", yi: "决裂, 公开", ji: "暧昧, 阴谋", desc: "泽上于天。面前有最后的一点阻碍，需要以极大的决心将其彻底清除。行事要光明正大，不可使用阴暗手段。" },
+            { name: "天风姤", pattern: [0, 1, 1, 1, 1, 1], tag: "★ 邂逅相遇 · 慎防诱惑 ★", yi: "预警, 交接", ji: "轻率, 沉溺", desc: "天下有风。一次意外的相遇或事件。要注意其中潜藏的不稳定因素，不要被短暂的诱惑冲昏脑海。" },
+            { name: "泽地萃", pattern: [0, 0, 0, 1, 1, 0], tag: "★ 泽汇大地 · 精英聚首 ★", yi: "联欢, 整合", ji: "散漫, 孤立", desc: "泽在地上。这是一个资源高度集中的时刻。宜参加聚会、整合人脉。通过共识和祭祀般的诚意感召众人。" },
+            { name: "地风升", pattern: [0, 1, 1, 0, 0, 0], tag: "★ 绿林破土 · 稳步上升 ★", yi: "求职, 晋升", ji: "急躁, 贪大", desc: "地中生木。这是一次自然而顺畅的上升。不需要通过暴烈的手段，只要顺着趋势持续努力，就会获得成功。" },
+            { name: "泽水困", pattern: [0, 1, 0, 1, 1, 0], tag: "★ 穷途末路 · 守正待天 ★", yi: "闭关, 修身", ji: "辩解, 绝望", desc: "泽无水。此刻你可能落到了人生谷底，解释也没人听。保持冷静和信仰，只要内心不乱，这只是黎明前的黑暗。" },
+            { name: "水风井", pattern: [0, 1, 1, 0, 1, 0], tag: "★ 源泉不竭 · 维持根本 ★", yi: "改造, 互助", ji: "贪新, 忘本", desc: "木下有水。井水长流，养人无数。此刻应关注那些基础的、长期的、共享的资源。维护好根本，利益自然来。" },
+            { name: "泽火革", pattern: [1, 0, 1, 1, 1, 0], tag: "★ 泽中有火 · 彻底变革 ★", yi: "转型, 辞旧", ji: "守旧, 迟疑", desc: "水火相克。旧的秩序已经不合时宜，必须进行一次翻天覆地的改变。只要目标是正义的，变革将大获全胜。" },
+            { name: "火风鼎", pattern: [0, 1, 1, 1, 0, 1], tag: "★ 折中调和 · 鼎力革新 ★", yi: "组建, 分配", ji: "偏激, 独断", desc: "木上有火。鼎之象。这是一个建立新秩序、选拔人才、进行利益再分配的时期。保持庄重、稳健的节奏。" },
+            { name: "震为雷", pattern: [1, 0, 0, 1, 0, 0], tag: "★ 惊雷震地 · 恐惧修省 ★", yi: "行动, 反思", ji: "麻木, 狂妄", desc: "震雷之动。巨大的冲击可能让你感到恐惧。这是一种警示，促使你检查自己的行为。只要保持戒惧之心，转危为安。" },
+            { name: "艮为山", pattern: [0, 0, 1, 0, 0, 1], tag: "★ 崇山峻岭 · 止息止念 ★", yi: "停止, 安定", ji: "妄动, 焦虑", desc: "兼山，艮。现在是绝对静止的时候。动不如静，要像山一样稳固。停下追逐的脚步，寻找内心的安宁。" },
+            { name: "风山渐", pattern: [0, 0, 1, 0, 1, 1], tag: "★ 鸿雁归林 · 循序渐进 ★", yi: "结婚, 积累", ji: "跨越, 急成", desc: "山上有木。这是一个慢节奏的成长过程。像树木生长一样，不要指望一夜成名。每一步踩得实，未来的根基才稳。" },
+            { name: "雷泽归妹", pattern: [1, 1, 0, 1, 0, 0], tag: "★ 违背秩序 · 慎终追远 ★", yi: "守正, 观察", ji: "出击, 盲从", desc: "泽上有雷。这是一种不对等或带有隐患的关系。不要被表面的利益迷惑，要看清长期的责任和潜伏的危机。" },
+            { name: "雷火丰", pattern: [1, 0, 1, 1, 0, 0], tag: "★ 日午中天 · 丰盈辉煌 ★", yi: "分享, 决策", ji: "挥霍, 炫耀", desc: "雷电皆至，丰。这是一个繁荣的巅峰，但也由于太丰厚而容易产生遮蔽。应在大好形势下保持透明，未雨绸缪。" },
+            { name: "火山旅", pattern: [0, 0, 1, 1, 0, 1], tag: "★ 山上之火 · 羁旅之情 ★", yi: "旅行, 外交", ji: "安逸, 固守", desc: "山上有火。此刻你处于一个变动的、非主场的环境。保持客人的礼仪和谦虚，灵活应变，切不可自我膨胀。" },
+            { name: "巽为风", pattern: [0, 1, 1, 0, 1, 1], tag: "★ 顺风扩散 · 潜移默化 ★", yi: "沟通, 申令", ji: "强硬, 粗鲁", desc: "随风，巽。软实力比强权更有用。像风一样无孔不入，通过反复的沟通和温和的影响，达成你的目标。" },
+            { name: "泽兑", pattern: [1, 1, 0, 1, 1, 0], tag: "★ 丽泽互益 · 喜悦交流 ★", yi: "谈话, 庆祝", ji: "刻薄, 沉溺", desc: "丽泽，兑。这是一个充满欢愉和探讨的时期。通过真诚的对话和互相激荡，能产生出不仅愉悦而且有益的成果。" },
+            { name: "风水涣", pattern: [0, 1, 0, 0, 1, 1], tag: "★ 风行水上 · 涣散消融 ★", yi: "化解, 团结", ji: "分裂, 灰心", desc: "风行水上。这是一次冰释前嫌、化解隔阂的机会。通过高尚的目标或共同的仪式，将涣散的人心重新凝聚。" },
+            { name: "水泽节", pattern: [1, 1, 0, 0, 1, 0], tag: "★ 泽中有水 · 适度节制 ★", yi: "节约, 规则", ji: "奢靡, 严苛", desc: "泽上有水。水要有岸，人要有节。制定合理的规则和边界，不要让资源或精力过度流失，也不要对自己太苛刻。" },
+            { name: "风泽中孚", pattern: [1, 1, 0, 0, 1, 1], tag: "★ 诚实守信 · 内心至诚 ★", yi: "契约, 感化", ji: "虚伪, 多疑", desc: "泽上有风。诚信是核心。只要你内心是真实且诚恳的，即使没有复杂的技巧，也能感化顽固的人，达成不可能的任务。" },
+            { name: "雷山小过", pattern: [0, 0, 1, 1, 0, 0], tag: "★ 飞鸟遗音 · 守小利大 ★", yi: "保守, 处理", ji: "大举, 冒险", desc: "山上有雷。现在不宜做大决定或宏观规划。关注细节，做一点小事，保持低姿态，像飞鸟归巢一样安全第一。" },
+            { name: "水火既济", pattern: [1, 0, 1, 0, 1, 0], tag: "★ 水火交融 · 守成防乱 ★", yi: "维持, 警惕", ji: "懈怠, 开始", desc: "水在火上。事已成，完美的平衡。但这正是危机潜伏的开始。不要因为成功而放松，要像防火一样预防未来的变故。" },
+            { name: "火水未济", pattern: [0, 1, 0, 1, 0, 1], tag: "★ 火在水上 · 希望在即 ★", yi: "准备, 坚持", ji: "绝望, 放弃", desc: "火在水上。离成功只差最后一步。虽然现在看起来还有些混乱，但只要保持清醒的觉知和持续的努力，天亮就在眼前。" }
+        ];
         // ---------------- 陀螺仪逻辑 ----------------
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', (e) => {
@@ -731,9 +921,14 @@
 
         // ---------------- 核心逻辑 ----------------
         window.addEventListener('load', () => {
-            initStarsBackground();
-            restoreBirthData(); // 自动回填
             const last = localStorage.getItem('fortune_last_mode');
+            if (last === 'astro') {
+                document.body.classList.remove('zen-mode');
+            } else {
+                document.body.classList.add('zen-mode'); // 易经模式激活禅意样式
+            }
+            initStarsBackground();
+            restoreBirthData();
             if (last === 'astro') switchToAstro();
             else initIchingSymbols();
         });
@@ -780,59 +975,120 @@
 
         function saveModeAndSwitch(mode) {
             localStorage.setItem('fortune_last_mode', mode);
-            if (mode === 'astro') switchToAstro();
-            else {
+            if (mode === 'astro') {
+                document.body.classList.remove('zen-mode');
+                switchToAstro();
+            } else {
                 localStorage.removeItem('fortune_last_mode');
-                location.reload();
+                location.reload(); // 刷新以切换变量主题
             }
         }
 
         function initStarsBackground() {
             const bg = document.getElementById('stars-background');
-            for (let i = 0; i < 150; i++) {
+            const isZen = document.body.classList.contains('zen-mode');
+            bg.innerHTML = '';
+
+            const count = isZen ? 60 : 150;
+            for (let i = 0; i < count; i++) {
                 const s = document.createElement('div'); s.className = 'star-dot';
-                const size = 0.8 + Math.random() * 2.2;
-                s.style.cssText = `width:${size}px; height:${size}px; left:${Math.random() * 100}%; top:${Math.random() * 100}%; --delay:${Math.random() * 5}s; --speed:${3 + Math.random() * 4}s;`;
+                const size = isZen ? (1 + Math.random() * 3) : (0.8 + Math.random() * 2.2);
+                const color = isZen ? `rgba(212, 160, 23, ${0.12 + Math.random() * 0.25})` : `#fff`;
+
+                s.style.cssText = `
+                    width:${size}px; height:${size}px; 
+                    left:${Math.random() * 100}%; top:${Math.random() * 100}%; 
+                    background:${color};
+                    --delay:${Math.random() * 5}s; 
+                    --speed:${isZen ? (12 + Math.random() * 12) : (3 + Math.random() * 4)}s;
+                `;
                 bg.appendChild(s);
             }
         }
 
         // ---------------- 易经逻辑 (略) ----------------
         function initIchingSymbols() {
-            const ring = document.getElementById('ring'); if (!ring) return;
-            const syms = [{ l: [1, 1, 1] }, { l: [0, 1, 1] }, { l: [1, 0, 1] }, { l: [0, 0, 1] }, { l: [1, 1, 0] }, { l: [0, 1, 0] }, { l: [1, 0, 0] }, { l: [0, 0, 0] }];
+            const ring = document.getElementById('ring');
+            if (!ring) return;
+            // 严格遵循伏羲先天八卦序 (Clockwise from South/Top: 1-乾, 5-巽, 6-坎, 7-艮, 8-坤, 4-震, 3-离, 2-兑)
+            const syms = [
+                { l: [1, 1, 1], n: '乾' }, { l: [1, 1, 0], n: '巽' },
+                { l: [0, 1, 0], n: '坎' }, { l: [1, 0, 0], n: '艮' },
+                { l: [0, 0, 0], n: '坤' }, { l: [0, 0, 1], n: '震' },
+                { l: [1, 0, 1], n: '离' }, { l: [0, 1, 1], n: '兑' }
+            ];
             syms.forEach((s, i) => {
-                const d = document.createElement('div'); d.className = 'symbol';
-                d.style.cssText = `position:absolute; width:30px; height:20px; left:125px; top:0; transform-origin:15px 140px; display:flex; flex-direction:column; gap:3px; transform:rotate(${i * 45}deg);`;
-                s.l.forEach(v => { const l = document.createElement('div'); l.className = v ? 's-line' : 's-line gap'; l.style.cssText = v ? 'height:3.2px; background:var(--accent); border-radius:1px; width:100%;' : 'height:3.2px; background:transparent; border:1.5px solid var(--accent); position:relative; border-radius:1px;'; if (!v) { l.innerHTML = '<div style="position:absolute; left:40%; width:20%; height:100%; background:var(--bg);"></div>'; } d.appendChild(l); }); ring.appendChild(d);
+                const d = document.createElement('div');
+                d.className = 'symbol';
+                const angle = i * 45;
+                d.style.cssText = `
+                    position:absolute; width:30px; height:20px; 
+                    left:125px; top:0; transform-origin:15px 140px; 
+                    display:flex; flex-direction:column; gap:3px; 
+                    transform:rotate(${angle}deg);
+                `;
+                s.l.forEach(v => {
+                    const l = document.createElement('div');
+                    if (v) {
+                        l.style.cssText = 'height:3.2px; background:var(--accent); border-radius:1px; width:100%;';
+                    } else {
+                        l.style.cssText = 'height:3.2px; background:transparent; display:flex; justify-content:space-between; width:100%;';
+                        const p1 = document.createElement('div'); p1.style.cssText = 'width:42%; height:100%; background:var(--accent); border-radius:1px;';
+                        const p2 = document.createElement('div'); p2.style.cssText = 'width:42%; height:100%; background:var(--accent); border-radius:1px;';
+                        l.appendChild(p1); l.appendChild(p2);
+                    }
+                    d.appendChild(l);
+                });
+                ring.appendChild(d);
             });
         }
 
         async function runIChing() {
             document.getElementById('iching-input').style.opacity = '0';
+            setTimeout(() => document.getElementById('iching-input').style.display = 'none', 800);
+
             const stage = document.getElementById('gyro-stage');
-            for (let i = 0; i < 80; i++) {
+            // 粒子特效
+            for (let i = 0; i < 60; i++) {
                 const s = document.createElement('div'); s.className = 'particle';
                 const angle = Math.random() * Math.PI * 2; const dist = 200 + Math.random() * 150;
                 const size = 2 + Math.random() * 2;
-                s.style.cssText = `width:${size}px; height:${size}px; left:${180 + Math.cos(angle) * dist}px; top:${180 + Math.sin(angle) * dist}px; background:white; box-shadow:0 0 10px white; opacity:0;`;
+                s.style.cssText = `width:${size}px; height:${size}px; left:${180 + Math.cos(angle) * dist}px; top:${180 + Math.sin(angle) * dist}px; background:var(--theme-color); box-shadow:0 0 10px var(--theme-color); opacity:0;`;
                 stage.appendChild(s);
                 s.animate([{ transform: 'translate(0, 0)', opacity: 0 }, { opacity: 1, offset: 0.1 }, { transform: `translate(${-Math.cos(angle) * dist}px, ${-Math.sin(angle) * dist}px)`, opacity: 0 }], { duration: 3000, easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)', fill: 'forwards' });
             }
-            document.getElementById('ring').style.animationDuration = '1.2s';
+
+            document.getElementById('ring').style.animationDuration = '0.8s';
             const yaoBox = document.getElementById('yao-box');
-            yaoBox.innerHTML = ''; const pattern = [0, 1, 0, 0, 0, 1];
+            yaoBox.innerHTML = '';
+
+            // ---------------- 核心随机引擎 ----------------
+            // 从卦库中随机抽取一个结果
+            const hex = ICHING_LIBRARY[Math.floor(Math.random() * ICHING_LIBRARY.length)];
+            const pattern = hex.pattern;
+            // 随机生成一个动爻位置 (0-5)
+            const movingIndex = Math.floor(Math.random() * 6);
+            const yaoNames = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
+
             for (let i = 0; i < 6; i++) {
-                await new Promise(r => setTimeout(r, 666));
-                const y = document.createElement('div'); y.className = (pattern[i] ? 'yao-line' : 'yao-line yin') + (i === 1 ? ' moving' : '');
-                yaoBox.appendChild(y); setTimeout(() => y.classList.add('visible'), 50);
+                await new Promise(r => setTimeout(r, 600));
+                const y = document.createElement('div');
+                y.className = (pattern[i] ? 'yao-line' : 'yao-line yin');
+                // 标记动爻
+                if (i === movingIndex) y.classList.add('moving');
+                yaoBox.appendChild(y);
+                setTimeout(() => y.classList.add('visible'), 50);
             }
-            await new Promise(r => setTimeout(r, 1000));
-            showResult("水雷屯", "★ 二爻 · 动 ★", "· 纳财<br>· 动土", "· 远行<br>· 急躁", "正如种子破土前的阵痛。虽然过程迟缓，但念力已聚，生机正从厚土中苏醒。", true);
+
+            await new Promise(r => setTimeout(r, 1200));
+            yaoBox.classList.add('result-state');
+
+            showResult(hex.name, `★ ${yaoNames[movingIndex]} · 动 ★`, `· ${hex.yi.split('、')[0]}<br>· ${hex.yi.split('、')[1]}`, `· ${hex.ji.split('、')[0]}<br>· ${hex.ji.split('、')[1]}`, hex.desc, true);
         }
 
         // ---------------- 占星逻辑 (V4.14 因果强化) ----------------
         function switchToAstro() {
+            document.body.classList.remove('zen-mode'); // 确保进入占星是深色模式
             document.getElementById('iching-graphics').style.display = 'none';
             document.getElementById('iching-input').style.display = 'none';
             document.getElementById('body-ctx').className = 'astro-mode';
@@ -933,14 +1189,68 @@
             }
         }
 
-        function showResult(name, tag, yi, ji, desc, isIching) {
-            document.getElementById('app').classList.add('is-result');
-            if (isIching) { document.getElementById('ring').style.opacity = '0'; document.getElementById('taiji').style.opacity = '0'; }
-            else { document.getElementById('astro-graphics').style.opacity = '0.92'; }
-            document.getElementById('r-name').innerText = name; document.getElementById('r-tag').innerText = tag;
-            document.getElementById('yi-text').innerHTML = yi; document.getElementById('ji-text').innerHTML = ji;
+        // ---------------- 历法逻辑 (Twelve Gods Almanac) ----------------
+        function getDailyAlmanac() {
+            const today = new Date();
+            const y = today.getFullYear(); const m = today.getMonth() + 1; const d = today.getDate();
+
+            // 简单日期偏移量（以2024年初为基准的简化建除循环）
+            const baseDate = new Date(2024, 0, 1);
+            const diffDays = Math.floor((today - baseDate) / (1000 * 60 * 60 * 24));
+            const godIndex = diffDays % 12;
+
+            // 十二建除定义
+            const twelveGods = [
+                { name: "建日", yi: "祈福, 出行", ji: "开仓, 动土", desc: "万物生养之日" },
+                { name: "除日", yi: "清理, 扫舍", ji: "求医, 远行", desc: "去旧布新之日" },
+                { name: "满日", yi: "开市, 交易", ji: "动土, 裁制", desc: "丰收圆满之日" },
+                { name: "平日", yi: "修造, 治网", ji: "祈福, 远行", desc: "平稳和谐之日" },
+                { name: "定日", yi: "冠笄, 入口", ji: "词讼, 搬迁", desc: "安定不动之日" },
+                { name: "执日", yi: "捕捉, 固堤", ji: "开市, 搬迁", desc: "执持操守之日" },
+                { name: "破日", yi: "拆卸, 坏垣", ji: "办大事, 祈福", desc: "破旧裂开之日" },
+                { name: "危日", yi: "祭祀, 捕捉", ji: "登山, 冒险", desc: "谨言慎行之日" },
+                { name: "成日", yi: "开市, 嫁娶", ji: "词讼, 争执", desc: "成就圆满之日" },
+                { name: "收日", yi: "纳财, 捕捉", ji: "安葬, 远行", desc: "收敛入库之日" },
+                { name: "开日", yi: "会友, 结盟", ji: "安葬, 启攒", desc: "豁然大开之日" },
+                { name: "闭日", yi: "筑堤, 埋葬", ji: "看诊, 出行", desc: "闭塞不通之日" }
+            ];
+
+            const currentGod = twelveGods[godIndex];
+
+            return {
+                yi: currentGod.yi.split(', '),
+                ji: currentGod.ji.split(', '),
+                godName: currentGod.name
+            };
+        }
+
+        function showResult(name, tag, yi, ji, desc, isIching = false) {
+            document.body.classList.add('is-result-state');
+            const board = document.getElementById('result-board');
+            // ...其余内容保持不变
+            const daily = getDailyAlmanac();
+
+            document.getElementById('r-name').innerText = name;
+            document.getElementById('r-tag').innerText = tag;
+
+            // 融合算法：1项来自卦象/星位，1项来自今日天时
+            const finalYi = `· ${yi.split('<br>')[0].replace('· ', '')}<br>· ${daily.yi[0]}`;
+            const finalJi = `· ${ji.split('<br>')[0].replace('· ', '')}<br>· ${daily.ji[0]}`;
+
+            document.getElementById('yi-text').innerHTML = finalYi;
+            document.getElementById('ji-text').innerHTML = finalJi;
             document.getElementById('r-desc').innerText = desc;
-            const board = document.getElementById('result-board'); board.style.display = 'block'; board.classList.add('feather-in');
+
+            board.style.display = 'flex';
+            setTimeout(() => board.classList.add('visible'), 50);
+
+            if (isIching) {
+                document.getElementById('ring').style.opacity = '0';
+                document.getElementById('taiji').style.opacity = '0';
+                document.body.classList.add('zen-mode');
+            } else {
+                document.getElementById('astro-graphics').style.opacity = '0.92';
+            }
         }
     </script>
 </body>
