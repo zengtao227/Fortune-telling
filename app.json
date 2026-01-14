@@ -15,13 +15,15 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.zengtao.fortunetelling"
         },
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
-            }
+            },
+            "package": "com.zengtao.fortunetelling"
         },
         "web": {
             "favicon": "./assets/favicon.png"
