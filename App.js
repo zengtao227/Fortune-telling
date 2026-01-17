@@ -109,25 +109,45 @@ const StarBackground = () => {
 const AstroLoader = () => {
     return (
         <View style={{ alignItems: 'center', justifyContent: 'center', height: 300 }}>
-            <View style={{ width: 120, height: 120, alignItems: 'center', justifyContent: 'center' }}>
-                {/* Outer Ring - Dashed */}
+            <View style={{ width: 140, height: 140, alignItems: 'center', justifyContent: 'center' }}>
+                {/* Galaxy Arm 1 - Outer Slow */}
                 <View style={[
-                    { position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: 1, borderColor: '#ffcc33', borderStyle: 'dashed', opacity: 0.5 },
-                    isWeb && { animation: 'spin 20s linear infinite' }
+                    {
+                        position: 'absolute', width: 140, height: 140, borderRadius: 70,
+                        borderWidth: 2, borderColor: 'transparent', borderTopColor: '#ffcc33', borderRightColor: 'rgba(255,204,51,0.3)',
+                        shadowColor: '#ffcc33', shadowRadius: 10, shadowOpacity: 0.5
+                    },
+                    isWeb && { animation: 'spin 3s linear infinite' }
                 ]} />
-                {/* Middle Ring - Solid */}
+
+                {/* Galaxy Arm 2 - Middle Medium */}
                 <View style={[
-                    { position: 'absolute', width: 80, height: 80, borderRadius: 40, borderWidth: 2, borderColor: '#ffcc33', opacity: 0.8 },
-                    isWeb && { animation: 'spin 10s linear infinite reverse' }
+                    {
+                        position: 'absolute', width: 100, height: 100, borderRadius: 50,
+                        borderWidth: 2, borderColor: 'transparent', borderBottomColor: '#ffcc33', borderLeftColor: 'rgba(255,204,51,0.3)',
+                        opacity: 0.8
+                    },
+                    isWeb && { animation: 'spin 2s linear infinite reverse' }
                 ]} />
-                {/* Inner Sun */}
+
+                {/* Galaxy Arm 3 - Inner Fast */}
                 <View style={[
-                    { width: 30, height: 30, borderRadius: 15, backgroundColor: '#ffcc33', shadowColor: '#ffcc33', shadowRadius: 10, shadowOpacity: 1 },
-                    isWeb && { animation: 'twinkle 2s infinite ease-in-out' }
+                    {
+                        position: 'absolute', width: 60, height: 60, borderRadius: 30,
+                        borderWidth: 2, borderColor: 'transparent', borderTopColor: '#FFF', borderLeftColor: 'rgba(255,255,255,0.3)',
+                        opacity: 0.9
+                    },
+                    isWeb && { animation: 'spin 1s linear infinite' }
+                ]} />
+
+                {/* Core Star */}
+                <View style={[
+                    { width: 20, height: 20, borderRadius: 10, backgroundColor: '#FFF', shadowColor: '#FFF', shadowRadius: 15, shadowOpacity: 1 },
+                    isWeb && { animation: 'twinkle 1s infinite ease-in-out' }
                 ]} />
             </View>
             <Text style={{ marginTop: 30, color: '#ffcc33', letterSpacing: 4, fontSize: 16 }}>
-                星盘绘制中...
+                星系推演中...
             </Text>
         </View>
     );
