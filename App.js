@@ -106,6 +106,33 @@ const StarBackground = () => {
     );
 };
 
+const AstroLoader = () => {
+    return (
+        <View style={{ alignItems: 'center', justifyContent: 'center', height: 300 }}>
+            <View style={{ width: 120, height: 120, alignItems: 'center', justifyContent: 'center' }}>
+                {/* Outer Ring - Dashed */}
+                <View style={[
+                    { position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: 1, borderColor: '#ffcc33', borderStyle: 'dashed', opacity: 0.5 },
+                    isWeb && { animation: 'spin 20s linear infinite' }
+                ]} />
+                {/* Middle Ring - Solid */}
+                <View style={[
+                    { position: 'absolute', width: 80, height: 80, borderRadius: 40, borderWidth: 2, borderColor: '#ffcc33', opacity: 0.8 },
+                    isWeb && { animation: 'spin 10s linear infinite reverse' }
+                ]} />
+                {/* Inner Sun */}
+                <View style={[
+                    { width: 30, height: 30, borderRadius: 15, backgroundColor: '#ffcc33', shadowColor: '#ffcc33', shadowRadius: 10, shadowOpacity: 1 },
+                    isWeb && { animation: 'twinkle 2s infinite ease-in-out' }
+                ]} />
+            </View>
+            <Text style={{ marginTop: 30, color: '#ffcc33', letterSpacing: 4, fontSize: 16 }}>
+                星盘绘制中...
+            </Text>
+        </View>
+    );
+};
+
 const YinYangLoader = () => {
     // Pure CSS/View drawn Tai Chi
     return (
@@ -374,7 +401,7 @@ export default function App() {
 
                         {(currentView === 'RESULT_AS' || currentView === 'ASTRO') && isCalculating && (
                             <View style={[styles.glassCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
-                                <YinYangLoader />
+                                <AstroLoader />
                             </View>
                         )}
 
