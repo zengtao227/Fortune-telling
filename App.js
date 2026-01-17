@@ -35,63 +35,71 @@ const loadUserData = async () => {
     return null;
 };
 
+// --- Web CSS Injection ---
+const WebStyle = () => {
+    if (!isWeb) return null;
+    return (
+        <View style={{ display: 'none' }}>
+            <style>{`
+                @keyframes twinkle {
+                    0% { opacity: 0.3; transform: scale(0.8); }
+                    50% { opacity: 1; transform: scale(1.2); }
+                    100% { opacity: 0.3; transform: scale(0.8); }
+                }
+                .star-anim {
+                    animation: twinkle 3s infinite ease-in-out;
+                }
+                @keyframes spin { 
+                    from { transform: rotate(0deg); } 
+                    to { transform: rotate(360deg); } 
+                }
+                .taichi-spin {
+                    animation: spin 2s linear infinite;
+                }
+            `}</style>
+        </View>
+    );
+};
+
 // --- Components ---
 
 const StarBackground = () => {
-    // Enhanced "Breathing" Stars
-    // We create fewer but more distinct stars with faster, more visible pulse
-    const stars = useRef(Array.from({ length: 50 }).map((_, i) => ({
+    // CSS-based stars for Web reliability, Animated for Native
+    const stars = Array.from({ length: 50 }).map((_, i) => ({
         key: i,
         left: Math.random() * width,
         top: Math.random() * height,
-        size: Math.random() * 4 + 2, // Larger stars
-        anim: new Animated.Value(Math.random()) // Random start phase
-    }))).current;
-
-    useEffect(() => {
-        stars.forEach(star => {
-            Animated.loop(
-                Animated.sequence([
-                    Animated.timing(star.anim, {
-                        toValue: 1,
-                        duration: 1500 + Math.random() * 1000, // Faster pulse
-                        useNativeDriver: false, // Web compatibility
-                    }),
-                    Animated.timing(star.anim, {
-                        toValue: 0.3, // Don't fade out completely
-                        duration: 1500 + Math.random() * 1000,
-                        useNativeDriver: false,
-                    })
-                ])
-            ).start();
-        });
-    }, []);
+        size: Math.random() * 3 + 2,
+        delay: Math.random() * 3000
+    }));
 
     return (
         <View style={StyleSheet.absoluteFill}>
+            <WebStyle />
             {stars.map(s => (
-                <Animated.View
+                <View
                     key={s.key}
-                    style={{
-                        position: 'absolute',
-                        left: s.left,
-                        top: s.top,
-                        width: s.size,
-                        height: s.size,
-                        borderRadius: s.size / 2,
-                        backgroundColor: '#FFF',
-                        shadowColor: '#FFF',
-                        shadowOffset: { width: 0, height: 0 },
-                        shadowOpacity: 0.8,
-                        shadowRadius: 4,
-                        opacity: s.anim, // Controlled by animation
-                        transform: [{
-                            scale: s.anim.interpolate({
-                                inputRange: [0.3, 1],
-                                outputRange: [0.8, 1.4] // Visible size pulsing
-                            })
-                        }]
-                    }}
+                    // Web-specific class injection for animation
+                    // React Native Web maps "className" prop to DOM class
+                    // Note: This relies on RNW passing through extra props or using createElement. 
+                    // To be safe in standard RN, we just use style. But for RNW, we can try style animation or native driver.
+                    // Given previous failure, we'll try a hybrid approach.
+                    style={[
+                        {
+                            position: 'absolute',
+                            left: s.left,
+                            top: s.top,
+                            width: s.size,
+                            height: s.size,
+                            borderRadius: s.size / 2,
+                            backgroundColor: '#FFF',
+                            opacity: 0.8,
+                            shadowColor: '#FFF',
+                            shadowRadius: 4,
+                        },
+                        // On web, we assign the animation via the injected style tag class
+                        isWeb && { animation: `twinkle ${3 + Math.random()}s infinite ease-in-out ${Math.random() * 2}s` }
+                    ]}
                 />
             ))}
         </View>
@@ -99,36 +107,26 @@ const StarBackground = () => {
 };
 
 const YinYangLoader = () => {
-    const spinValue = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        Animated.loop(
-            Animated.timing(spinValue, {
-                toValue: 1,
-                duration: 2000,
-                easing: (t) => t, // Linear spin
-                useNativeDriver: false,
-            })
-        ).start();
-    }, []);
-
-    const spin = spinValue.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['0deg', '360deg']
-    });
-
+    // Pure CSS/View drawn Tai Chi
     return (
         <View style={{ alignItems: 'center', justifyContent: 'center', height: 300 }}>
-            <Animated.Image
-                style={{
-                    width: 120,
-                    height: 120,
-                    transform: [{ rotate: spin }],
-                    opacity: 0.9
-                }}
-                source={{ uri: YIN_YANG_IMG }}
-                resizeMode="contain"
-            />
+            <View style={[
+                { width: 100, height: 100, borderRadius: 50, borderWidth: 2, borderColor: '#ffcc33', overflow: 'hidden', position: 'relative', backgroundColor: '#FFF' },
+                isWeb && { animation: 'spin 2s linear infinite' } // CSS Spin
+            ]}>
+                {/* Black Right Side */}
+                <View style={{ position: 'absolute', right: 0, width: 50, height: 100, backgroundColor: '#000' }} />
+
+                {/* Top Center Circle (Black) */}
+                <View style={{ position: 'absolute', top: 0, left: 25, width: 50, height: 50, borderRadius: 25, backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#FFF' }} />
+                </View>
+
+                {/* Bottom Center Circle (White) */}
+                <View style={{ position: 'absolute', bottom: 0, left: 25, width: 50, height: 50, borderRadius: 25, backgroundColor: '#FFF', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: '#000' }} />
+                </View>
+            </View>
             <Text style={{ marginTop: 30, color: '#ffcc33', letterSpacing: 4, fontSize: 16 }}>
                 天地感应中...
             </Text>
@@ -168,33 +166,49 @@ const HexagramVisual = ({ name, lines }) => {
 };
 
 const AstrologyForm = ({ onSubmit, theme }) => {
-    const [formData, setFormData] = useState({ name: '', date: '', location: '' });
+    // Initialize state directly from storage if possible, otherwise empty
+    const [name, setName] = useState('');
+    const [date, setDate] = useState('');
+    const [location, setLocation] = useState('');
 
-    // Load data on mount
+    // Load Effect
     useEffect(() => {
-        loadUserData().then(data => {
-            if (data) setFormData(data);
-        });
+        if (isWeb) {
+            const saved = localStorage.getItem('astro_saved_data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.name) setName(data.name);
+                    if (data.date) setDate(data.date);
+                    if (data.location) setLocation(data.location);
+                } catch (e) { }
+            }
+        }
     }, []);
 
-    // Auto-save on change
+    // Save Effect
     useEffect(() => {
-        saveUserData(formData);
-    }, [formData]);
+        if (isWeb) {
+            localStorage.setItem('astro_saved_data', JSON.stringify({ name, date, location }));
+        }
+    }, [name, date, location]);
 
     const handleDateChange = (text) => {
-        // Auto-hyphenation logic
-        let formatted = text.replace(/[^0-9]/g, ''); // Remove non-digits
-        if (formatted.length > 4) {
-            formatted = formatted.slice(0, 4) + '-' + formatted.slice(4);
+        // Strict formatting logic
+        let cleaned = text.replace(/[^0-9]/g, '');
+        let formatted = cleaned;
+
+        if (cleaned.length > 4) {
+            formatted = cleaned.slice(0, 4) + '-' + cleaned.slice(4);
         }
-        if (formatted.length > 7) {
-            formatted = formatted.slice(0, 7) + '-' + formatted.slice(7);
+        if (cleaned.length > 6) {
+            formatted = formatted.slice(0, 7) + '-' + cleaned.slice(6);
         }
-        if (formatted.length > 10) {
-            formatted = formatted.slice(0, 10);
-        }
-        setFormData(prev => ({ ...prev, date: formatted }));
+
+        // Limit
+        if (formatted.length > 10) formatted = formatted.slice(0, 10);
+
+        setDate(formatted);
     };
 
     return (
@@ -202,8 +216,8 @@ const AstrologyForm = ({ onSubmit, theme }) => {
             <Text style={[styles.label, { color: theme.secondary }]}>你的名字 (Name)</Text>
             <TextInput
                 style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
-                value={formData.name}
-                onChangeText={(text) => setFormData(prev => ({ ...prev, name: text }))}
+                value={name}
+                onChangeText={setName}
                 placeholder="Mystic Seeker"
                 placeholderTextColor="rgba(255,255,255,0.3)"
             />
@@ -211,7 +225,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
             <Text style={[styles.label, { color: theme.secondary }]}>出生日期 (YYYY-MM-DD)</Text>
             <TextInput
                 style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
-                value={formData.date}
+                value={date}
                 onChangeText={handleDateChange}
                 keyboardType="numeric"
                 maxLength={10}
@@ -222,15 +236,15 @@ const AstrologyForm = ({ onSubmit, theme }) => {
             <Text style={[styles.label, { color: theme.secondary }]}>出生地点 (Location)</Text>
             <TextInput
                 style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
-                value={formData.location}
-                onChangeText={(text) => setFormData(prev => ({ ...prev, location: text }))}
+                value={location}
+                onChangeText={setLocation}
                 placeholder="Shanghai, China"
                 placeholderTextColor="rgba(255,255,255,0.3)"
             />
 
             <TouchableOpacity
                 style={[styles.calculateButton, { backgroundColor: theme.accent }]}
-                onPress={() => onSubmit(formData)}
+                onPress={() => onSubmit({ name, date, location })}
             >
                 <Text style={styles.calculateButtonText}>绘制星盘 (CALCULATE)</Text>
             </TouchableOpacity>
