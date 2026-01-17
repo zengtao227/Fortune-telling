@@ -1,271 +1,309 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Platform } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Animated, Dimensions, Platform, TextInput, Image } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Font from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import * as Haptics from 'expo-haptics';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useFonts, Cinzel_700Bold } from '@expo-google-fonts/cinzel';
+import { Cinzel_700Bold } from '@expo-google-fonts/cinzel';
 import { NotoSerifSC_400Regular, NotoSerifSC_700Bold } from '@expo-google-fonts/noto-serif-sc';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { THEMES, getTheme } from './src/theme';
 import { resolveAlmanacMessage, resolveIChingMessage, resolveAstrologyMessage } from './src/utils/contentResolver';
+import { getHexagramLines } from './src/logic/iching';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const isWeb = Platform.OS === 'web';
 
-export default function App() {
-    const [themeMode, setThemeMode] = useState(THEMES.TAROT);
-    const theme = getTheme(themeMode);
+// --- Components ---
 
-    let [fontsLoaded] = useFonts({
+const StarBackground = () => {
+    // Simple twinkling stars using Opacity + Layout
+    // In a real app we'd use a lot of Animated.Values, but here we keep it performant for web
+    // with CSS-like keyframes or just static random placement for the MVP "premium" feel
+    const stars = Array.from({ length: 30 }).map((_, i) => ({
+        key: i,
+        left: Math.random() * width,
+        top: Math.random() * height,
+        size: Math.random() * 3 + 1,
+        opacity: Math.random()
+    }));
+
+    return (
+        <View style={StyleSheet.absoluteFill}>
+            {stars.map(s => (
+                <View
+                    key={s.key}
+                    style={{
+                        position: 'absolute',
+                        left: s.left,
+                        top: s.top,
+                        width: s.size,
+                        height: s.size,
+                        borderRadius: s.size / 2,
+                        backgroundColor: '#FFF',
+                        opacity: s.opacity,
+                    }}
+                />
+            ))}
+        </View>
+    );
+};
+
+const HexagramVisual = ({ name, lines }) => {
+    // lines: array of 0 (yin/broken) or 1 (yang/solid). Bottom to top.
+    // We render them top to bottom visually, so we reverse for display? 
+    // Usually Hexagrams are drawn bottom-up logic, but rendered top-down stack.
+    // Index 0 in our array is Bottom line.
+
+    // Reverse to render from Top line (index 5) to Bottom line (index 0)
+    const displayLines = [...lines].reverse();
+
+    return (
+        <View style={styles.hexagramContainer}>
+            {displayLines.map((val, idx) => (
+                <View key={idx} style={styles.lineRow}>
+                    {val === 1 ? (
+                        <View style={styles.yangLine} />
+                    ) : (
+                        <View style={styles.yinLineContainer}>
+                            <View style={styles.yinLinePart} />
+                            <View style={styles.yinLineGap} />
+                            <View style={styles.yinLinePart} />
+                        </View>
+                    )}
+                </View>
+            ))}
+            <Text style={styles.hexName}>{name}</Text>
+        </View>
+    );
+};
+
+const AstrologyForm = ({ onSubmit, theme }) => {
+    const [name, setName] = useState('');
+    const [date, setDate] = useState('');
+    const [location, setLocation] = useState('');
+
+    return (
+        <View style={styles.formContainer}>
+            <Text style={[styles.label, { color: theme.secondary }]}>你的名字 (Name)</Text>
+            <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
+                value={name}
+                onChangeText={setName}
+                placeholder="Mystic Seeker"
+                placeholderTextColor="rgba(255,255,255,0.3)"
+            />
+
+            <Text style={[styles.label, { color: theme.secondary }]}>出生日期 (YYYY-MM-DD)</Text>
+            <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
+                value={date}
+                onChangeText={setDate}
+                keyboardType="numeric"
+                placeholder="2000-01-01"
+                placeholderTextColor="rgba(255,255,255,0.3)"
+            />
+
+            <Text style={[styles.label, { color: theme.secondary }]}>出生地点 (Location)</Text>
+            <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
+                value={location}
+                onChangeText={setLocation}
+                placeholder="Shanghai, China"
+                placeholderTextColor="rgba(255,255,255,0.3)"
+            />
+
+            <TouchableOpacity
+                style={[styles.calculateButton, { backgroundColor: theme.accent }]}
+                onPress={() => onSubmit({ name, date, location })}
+            >
+                <Text style={styles.calculateButtonText}>绘制星盘 (CALCULATE)</Text>
+            </TouchableOpacity>
+        </View>
+    );
+};
+
+export default function App() {
+    const [fontsLoaded] = Font.useFonts({
         Cinzel_700Bold,
         NotoSerifSC_400Regular,
         NotoSerifSC_700Bold,
         Inter_400Regular,
     });
 
-    const toggleTheme = () => {
-        const nextTheme = themeMode === THEMES.TAROT ? THEMES.ZEN : THEMES.TAROT;
-        setThemeMode(nextTheme);
-        if (Platform.OS !== 'web') {
-            if (nextTheme === THEMES.ZEN) {
-                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-            } else {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            }
-        }
+    const [themeMode, setThemeMode] = useState(THEMES.TAROT);
+    const theme = getTheme(themeMode);
+
+    // Views: 'HOME', 'ICHING', 'ASTRO', 'RESULT_IC', 'RESULT_AS'
+    const [currentView, setCurrentView] = useState('HOME');
+    const [resultData, setResultData] = useState(null);
+
+    // Astro Logic
+    const handleAstroSubmit = (formData) => {
+        // Mock calculation based on hash of input to make it feel deterministic
+        // In real app, this would call an ephemeris library
+        if (!formData.date) return;
+
+        const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
+        // Simple hash
+        const hash = (formData.date.length + (formData.location?.length || 0)) % planets.length;
+        const planet = planets[hash];
+        const planetNameMap = { Sun: '太阳', Moon: '月亮', Mercury: '水星', Venus: '金星', Mars: '火星', Jupiter: '木星' };
+
+        const msg = resolveAstrologyMessage(planet);
+
+        setResultData({
+            title: `命宫主星 · ${planetNameMap[planet]}`,
+            message: msg || "星轨流转，你的命运此刻正在上升。",
+            extra: `基于 ${formData.date} 在 ${formData.location || '未知领域'} 的星图推演`
+        });
+        setCurrentView('RESULT_AS');
+        if (!isWeb) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     };
 
-    const [displayMode, setDisplayMode] = useState('almanac'); // 'almanac', 'iching', 'astro'
-    const [cardContent, setCardContent] = useState({
-        title: '今日能量胶囊',
-        message: resolveAlmanacMessage('yi'),
-        type: 'almanac'
-    });
+    // Iching Logic
+    const handleIchingStart = () => {
+        // Animation simulation could go here
+        const hexagrams = Object.keys(getHexagramLines("乾为天") ? { "乾为天": 0 } : {}); // Just a hack to get keys if I had the object exposed, but wait, I exported helper, not list.
+        // Let's use the hardcoded list from App.js previously or just pick random because logic is in contentResolver + visual helper
+        const hexList = ['乾为天', '坤为地', '水雷屯', '山水蒙', '水天需', '泽雷随', '山风蛊', '地泽临', '风地观', '火雷噬嗑', '山火贲', '地雷复', '山天大畜', '山雷颐', '泽风大过', '坎为水', '离为火', '泽山咸', '雷风恒', '天山遁'];
+        const randomHex = hexList[Math.floor(Math.random() * hexList.length)];
 
-    const refreshFortune = () => {
-        let newContent = {};
-        if (displayMode === 'almanac') {
-            newContent = {
-                title: '今日能量胶囊',
-                message: resolveAlmanacMessage('yi'),
-                type: 'almanac'
-            };
-        } else if (displayMode === 'iching') {
-            const hexagrams = ['乾为天', '坤为地', '水雷屯', '山水蒙', '水天需', '泽雷随', '山风蛊', '地泽临', '风地观', '火雷噬嗑', '山火贲', '地雷复', '山天大畜', '山雷颐', '泽风大过', '坎为水', '离为火', '泽山咸', '雷风恒', '天山遁'];
-            const randomHex = hexagrams[Math.floor(Math.random() * hexagrams.length)];
-            // Dynamic import fix: ensure we have the resolving logic
-            const msg = resolveIChingMessage(randomHex);
-            newContent = {
-                title: `易经 · ${randomHex}`,
-                message: msg || "静心诚意，答案自现。",
-                type: 'iching'
-            };
-        } else if (displayMode === 'astro') {
-            const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
-            const randomPlanet = planets[Math.floor(Math.random() * planets.length)];
-            const planetProcess = { Sun: '太阳', Moon: '月亮', Mercury: '水星', Venus: '金星', Mars: '火星', Jupiter: '木星' };
-            const msg = resolveAstrologyMessage(randomPlanet);
-            newContent = {
-                title: `星历 · ${planetProcess[randomPlanet]}`,
-                message: msg || "星辰指引，静候佳音。",
-                type: 'astro'
-            };
-        }
+        const lines = getHexagramLines(randomHex);
+        const msg = resolveIChingMessage(randomHex);
 
-        setCardContent(newContent);
-
-        if (Platform.OS !== 'web') {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
+        setResultData({
+            title: `本卦 · ${randomHex}`,
+            message: msg,
+            lines: lines || [1, 1, 1, 1, 1, 1] // Fallback
+        });
+        setCurrentView('RESULT_IC');
+        if (!isWeb) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     };
 
-    const switchToMode = (mode) => {
-        // Update mode then refresh content immediately
-        if (mode === 'iching') {
-            const hexagrams = ['乾为天', '坤为地', '水雷屯', '山水蒙', '水天需', '泽雷随', '山风蛊', '地泽临', '风地观', '火雷噬嗑', '山火贲', '地雷复', '山天大畜', '山雷颐', '泽风大过', '坎为水', '离为火', '泽山咸', '雷风恒', '天山遁'];
-            const randomHex = hexagrams[Math.floor(Math.random() * hexagrams.length)];
-            const msg = resolveIChingMessage(randomHex);
-            setCardContent({
-                title: `易经 · ${randomHex}`,
-                message: msg,
-                type: 'iching'
-            });
-            setDisplayMode('iching');
-        } else if (mode === 'astro') {
-            const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
-            const randomPlanet = planets[Math.floor(Math.random() * planets.length)];
-            const planetProcess = { Sun: '太阳', Moon: '月亮', Mercury: '水星', Venus: '金星', Mars: '火星', Jupiter: '木星' };
-            const msg = resolveAstrologyMessage(randomPlanet);
-            setCardContent({
-                title: `星历 · ${planetProcess[randomPlanet]}`,
-                message: msg,
-                type: 'astro'
-            });
-            setDisplayMode('astro');
-        } else {
-            setCardContent({
-                title: '今日能量胶囊',
-                message: resolveAlmanacMessage('yi'),
-                type: 'almanac'
-            });
-            setDisplayMode('almanac');
-        }
-
-        if (Platform.OS !== 'web') {
-            Haptics.selectionAsync();
-        }
-    };
-
-    if (!fontsLoaded) {
-        return <View style={{ flex: 1, backgroundColor: '#000' }} />;
-    }
+    if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: '#000' }} />;
 
     return (
-        <LinearGradient
-            colors={theme.backgroundGradient}
-            style={styles.container}
-        >
-            <SafeAreaView style={{ flex: 1 }}>
-                <StatusBar style={themeMode === THEMES.TAROT ? 'light' : 'dark'} />
-                <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <View style={styles.webContainer}>
-                        <View style={styles.header}>
-                            <Text style={[styles.title, { color: theme.accent, fontFamily: theme.fontTitle }]}>
-                                {themeMode === THEMES.TAROT ? 'MYSTIC TAROT' : 'ZEN AESTHETIC'}
-                            </Text>
-                            <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
-                                <Text style={[styles.toggleText, { color: theme.secondary, fontFamily: theme.fontBody }]}>
-                                    切换境地
-                                </Text>
+        <LinearGradient colors={theme.backgroundGradient} style={styles.container}>
+            <StatusBar style="light" />
+            <StarBackground />
+
+            <View style={styles.contentContainer}>
+                {/* Header */}
+                <View style={styles.header}>
+                    <Text style={[styles.appTitle, { color: theme.accent, fontFamily: theme.fontTitle }]}>
+                        MYSTIC TAROT
+                    </Text>
+                    <TouchableOpacity onPress={() => setCurrentView('HOME')} style={styles.homeBtn}>
+                        <Text style={{ color: theme.secondary, fontSize: 12 }}>HOME</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* Main Content Area */}
+                <ScrollView contentContainerStyle={styles.scroll}>
+
+                    {currentView === 'HOME' && (
+                        <View style={styles.cardContainer}>
+                            <Text style={[styles.introText, { color: theme.text }]}>选择你的探寻之路</Text>
+
+                            <TouchableOpacity
+                                style={[styles.menuCard, { borderColor: theme.border, backgroundColor: theme.surface }]}
+                                onPress={() => setCurrentView('ASTRO')}
+                            >
+                                <Text style={[styles.cardTitle, { color: theme.accent }]}>西洋占星 (Astrology)</Text>
+                                <Text style={[styles.cardDesc, { color: theme.secondary }]}>绘制出生星盘，探寻行星指引</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={[styles.menuCard, { borderColor: theme.border, backgroundColor: theme.surface }]}
+                                onPress={handleIchingStart}
+                            >
+                                <Text style={[styles.cardTitle, { color: theme.accent }]}>周易起卦 (I Ching)</Text>
+                                <Text style={[styles.cardDesc, { color: theme.secondary }]}>六十四卦象，参悟变易之道</Text>
                             </TouchableOpacity>
                         </View>
+                    )}
 
-                        <LinearGradient
-                            colors={theme.cardGradient}
-                            style={[styles.card, theme.shadow, { borderColor: theme.border }]}
-                        >
-                            <Text style={[styles.cardTitle, { color: theme.accent, fontFamily: theme.fontTitle }]}>
-                                {cardContent.title}
-                            </Text>
-                            <Text style={[styles.message, { color: theme.text, fontFamily: theme.fontBody }]}>
-                                {cardContent.message}
-                            </Text>
-                            <TouchableOpacity
-                                onPress={refreshFortune}
-                                style={[styles.button, { borderColor: theme.accent }]}
-                            >
-                                <Text style={[styles.buttonText, { color: theme.accent, fontFamily: theme.fontTitle }]}>
-                                    {displayMode === 'almanac' ? '重新开启' : '再问一次'}
-                                </Text>
-                            </TouchableOpacity>
-                        </LinearGradient>
+                    {currentView === 'ASTRO' && (
+                        <View style={[styles.glassCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
+                            <Text style={[styles.sectionTitle, { color: theme.accent }]}>输入星盘信息</Text>
+                            <AstrologyForm onSubmit={handleAstroSubmit} theme={theme} />
+                        </View>
+                    )}
 
-                        <View style={styles.grid}>
-                            <TouchableOpacity
-                                onPress={() => switchToMode('iching')}
-                                style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border, opacity: displayMode === 'iching' ? 1 : 0.7 }]}
-                            >
-                                <Text style={[styles.miniText, { color: theme.accent, fontFamily: theme.fontTitle }]}>易经起卦</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => switchToMode('astro')}
-                                style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border, opacity: displayMode === 'astro' ? 1 : 0.7 }]}
-                            >
-                                <Text style={[styles.miniText, { color: theme.accent, fontFamily: theme.fontTitle }]}>西占星历</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => switchToMode('almanac')}
-                                style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border, opacity: displayMode === 'almanac' ? 1 : 0.7 }]}
-                            >
-                                <Text style={[styles.miniText, { color: theme.accent, fontFamily: theme.fontTitle }]}>每日胶囊</Text>
+                    {currentView === 'RESULT_AS' && (
+                        <View style={[styles.glassCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
+                            <Text style={[styles.resultTitle, { color: theme.accent, fontFamily: theme.fontTitle }]}>
+                                {resultData.title}
+                            </Text>
+                            <Text style={[styles.resultMeta, { color: theme.secondary }]}>
+                                {resultData.extra}
+                            </Text>
+                            <View style={styles.divider} />
+                            <Text style={[styles.messageText, { color: theme.text }]}>
+                                {resultData.message}
+                            </Text>
+                            <TouchableOpacity onPress={() => setCurrentView('ASTRO')} style={styles.backButton}>
+                                <Text style={{ color: theme.accent }}>重新绘制</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    )}
+
+                    {currentView === 'RESULT_IC' && (
+                        <View style={[styles.glassCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
+                            <HexagramVisual name={resultData.title} lines={resultData.lines} />
+                            <View style={styles.divider} />
+                            <Text style={[styles.messageText, { color: theme.text }]}>
+                                {resultData.message}
+                            </Text>
+                            <TouchableOpacity onPress={() => setCurrentView('HOME')} style={styles.backButton}>
+                                <Text style={{ color: theme.accent }}>返回首页</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+
                 </ScrollView>
-            </SafeAreaView>
+            </View>
         </LinearGradient>
     );
-
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    scrollContent: {
-        padding: 20,
-        alignItems: 'center',
-        paddingBottom: 60,
-    },
-    webContainer: {
-        width: '100%',
-        maxWidth: 500, // Constrain width for premium feel on web
-        alignItems: 'center',
-    },
-    header: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 40,
-        marginTop: 40,
-    },
-    title: {
-        fontSize: 26,
-        letterSpacing: 2,
-    },
-    toggleText: {
-        fontSize: 14,
-        opacity: 0.8,
-    },
-    card: {
-        width: '100%',
-        padding: 40,
-        borderRadius: 30,
-        alignItems: 'center',
-        borderWidth: 1,
-        backdropFilter: 'blur(10px)', // For web support
-    },
-    cardTitle: {
-        fontSize: 14,
-        letterSpacing: 4,
-        marginBottom: 25,
-        opacity: 0.6,
-        textTransform: 'uppercase',
-    },
-    message: {
-        fontSize: 22,
-        lineHeight: 38,
-        textAlign: 'center',
-        marginBottom: 35,
-        fontWeight: '300',
-    },
-    button: {
-        paddingHorizontal: 35,
-        paddingVertical: 14,
-        borderRadius: 30,
-        borderWidth: 1.5,
-    },
-    buttonText: {
-        fontSize: 16,
-        letterSpacing: 2,
-    },
-    grid: {
-        flexDirection: 'row',
-        marginTop: 30,
-        gap: 20,
-        width: '100%',
-    },
-    miniCard: {
-        flex: 1,
-        padding: 25,
-        borderRadius: 20,
-        alignItems: 'center',
-        borderWidth: 1,
-    },
-    miniText: {
-        fontSize: 16,
-        letterSpacing: 1,
-    }
-});
+    container: { flex: 1 },
+    contentContainer: { flex: 1, maxWidth: 600, width: '100%', alignSelf: 'center' },
+    header: { padding: 20, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', marginTop: 20 },
+    appTitle: { fontSize: 24, letterSpacing: 2 },
+    scroll: { padding: 20, paddingBottom: 50 },
 
+    // Menu
+    introText: { textAlign: 'center', marginBottom: 30, fontSize: 16, opacity: 0.8 },
+    menuCard: { padding: 25, borderRadius: 16, borderWidth: 1, marginBottom: 20, alignItems: 'center' },
+    cardTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 8, fontFamily: 'Cinzel_700Bold' },
+    cardDesc: { fontSize: 14, opacity: 0.8 },
+
+    // Forms
+    glassCard: { padding: 30, borderRadius: 20, borderWidth: 1, alignItems: 'center' },
+    sectionTitle: { fontSize: 18, marginBottom: 20, fontFamily: 'Cinzel_700Bold' },
+    formContainer: { width: '100%' },
+    label: { fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8, marginTop: 12 },
+    input: { height: 50, borderWidth: 1, borderRadius: 8, paddingHorizontal: 15, fontSize: 16, fontFamily: 'Inter_400Regular' },
+    calculateButton: { marginTop: 30, height: 55, borderRadius: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#ffcc33', shadowOpacity: 0.3, shadowRadius: 10 },
+    calculateButtonText: { color: '#000', fontWeight: 'bold', letterSpacing: 1 },
+
+    // Hexagram
+    hexagramContainer: { alignItems: 'center', marginVertical: 20 },
+    lineRow: { marginVertical: 4 },
+    yangLine: { width: 120, height: 12, backgroundColor: '#ffcc33', borderRadius: 2 },
+    yinLineContainer: { flexDirection: 'row', width: 120, justifyContent: 'space-between' },
+    yinLinePart: { width: 52, height: 12, backgroundColor: '#ffcc33', borderRadius: 2 },
+    yinLineGap: { width: 16 },
+    hexName: { marginTop: 20, fontSize: 22, color: '#ffcc33', fontFamily: 'NotoSerifSC_700Bold' },
+
+    // Results
+    resultTitle: { fontSize: 24, textAlign: 'center', marginBottom: 10 },
+    resultMeta: { fontSize: 12, marginBottom: 20, textAlign: 'center', opacity: 0.7 },
+    divider: { height: 1, backgroundColor: 'rgba(255,255,255,0.1)', width: '100%', marginVertical: 20 },
+    messageText: { fontSize: 16, lineHeight: 28, textAlign: 'justify', fontFamily: 'NotoSerifSC_400Regular' },
+    backButton: { marginTop: 30, padding: 10 },
+    homeBtn: { padding: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', borderRadius: 20 }
+});

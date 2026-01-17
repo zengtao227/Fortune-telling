@@ -1,51 +1,85 @@
-/**
- * 易经起卦核心逻辑 (梅花易数数字法)
- */
 
-const BAGUA_MAP = {
-    1: '乾', 2: '兑', 3: '离', 4: '震',
-    5: '巽', 6: '坎', 7: '艮', 0: '坤' // 8 % 8 = 0 为坤
+export const TRIGRAMS = {
+    "乾": [1, 1, 1], "坤": [0, 0, 0], "震": [1, 0, 0], "巽": [0, 1, 1],
+    "坎": [0, 1, 0], "离": [1, 0, 1], "艮": [0, 0, 1], "兑": [1, 1, 0]
 };
 
-const HEXAGRAMS_64 = {
-    "乾乾": "乾为天", "坤坤": "坤为地", "水雷": "水雷屯", "山水": "山水蒙",
-    "水天": "水天需", "天水": "天讼", "地水": "地水师", "水地": "水地比",
-    "风天": "风天小畜", "天泽": "天泽履", "地天": "地天泰", "天地": "天地否",
-    "天火": "天火同人", "火天": "火天大有", "地山": "地山谦", "雷地": "雷地豫",
-    "泽雷": "泽雷随", "山风": "山风蛊", "地泽": "地泽临", "风地": "风地观",
-    "火雷": "火雷噬嗑", "山火": "山火贲", "山地": "山地剥", "地雷": "地雷复",
-    "天雷": "天雷无妄", "山天": "山天大畜", "山雷": "山雷颐", "泽风": "泽风大过",
-    "坎坎": "坎为水", "离离": "离为火", "泽山": "泽山咸", "雷风": "雷风恒",
-    "天山": "天山遁", "雷天": "雷天大壮", "火地": "火地晋", "地火": "地火明夷",
-    "风火": "风火家人", "火泽": "火泽睽", "水山": "水山蹇", "山水": "解", // 简化处理
-    "山损": "山泽损", "雷益": "风雷益", "泽夬": "泽天夬", "天姤": "天风姤",
-    "泽地": "泽地萃", "地风": "地风升", "泽水": "泽水困", "水风": "水风井",
-    "泽革": "泽火革", "火风": "火风鼎", "雷雷": "震为雷", "山山": "艮为山",
-    "风风": "巽为风", "水水": "坎为水", // 冗余处理
+// Map hexagram names to their upper/lower trigrams for visual rendering
+// Lower trigram is first (bottom), Upper is second (top)
+// 0 = Broken (Yin), 1 = Solid (Yang)
+export const HEXAGRAM_CONFIG = {
+    "乾为天": { upper: "乾", lower: "乾" },
+    "坤为地": { upper: "坤", lower: "坤" },
+    "水雷屯": { upper: "坎", lower: "震" },
+    "山水蒙": { upper: "艮", lower: "坎" },
+    "水天需": { upper: "坎", lower: "乾" },
+    "天水讼": { upper: "乾", lower: "坎" },
+    "地水师": { upper: "坤", lower: "坎" },
+    "水地比": { upper: "坎", lower: "坤" },
+    "风天小畜": { upper: "巽", lower: "乾" },
+    "天泽履": { upper: "乾", lower: "兑" },
+    "地天泰": { upper: "坤", lower: "乾" },
+    "天地否": { upper: "乾", lower: "坤" },
+    "天火同人": { upper: "乾", lower: "离" },
+    "火天大有": { upper: "离", lower: "乾" },
+    "地山谦": { upper: "坤", lower: "艮" },
+    "雷地豫": { upper: "震", lower: "坤" },
+    "泽雷随": { upper: "兑", lower: "震" },
+    "山风蛊": { upper: "艮", lower: "巽" },
+    "地泽临": { upper: "坤", lower: "兑" },
+    "风地观": { upper: "巽", lower: "坤" },
+    "火雷噬嗑": { upper: "离", lower: "震" },
+    "山火贲": { upper: "艮", lower: "离" },
+    "山地剥": { upper: "艮", lower: "坤" },
+    "地雷复": { upper: "坤", lower: "震" },
+    "天雷无妄": { upper: "乾", lower: "震" },
+    "山天大畜": { upper: "艮", lower: "乾" },
+    "山雷颐": { upper: "艮", lower: "震" },
+    "泽风大过": { upper: "兑", lower: "巽" },
+    "坎为水": { upper: "坎", lower: "坎" },
+    "离为火": { upper: "离", lower: "离" },
+    "泽山咸": { upper: "兑", lower: "艮" },
+    "雷风恒": { upper: "震", lower: "巽" },
+    "天山遁": { upper: "乾", lower: "艮" },
+    "雷天大壮": { upper: "震", lower: "乾" },
+    "火地晋": { upper: "离", lower: "坤" },
+    "地火明夷": { upper: "坤", lower: "离" },
+    "风火家人": { upper: "巽", lower: "离" },
+    "火泽睽": { upper: "离", lower: "兑" },
+    "水山蹇": { upper: "坎", lower: "艮" },
+    "雷水解": { upper: "震", lower: "坎" },
+    "山泽损": { upper: "艮", lower: "兑" },
+    "风雷益": { upper: "巽", lower: "震" },
+    "泽天夬": { upper: "兑", lower: "乾" },
+    "天风姤": { upper: "乾", lower: "巽" },
+    "泽地萃": { upper: "兑", lower: "坤" },
+    "地风升": { upper: "坤", lower: "巽" },
+    "泽水困": { upper: "兑", lower: "坎" },
+    "水风井": { upper: "坎", lower: "巽" },
+    "泽火革": { upper: "兑", lower: "离" },
+    "火风鼎": { upper: "离", lower: "巽" },
+    "震为雷": { upper: "震", lower: "震" },
+    "艮为山": { upper: "艮", lower: "艮" },
+    "风山渐": { upper: "巽", lower: "艮" },
+    "雷泽归妹": { upper: "震", lower: "兑" },
+    "雷火丰": { upper: "震", lower: "离" },
+    "火山旅": { upper: "离", lower: "艮" },
+    "巽为风": { upper: "巽", lower: "巽" },
+    "泽兑": { upper: "兑", lower: "兑" },
+    "风水涣": { upper: "巽", lower: "坎" },
+    "水泽节": { upper: "坎", lower: "兑" },
+    "风泽中孚": { upper: "巽", lower: "兑" },
+    "雷山小过": { upper: "震", lower: "艮" },
+    "水火既济": { upper: "坎", lower: "离" },
+    "火水未济": { upper: "离", lower: "坎" }
 };
 
-/**
- * 根据三个数字起卦
- * @param {number} n1 上卦数
- * @param {number} n2 下卦数
- * @param {number} n3 动爻数
- */
-export const calculateIChing = (n1, n2, n3) => {
-    const upNum = n1 % 8 || 8;
-    const downNum = n2 % 8 || 8;
-    const changeYao = n3 % 6 || 6;
-
-    const upGua = BAGUA_MAP[upNum % 8];
-    const downGua = BAGUA_MAP[downNum % 8];
-
-    const mainHexName = upGua + downGua;
-    const hexName = HEXAGRAMS_64[mainHexName] || "未知卦象";
-
-    return {
-        upGua,
-        downGua,
-        changeYao,
-        hexName,
-        summary: `${upGua}上${downGua}下，第${changeYao}爻动`
-    };
+export const getHexagramLines = (name) => {
+    const config = HEXAGRAM_CONFIG[name];
+    if (!config) return null;
+    const lower = TRIGRAMS[config.lower]; // [bottom, middle, top] of trigram
+    const upper = TRIGRAMS[config.upper];
+    // In Yi Jing, lines are read from bottom to top.
+    // Stack: Lower Trigram (lines 1,2,3) + Upper Trigram (lines 4,5,6)
+    return [...lower, ...upper];
 };
