@@ -17,21 +17,38 @@ const isWeb = Platform.OS === 'web';
 // --- Components ---
 
 const StarBackground = () => {
-    // Simple twinkling stars using Opacity + Layout
-    // In a real app we'd use a lot of Animated.Values, but here we keep it performant for web
-    // with CSS-like keyframes or just static random placement for the MVP "premium" feel
-    const stars = Array.from({ length: 30 }).map((_, i) => ({
+    // Advanced Moving Stars with Animation
+    const stars = Array.from({ length: 40 }).map((_, i) => ({
         key: i,
         left: Math.random() * width,
         top: Math.random() * height,
         size: Math.random() * 3 + 1,
-        opacity: Math.random()
+        anim: new Animated.Value(0)
     }));
+
+    useEffect(() => {
+        stars.forEach(star => {
+            Animated.loop(
+                Animated.sequence([
+                    Animated.timing(star.anim, {
+                        toValue: 1,
+                        duration: 2000 + Math.random() * 3000,
+                        useNativeDriver: true,
+                    }),
+                    Animated.timing(star.anim, {
+                        toValue: 0,
+                        duration: 2000 + Math.random() * 3000,
+                        useNativeDriver: true,
+                    })
+                ])
+            ).start();
+        });
+    }, []);
 
     return (
         <View style={StyleSheet.absoluteFill}>
             {stars.map(s => (
-                <View
+                <Animated.View
                     key={s.key}
                     style={{
                         position: 'absolute',
@@ -41,7 +58,16 @@ const StarBackground = () => {
                         height: s.size,
                         borderRadius: s.size / 2,
                         backgroundColor: '#FFF',
-                        opacity: s.opacity,
+                        opacity: s.anim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0.2, 1]
+                        }),
+                        transform: [{
+                            scale: s.anim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [0.8, 1.5]
+                            })
+                        }]
                     }}
                 />
             ))}
