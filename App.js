@@ -7,7 +7,7 @@ import { useFonts, Cinzel_700Bold } from '@expo-google-fonts/cinzel';
 import { NotoSerifSC_400Regular, NotoSerifSC_700Bold } from '@expo-google-fonts/noto-serif-sc';
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { THEMES, getTheme } from './src/theme';
-import { resolveAlmanacMessage } from './src/utils/contentResolver';
+import { resolveAlmanacMessage, resolveIChingMessage, resolveAstrologyMessage } from './src/utils/contentResolver';
 
 const { width } = Dimensions.get('window');
 const isWeb = Platform.OS === 'web';
@@ -35,12 +35,84 @@ export default function App() {
         }
     };
 
-    const [dailyMessage, setDailyMessage] = useState(resolveAlmanacMessage('yi'));
+    const [displayMode, setDisplayMode] = useState('almanac'); // 'almanac', 'iching', 'astro'
+    const [cardContent, setCardContent] = useState({
+        title: '今日能量胶囊',
+        message: resolveAlmanacMessage('yi'),
+        type: 'almanac'
+    });
 
     const refreshFortune = () => {
-        setDailyMessage(resolveAlmanacMessage('yi'));
+        let newContent = {};
+        if (displayMode === 'almanac') {
+            newContent = {
+                title: '今日能量胶囊',
+                message: resolveAlmanacMessage('yi'),
+                type: 'almanac'
+            };
+        } else if (displayMode === 'iching') {
+            const hexagrams = ['乾为天', '坤为地', '水雷屯', '山水蒙', '水天需', '泽雷随', '山风蛊', '地泽临', '风地观', '火雷噬嗑', '山火贲', '地雷复', '山天大畜', '山雷颐', '泽风大过', '坎为水', '离为火', '泽山咸', '雷风恒', '天山遁'];
+            const randomHex = hexagrams[Math.floor(Math.random() * hexagrams.length)];
+            // Dynamic import fix: ensure we have the resolving logic
+            const msg = resolveIChingMessage(randomHex);
+            newContent = {
+                title: `易经 · ${randomHex}`,
+                message: msg || "静心诚意，答案自现。",
+                type: 'iching'
+            };
+        } else if (displayMode === 'astro') {
+            const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
+            const randomPlanet = planets[Math.floor(Math.random() * planets.length)];
+            const planetProcess = { Sun: '太阳', Moon: '月亮', Mercury: '水星', Venus: '金星', Mars: '火星', Jupiter: '木星' };
+            const msg = resolveAstrologyMessage(randomPlanet);
+            newContent = {
+                title: `星历 · ${planetProcess[randomPlanet]}`,
+                message: msg || "星辰指引，静候佳音。",
+                type: 'astro'
+            };
+        }
+
+        setCardContent(newContent);
+
         if (Platform.OS !== 'web') {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        }
+    };
+
+    const switchToMode = (mode) => {
+        // Update mode then refresh content immediately
+        if (mode === 'iching') {
+            const hexagrams = ['乾为天', '坤为地', '水雷屯', '山水蒙', '水天需', '泽雷随', '山风蛊', '地泽临', '风地观', '火雷噬嗑', '山火贲', '地雷复', '山天大畜', '山雷颐', '泽风大过', '坎为水', '离为火', '泽山咸', '雷风恒', '天山遁'];
+            const randomHex = hexagrams[Math.floor(Math.random() * hexagrams.length)];
+            const msg = resolveIChingMessage(randomHex);
+            setCardContent({
+                title: `易经 · ${randomHex}`,
+                message: msg,
+                type: 'iching'
+            });
+            setDisplayMode('iching');
+        } else if (mode === 'astro') {
+            const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
+            const randomPlanet = planets[Math.floor(Math.random() * planets.length)];
+            const planetProcess = { Sun: '太阳', Moon: '月亮', Mercury: '水星', Venus: '金星', Mars: '火星', Jupiter: '木星' };
+            const msg = resolveAstrologyMessage(randomPlanet);
+            setCardContent({
+                title: `星历 · ${planetProcess[randomPlanet]}`,
+                message: msg,
+                type: 'astro'
+            });
+            setDisplayMode('astro');
+        } else {
+            setCardContent({
+                title: '今日能量胶囊',
+                message: resolveAlmanacMessage('yi'),
+                type: 'almanac'
+            });
+            setDisplayMode('almanac');
+        }
+
+        if (Platform.OS !== 'web') {
+            Haptics.selectionAsync();
         }
     };
 
@@ -73,27 +145,39 @@ export default function App() {
                             style={[styles.card, theme.shadow, { borderColor: theme.border }]}
                         >
                             <Text style={[styles.cardTitle, { color: theme.accent, fontFamily: theme.fontTitle }]}>
-                                今日能量胶囊
+                                {cardContent.title}
                             </Text>
                             <Text style={[styles.message, { color: theme.text, fontFamily: theme.fontBody }]}>
-                                {dailyMessage}
+                                {cardContent.message}
                             </Text>
                             <TouchableOpacity
                                 onPress={refreshFortune}
                                 style={[styles.button, { borderColor: theme.accent }]}
                             >
                                 <Text style={[styles.buttonText, { color: theme.accent, fontFamily: theme.fontTitle }]}>
-                                    重新开启
+                                    {displayMode === 'almanac' ? '重新开启' : '再问一次'}
                                 </Text>
                             </TouchableOpacity>
                         </LinearGradient>
 
                         <View style={styles.grid}>
-                            <TouchableOpacity style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                            <TouchableOpacity
+                                onPress={() => switchToMode('iching')}
+                                style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border, opacity: displayMode === 'iching' ? 1 : 0.7 }]}
+                            >
                                 <Text style={[styles.miniText, { color: theme.accent, fontFamily: theme.fontTitle }]}>易经起卦</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+                            <TouchableOpacity
+                                onPress={() => switchToMode('astro')}
+                                style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border, opacity: displayMode === 'astro' ? 1 : 0.7 }]}
+                            >
                                 <Text style={[styles.miniText, { color: theme.accent, fontFamily: theme.fontTitle }]}>西占星历</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => switchToMode('almanac')}
+                                style={[styles.miniCard, { backgroundColor: theme.surface, borderColor: theme.border, opacity: displayMode === 'almanac' ? 1 : 0.7 }]}
+                            >
+                                <Text style={[styles.miniText, { color: theme.accent, fontFamily: theme.fontTitle }]}>每日胶囊</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -101,6 +185,7 @@ export default function App() {
             </SafeAreaView>
         </LinearGradient>
     );
+
 }
 
 const styles = StyleSheet.create({
