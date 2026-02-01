@@ -6,7 +6,10 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build:web": "npx expo export --platform web",
+    "build:macos": "npm run build:web && electron-builder --mac",
+    "build:android": "npx eas-cli build --platform android --profile preview --local --output=release/app-release.apk"
   },
   "dependencies": {
     "@expo-google-fonts/cinzel": "^0.4.2",
@@ -27,7 +30,28 @@
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "electron": "^40.1.0",
+    "electron-builder": "^26.7.0",
+    "wait-on": "^9.0.3"
   },
-  "private": true
+  "private": true,
+  "build": {
+    "appId": "com.zengtao.fortunetelling",
+    "productName": "Fortune Telling",
+    "directories": {
+      "output": "release/macos"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.lifestyle",
+      "target": [
+        "dmg"
+      ]
+    }
+  }
 }
