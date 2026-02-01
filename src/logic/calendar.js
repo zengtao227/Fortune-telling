@@ -50,7 +50,7 @@ const getLunarDate = (date) => {
     const GAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
     const ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
     const ANIMALS = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
-    const L_MONTHS = ["", "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"];
+    const L_MONTHS = ["", "正月", "二月", "三月", "四月", "五月", "六月", "闰六月", "七月", "八月", "九月", "十月", "冬月", "腊月"];
     const L_DAYS = ["", "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
         "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
         "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"];
@@ -59,50 +59,86 @@ const getLunarDate = (date) => {
     const m = date.getMonth();
     const d = date.getDate();
 
-    // 2026年春节: 2月17日 (属马)
-    const spring2026 = new Date(2026, 1, 17);
-    const spring2025 = new Date(2025, 0, 29);
+    // 统一基准：中午12点 UTC+8
+    const targetDate = new Date(y, m, d, 12, 0, 0);
 
-    let lunarYear, lunarMonth, lunarDay;
-    let offsetYear = 2024;
+    // --- 1. 干支年与生肖 (立春分界，模拟 Health Tracker 逻辑) ---
+    let zodiacYear = y;
+    if ((m === 0) || (m === 1 && d < 4)) {
+        zodiacYear--;
+    }
+    const yearOffset = zodiacYear - 2024;
+    const gzYearIdx = (0 + yearOffset % 10 + 10) % 10;
+    const gzZhiIdx = (4 + yearOffset % 12 + 12) % 12;
 
-    if (date >= spring2026) {
-        lunarYear = 2026;
-        const diff = Math.floor((date - spring2026) / 86400000);
-        lunarMonth = Math.floor(diff / 30) + 1;
-        lunarDay = (diff % 30) + 1;
-    } else if (date >= spring2025) {
-        lunarYear = 2025;
-        const diff = Math.floor((date - spring2025) / 86400000);
-        // 简易模拟：2025年有闰六月(384天)，此处做近似处理
-        lunarMonth = Math.floor(diff / 29.5) + 1;
-        if (lunarMonth > 6) lunarMonth; // 简化不处理闰月显示
-        lunarDay = Math.floor(diff % 29.5) + 1;
+    // --- 2. 真实农历月日 (2025/2026 精确查表) ---
+    // 2025年农历正月初一: 1月29日
+    const lunarYearStart = new Date(2025, 0, 29, 12, 0, 0);
+    const diffTime = targetDate.getTime() - lunarYearStart.getTime();
+    const daysInLunarYear = Math.floor(diffTime / 86400000);
+
+    // 2025年月份偏移表 (包含闰六月，总计384天)
+    const monthDays = [0, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30];
+
+    let lunarMonth = 1;
+    let lunarDay = 1;
+    let remainingDays = daysInLunarYear;
+
+    if (daysInLunarYear >= 0) {
+        for (let i = 1; i < monthDays.length; i++) {
+            if (remainingDays < monthDays[i]) {
+                lunarMonth = i;
+                lunarDay = remainingDays + 1;
+                break;
+            }
+            remainingDays -= monthDays[i];
+            // 防止溢出到2026年春节后
+            if (i === monthDays.length - 1) {
+                lunarMonth = 1; // 2026正月
+                lunarDay = remainingDays + 1;
+            }
+        }
     } else {
-        lunarYear = 2024;
-        lunarMonth = 12;
-        lunarDay = 1; // 极简回退
+        // 2025年春节前，回退到2024年腊月处理
+        lunarMonth = 13; // 腊月
+        lunarDay = 30 + daysInLunarYear + 1;
     }
 
-    const gzYearIdx = (lunarYear - 4) % 10;
-    const gzZhiIdx = (lunarYear - 4) % 12;
+    const mName = L_MONTHS[lunarMonth] || `${lunarMonth}月`;
+    const dName = L_DAYS[lunarDay] || `${lunarDay}日`;
 
-    return `${GAN[gzYearIdx]}${ZHI[gzZhiIdx]}${ANIMALS[gzZhiIdx]}年 · ${L_MONTHS[lunarMonth] || lunarMonth + '月'}${L_DAYS[lunarDay] || lunarDay + '日'}`;
+    return `${GAN[gzYearIdx]}${ZHI[gzZhiIdx]}${ANIMALS[gzZhiIdx]}年 · ${mName}${dName}`;
 };
 
 export const calculateAlmanac = (date = new Date()) => {
+    const y = date.getFullYear();
+    const m = date.getMonth();
+    const d = date.getDate();
+    const targetDate = new Date(y, m, d, 12, 0, 0);
+
+    // 1. 设置对比基准 (2024-02-10 12:00:00 是甲辰年正月初一)
     const refDate = new Date(2024, 1, 10, 12, 0, 0);
-    const diffDays = Math.floor((date - refDate) / 86400000);
+
+    // 2. 计算从基准日期开始的天数偏移
+    const diffTime = targetDate.getTime() - refDate.getTime();
+    const diffDays = Math.floor(diffTime / 86400000);
+
+    // 3. 计算地支索引 (4 是基准日的地支：辰)
     const branchIndex = (4 + diffDays % 12 + 12) % 12;
-    const monthBranchIndex = (date.getMonth() + 2) % 12;
+    // 4. 计算月令地支索引 (1月是寅=2)
+    const monthBranchIndex = (m + 2) % 12;
+
+    // 5. 建除神判定
     const shenIndex = (branchIndex - monthBranchIndex + 12) % 12;
     const shen = JIAN_CHU_NAMES[shenIndex];
 
     const rawData = YI_JI_DATA[shen] || { yi: "诸事不宜", ji: "诸事不宜" };
+
+    // 6. 应用防碎词技术 (Internal characters bound by \u2060)
     const WJ = "\u2060";
     const format = (text) => text.split(" ").map(word => word.split("").join(WJ)).join(" ");
 
-    const solarStr = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+    const solarStr = `${y}年${m + 1}月${d}日`;
     const lunarStr = getLunarDate(date);
 
     return {

@@ -353,7 +353,18 @@ export default function App() {
     const [resultData, setResultData] = useState(null);
     const [isCalculating, setIsCalculating] = useState(false); // For animation
 
-    const todayAlmanac = calculateAlmanac();
+    const [todayAlmanac] = useState(calculateAlmanac(new Date()));
+
+    const balancePhrases = (text) => {
+        if (!text) return "";
+        // Content already has \u2060 separators. We split by spaces.
+        const words = text.split(" ").filter(w => w.length > 0);
+        if (words.length >= 4) {
+            const mid = Math.ceil(words.length / 2);
+            return words.slice(0, mid).join(" ") + "\n" + words.slice(mid).join(" ");
+        }
+        return text;
+    };
 
     // Astro Logic
     const handleAstroSubmit = (formData) => {
@@ -447,15 +458,25 @@ export default function App() {
                                 <View style={[styles.almanacCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
                                     <Text style={[styles.almanacTitle, { color: theme.accent }]}>今日黄历</Text>
                                     <Text style={[styles.dateInfoText, { color: theme.text }]}>{todayAlmanac.solar}</Text>
-                                    <Text style={[styles.lunarInfoText, { color: theme.secondary }]}>{todayAlmanac.lunar}</Text>
+                                    <Text style={[styles.lunarInfoText, { color: theme.secondary }]}>
+                                        {todayAlmanac.lunar} [{todayAlmanac.shen}日]
+                                    </Text>
+
+                                    <View style={styles.divider} />
+
                                     <View style={styles.yiJiRow}>
                                         <View style={styles.yiJiCol}>
-                                            <Text style={[styles.yiJiLabel, { color: '#4caf50' }]}>宜</Text>
-                                            <Text style={[styles.yiJiText, { color: theme.text }]}>{todayAlmanac.yi}</Text>
+                                            <Text style={[styles.yiJiLabel, { backgroundColor: '#4caf50' }]}>宜</Text>
+                                            <Text style={[styles.yiJiText, { color: theme.text }]}>
+                                                {balancePhrases(todayAlmanac.yi)}
+                                            </Text>
                                         </View>
+                                        <View style={[styles.verticalDivider, { backgroundColor: theme.border }]} />
                                         <View style={styles.yiJiCol}>
-                                            <Text style={[styles.yiJiLabel, { color: '#f44336' }]}>忌</Text>
-                                            <Text style={[styles.yiJiText, { color: theme.text }]}>{todayAlmanac.ji}</Text>
+                                            <Text style={[styles.yiJiLabel, { backgroundColor: '#f44336' }]}>忌</Text>
+                                            <Text style={[styles.yiJiText, { color: theme.text }]}>
+                                                {balancePhrases(todayAlmanac.ji)}
+                                            </Text>
                                         </View>
                                     </View>
                                 </View>
@@ -619,12 +640,18 @@ const styles = StyleSheet.create({
     backButton: { marginTop: 30, padding: 10 },
 
     // Almanac Styles
-    almanacCard: { padding: 20, borderRadius: 16, borderWidth: 1, marginBottom: 25, width: '100%' },
-    almanacTitle: { fontSize: 14, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 10, textAlign: 'center', opacity: 0.7 },
-    dateInfoText: { fontSize: 16, textAlign: 'center', marginBottom: 4, fontFamily: 'Inter_400Regular' },
-    lunarInfoText: { fontSize: 18, textAlign: 'center', marginBottom: 15, fontWeight: 'bold' },
-    yiJiRow: { flexDirection: 'row', justifyContent: 'space-between' },
-    yiJiCol: { flex: 1, paddingHorizontal: 10 },
-    yiJiLabel: { fontSize: 12, fontWeight: 'bold', marginBottom: 5 },
-    yiJiText: { fontSize: 13, lineHeight: 18 },
+    almanacCard: { padding: 25, borderRadius: 24, borderWidth: 1, marginBottom: 25, width: '100%', alignItems: 'center' },
+    almanacTitle: { fontSize: 13, textTransform: 'uppercase', letterSpacing: 3, marginBottom: 12, textAlign: 'center', opacity: 0.6 },
+    dateInfoText: { fontSize: 20, textAlign: 'center', marginBottom: 4, fontFamily: 'Cinzel_700Bold' },
+    lunarInfoText: { fontSize: 16, textAlign: 'center', marginBottom: 20, opacity: 0.8 },
+    yiJiRow: { flexDirection: 'row', justifyContent: 'center', width: '100%', marginTop: 10 },
+    yiJiCol: { flex: 1, alignItems: 'center' },
+    yiJiLabel: {
+        fontSize: 14, fontWeight: 'bold', color: '#fff',
+        paddingHorizontal: 15, paddingVertical: 4,
+        borderRadius: 20, overflow: 'hidden', marginBottom: 12,
+        textAlign: 'center'
+    },
+    yiJiText: { fontSize: 14, textAlign: 'center', lineHeight: 22, fontWeight: '500' },
+    verticalDivider: { width: 1, height: '80%', marginHorizontal: 5, opacity: 0.3 },
 });
