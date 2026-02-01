@@ -10,6 +10,7 @@ import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { THEMES, getTheme } from './src/theme';
 import { resolveAlmanacMessage, resolveIChingMessage, resolveAstrologyMessage } from './src/utils/contentResolver';
 import { getHexagramLines } from './src/logic/iching';
+import { getZodiac, calculateAlmanac } from './src/logic/calendar';
 
 const { width, height } = Dimensions.get('window');
 const isWeb = Platform.OS === 'web';
@@ -315,6 +316,8 @@ export default function App() {
     const [resultData, setResultData] = useState(null);
     const [isCalculating, setIsCalculating] = useState(false); // For animation
 
+    const todayAlmanac = calculateAlmanac();
+
     // Astro Logic
     const handleAstroSubmit = (formData) => {
         if (!formData.date || formData.date.length < 10) {
@@ -323,18 +326,26 @@ export default function App() {
         }
 
         setIsCalculating(true);
-        // Simulate Calculation Time
+        // Scientific Calculation
         setTimeout(() => {
-            const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter'];
-            const hash = (formData.date.length + (formData.location?.length || 0)) % planets.length;
-            const planet = planets[hash];
-            const planetNameMap = { Sun: '太阳', Moon: '月亮', Mercury: '水星', Venus: '金星', Mars: '火星', Jupiter: '木星' };
+            const birthDate = new Date(formData.date);
+            const zodiacInfo = getZodiac(birthDate);
+
+            // Map Zodiac to nearest planet in our corpus for messages
+            const zodiacToPlanetMap = {
+                'Aries': 'Mars', 'Taurus': 'Venus', 'Gemini': 'Mercury',
+                'Cancer': 'Moon', 'Leo': 'Sun', 'Virgo': 'Mercury',
+                'Libra': 'Venus', 'Scorpio': 'Mars', 'Sagittarius': 'Jupiter',
+                'Capricorn': 'Jupiter', 'Aquarius': 'Mercury', 'Pisces': 'Jupiter'
+            };
+
+            const planet = zodiacToPlanetMap[zodiacInfo.en] || 'Sun';
             const msg = resolveAstrologyMessage(planet);
 
             setResultData({
-                title: `命宫主星 · ${planetNameMap[planet]}`,
+                title: `出生星宫 · ${zodiacInfo.name}`,
                 message: msg || "星轨流转，你的命运此刻正在上升。",
-                extra: `基于 ${formData.date} 在 ${formData.location || '未知领域'} 的星图推演`
+                extra: `基于 ${formData.date} 的黄道刻度推演`
             });
             setIsCalculating(false);
             setCurrentView('RESULT_AS');
@@ -391,6 +402,22 @@ export default function App() {
 
                         {currentView === 'HOME' && (
                             <>
+                                {/* Almanac Card */}
+                                <View style={[styles.almanacCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
+                                    <Text style={[styles.almanacTitle, { color: theme.accent }]}>今日黄历</Text>
+                                    <Text style={[styles.shenText, { color: theme.text }]}>[{todayAlmanac.shen}日]</Text>
+                                    <View style={styles.yiJiRow}>
+                                        <View style={styles.yiJiCol}>
+                                            <Text style={[styles.yiJiLabel, { color: '#4caf50' }]}>宜</Text>
+                                            <Text style={[styles.yiJiText, { color: theme.text }]}>{todayAlmanac.yi}</Text>
+                                        </View>
+                                        <View style={styles.yiJiCol}>
+                                            <Text style={[styles.yiJiLabel, { color: '#f44336' }]}>忌</Text>
+                                            <Text style={[styles.yiJiText, { color: theme.text }]}>{todayAlmanac.ji}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+
                                 <Text style={[styles.introText, { color: theme.text }]}>选择你的探寻之路</Text>
                                 <TouchableOpacity
                                     style={[styles.menuCard, { borderColor: theme.border, backgroundColor: theme.surface }]}
@@ -533,4 +560,13 @@ const styles = StyleSheet.create({
     divider: { height: 1, backgroundColor: 'rgba(255,255,255,0.1)', width: '100%', marginVertical: 20 },
     messageText: { fontSize: 17, lineHeight: 30, textAlign: 'justify', fontFamily: 'NotoSerifSC_400Regular' },
     backButton: { marginTop: 30, padding: 10 },
+
+    // Almanac Styles
+    almanacCard: { padding: 20, borderRadius: 16, borderWidth: 1, marginBottom: 25, width: '100%' },
+    almanacTitle: { fontSize: 14, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 10, textAlign: 'center', opacity: 0.7 },
+    shenText: { fontSize: 22, textAlign: 'center', marginBottom: 15, fontWeight: 'bold' },
+    yiJiRow: { flexDirection: 'row', justifyContent: 'space-between' },
+    yiJiCol: { flex: 1, paddingHorizontal: 10 },
+    yiJiLabel: { fontSize: 12, fontWeight: 'bold', marginBottom: 5 },
+    yiJiText: { fontSize: 13, lineHeight: 18 },
 });
