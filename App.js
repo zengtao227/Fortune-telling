@@ -9,8 +9,8 @@ import { NotoSerifSC_400Regular, NotoSerifSC_700Bold } from '@expo-google-fonts/
 import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { THEMES, getTheme } from './src/theme';
 import { resolveAlmanacMessage, resolveIChingMessage, resolveAstrologyMessage } from './src/utils/contentResolver';
-import { getHexagramLines } from './src/logic/iching';
-import { getZodiac, calculateAlmanac } from './src/logic/calendar';
+import { getHexagramLines, findHexagramByLines } from './src/logic/iching';
+import { getZodiac, calculateAlmanac, performDivination } from './src/logic/calendar';
 
 const { width, height } = Dimensions.get('window');
 const isWeb = Platform.OS === 'web';
@@ -182,33 +182,70 @@ const YinYangLoader = () => {
     );
 };
 
-const HexagramVisual = ({ name, lines }) => {
-    // lines: array of 0 (yin/broken) or 1 (yang/solid). Bottom to top.
-    // We render them top to bottom visually, so we reverse for display? 
-    // Usually Hexagrams are drawn bottom-up logic, but rendered top-down stack.
-    // Index 0 in our array is Bottom line.
-
-    // Reverse to render from Top line (index 5) to Bottom line (index 0)
-    const displayLines = [...lines].reverse();
+const HexagramVisual = ({ name, lines, rawLines, changeName, changeLines }) => {
+    // lines: array of 0/1. Bottom up logic.
+    // rawLines: array of {val, type, moving}.
+    const displayLines = [...(rawLines || [])].reverse();
+    const displayChangeLines = [...(changeLines || [])].reverse();
 
     return (
-        <View style={styles.hexagramContainer}>
-            <View style={styles.hexagramBox}>
-                {displayLines.map((val, idx) => (
-                    <View key={idx} style={styles.lineRow}>
-                        {val === 1 ? (
-                            <View style={styles.yangLine} />
-                        ) : (
-                            <View style={styles.yinLineContainer}>
-                                <View style={styles.yinLinePart} />
-                                <View style={styles.yinLineGap} />
-                                <View style={styles.yinLinePart} />
+        <View style={{ alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Original Hexagram */}
+                <View style={styles.hexagramContainer}>
+                    <View style={styles.hexagramBox}>
+                        {displayLines.map((l, idx) => (
+                            <View key={idx} style={styles.lineRow}>
+                                {l.type === 'yang' ? (
+                                    <View style={[styles.yangLine, l.moving && { backgroundColor: '#ff5722' }]} />
+                                ) : (
+                                    <View style={styles.yinLineContainer}>
+                                        <View style={[styles.yinLinePart, l.moving && { backgroundColor: '#ff5722' }]} />
+                                        <View style={styles.yinLineGap} />
+                                        <View style={[styles.yinLinePart, l.moving && { backgroundColor: '#ff5722' }]} />
+                                    </View>
+                                )}
+                                {l.moving && (
+                                    <Text style={{ position: 'absolute', right: -25, color: '#ff5722', fontWeight: 'bold' }}>
+                                        {l.val === 9 ? '◯' : '✕'}
+                                    </Text>
+                                )}
                             </View>
-                        )}
+                        ))}
                     </View>
-                ))}
+                    <Text style={styles.hexName}>{name.split(' · ')[1] || name}</Text>
+                </View>
+
+                {/* Arrow if there's a change */}
+                {changeName && (
+                    <Text style={{ fontSize: 30, color: '#ffcc33', marginHorizontal: 15 }}>→</Text>
+                )}
+
+                {/* Change Hexagram */}
+                {changeName && (
+                    <View style={styles.hexagramContainer}>
+                        <View style={styles.hexagramBox}>
+                            {displayChangeLines.map((val, idx) => (
+                                <View key={idx} style={styles.lineRow}>
+                                    {val === 1 ? (
+                                        <View style={styles.yangLine} />
+                                    ) : (
+                                        <View style={styles.yinLineContainer}>
+                                            <View style={styles.yinLinePart} />
+                                            <View style={styles.yinLineGap} />
+                                            <View style={styles.yinLinePart} />
+                                        </View>
+                                    )}
+                                </View>
+                            ))}
+                        </View>
+                        <Text style={styles.hexName}>{changeName}</Text>
+                    </View>
+                )}
             </View>
-            <Text style={styles.hexName}>{name}</Text>
+            <Text style={[styles.resultMeta, { marginTop: 10 }]}>
+                {changeName ? "动爻已发，物极必反" : "六爻安静，持守本心"}
+            </Text>
         </View>
     );
 };
@@ -356,24 +393,28 @@ export default function App() {
     // Iching Logic
     const handleIchingStart = () => {
         setIsCalculating(true);
-        setCurrentView('RESULT_IC'); // Navigate first, show loader
+        setCurrentView('RESULT_IC');
 
-        // Simulate Ritual Time
         setTimeout(() => {
-            const hexList = ['乾为天', '坤为地', '水雷屯', '山水蒙', '水天需', '泽雷随', '山风蛊', '地泽临', '风地观', '火雷噬嗑', '山火贲', '地雷复', '山天大畜', '山雷颐', '泽风大过', '坎为水', '离为火', '泽山咸', '雷风恒', '天山遁'];
-            const randomHex = hexList[Math.floor(Math.random() * hexList.length)];
+            const result = performDivination();
+            const originalName = findHexagramByLines(result.lines);
+            const changeName = result.changeLines ? findHexagramByLines(result.changeLines) : null;
 
-            const lines = getHexagramLines(randomHex);
-            const msg = resolveIChingMessage(randomHex);
+            const originalMsg = resolveIChingMessage(originalName);
+            const changeMsg = changeName ? resolveIChingMessage(changeName) : "";
 
             setResultData({
-                title: `本卦 · ${randomHex}`,
-                message: msg,
-                lines: lines || [1, 1, 1, 1, 1, 1]
+                title: `本卦 · ${originalName}`,
+                changeTitle: changeName ? `之卦 · ${changeName}` : null,
+                message: originalMsg,
+                changeMessage: changeMsg,
+                lines: result.lines,
+                rawLines: result.raw, // For detailed rendering of moving lines
+                changeLines: result.changeLines
             });
-            setIsCalculating(false); // Reveal result
+            setIsCalculating(false);
             if (!isWeb) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        }, 2500); // 2.5s ritual
+        }, 3000); // 3s "Ritual"
     };
 
     if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: '#000' }} />;
@@ -429,10 +470,12 @@ export default function App() {
 
                                 <TouchableOpacity
                                     style={[styles.menuCard, { borderColor: theme.border, backgroundColor: theme.surface }]}
-                                    onPress={handleIchingStart}
+                                    onLongPress={handleIchingStart}
+                                    delayLongPress={3000}
                                 >
                                     <Text style={[styles.cardTitle, { color: theme.accent }]}>周易起卦 (I Ching)</Text>
                                     <Text style={[styles.cardDesc, { color: theme.secondary }]}>六十四卦象，参悟变易之道</Text>
+                                    <Text style={{ fontSize: 10, color: theme.accent, marginTop: 10, opacity: 0.8 }}>(长按3秒以起卦)</Text>
                                 </TouchableOpacity>
                             </>
                         )}
@@ -478,11 +521,24 @@ export default function App() {
 
                         {currentView === 'RESULT_IC' && !isCalculating && (
                             <View style={[styles.glassCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
-                                <HexagramVisual name={resultData.title} lines={resultData.lines} />
+                                <HexagramVisual
+                                    name={resultData.title}
+                                    lines={resultData.lines}
+                                    rawLines={resultData.rawLines}
+                                    changeName={resultData.changeTitle ? resultData.changeTitle.split(' · ')[1] : null}
+                                    changeLines={resultData.changeLines}
+                                />
                                 <View style={styles.divider} />
                                 <Text style={[styles.messageText, { color: theme.text }]}>
+                                    <Text style={{ fontWeight: 'bold', color: theme.accent }}>{resultData.title.split(' · ')[1]}: </Text>
                                     {resultData.message}
                                 </Text>
+                                {resultData.changeTitle && (
+                                    <Text style={[styles.messageText, { color: theme.text, marginTop: 15 }]}>
+                                        <Text style={{ fontWeight: 'bold', color: '#ff5722' }}>{resultData.changeTitle.split(' · ')[1]}: </Text>
+                                        {resultData.changeMessage}
+                                    </Text>
+                                )}
                                 <TouchableOpacity onPress={() => setCurrentView('HOME')} style={styles.backButton}>
                                     <Text style={{ color: theme.accent }}>返回首页</Text>
                                 </TouchableOpacity>

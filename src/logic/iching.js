@@ -83,3 +83,14 @@ export const getHexagramLines = (name) => {
     // Stack: Lower Trigram (lines 1,2,3) + Upper Trigram (lines 4,5,6)
     return [...lower, ...upper];
 };
+
+export const findHexagramByLines = (lines) => {
+    const lineStr = lines.join(',');
+    for (const name in HEXAGRAM_CONFIG) {
+        const hexLines = getHexagramLines(name);
+        if (hexLines && hexLines.join(',') === lineStr) {
+            return name;
+        }
+    }
+    return null;
+};

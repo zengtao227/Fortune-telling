@@ -34,47 +34,118 @@ const ZODIAC_SIGNS = [
 export const getZodiac = (date) => {
     const m = date.getMonth() + 1;
     const d = date.getDate();
-    
     for (const sign of ZODIAC_SIGNS) {
         const [sM, sD] = sign.start;
         const [eM, eD] = sign.end;
-        
         if (m === sM && d >= sD) return sign;
         if (m === eM && d <= eD) return sign;
     }
-    // Handle Capricorn year wrap
     return ZODIAC_SIGNS.find(s => s.en === "Capricorn");
 };
 
 /**
- * 核心算法：建除十二神推算 (基于 2024-02-10 锚点)
+ * 农历月日算法 (针对 2025-2026 精确偏移)
  */
+const getLunarDate = (date) => {
+    const GAN = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+    const ZHI = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+    const ANIMALS = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+    const L_MONTHS = ["", "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"];
+    const L_DAYS = ["", "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+        "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+        "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"];
+
+    const y = date.getFullYear();
+    const m = date.getMonth();
+    const d = date.getDate();
+
+    // 2026年春节: 2月17日 (属马)
+    const spring2026 = new Date(2026, 1, 17);
+    const spring2025 = new Date(2025, 0, 29);
+
+    let lunarYear, lunarMonth, lunarDay;
+    let offsetYear = 2024;
+
+    if (date >= spring2026) {
+        lunarYear = 2026;
+        const diff = Math.floor((date - spring2026) / 86400000);
+        lunarMonth = Math.floor(diff / 30) + 1;
+        lunarDay = (diff % 30) + 1;
+    } else if (date >= spring2025) {
+        lunarYear = 2025;
+        const diff = Math.floor((date - spring2025) / 86400000);
+        // 简易模拟：2025年有闰六月(384天)，此处做近似处理
+        lunarMonth = Math.floor(diff / 29.5) + 1;
+        if (lunarMonth > 6) lunarMonth; // 简化不处理闰月显示
+        lunarDay = Math.floor(diff % 29.5) + 1;
+    } else {
+        lunarYear = 2024;
+        lunarMonth = 12;
+        lunarDay = 1; // 极简回退
+    }
+
+    const gzYearIdx = (lunarYear - 4) % 10;
+    const gzZhiIdx = (lunarYear - 4) % 12;
+
+    return `${GAN[gzYearIdx]}${ZHI[gzZhiIdx]}${ANIMALS[gzZhiIdx]}年 · ${L_MONTHS[lunarMonth] || lunarMonth + '月'}${L_DAYS[lunarDay] || lunarDay + '日'}`;
+};
+
 export const calculateAlmanac = (date = new Date()) => {
-    // 1. 设置对比基准 (2024-02-10 12:00:00 是甲辰年正月初一)
-    const refDate = new Date(2024, 1, 10, 12, 0, 0); 
-    
-    // 2. 计算从基准日期开始的天数偏移
-    const diffTime = date.getTime() - refDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
-    // 3. 计算地支索引 (4 是基准日的地支：辰)
+    const refDate = new Date(2024, 1, 10, 12, 0, 0);
+    const diffDays = Math.floor((date - refDate) / 86400000);
     const branchIndex = (4 + diffDays % 12 + 12) % 12;
-    // 4. 计算月令地支索引 (1月是寅=2)
     const monthBranchIndex = (date.getMonth() + 2) % 12;
-    
-    // 5. 建除神判定
     const shenIndex = (branchIndex - monthBranchIndex + 12) % 12;
     const shen = JIAN_CHU_NAMES[shenIndex];
-    
+
     const rawData = YI_JI_DATA[shen] || { yi: "诸事不宜", ji: "诸事不宜" };
-    
-    // 6. 应用防碎词技术 (Anti-breaking)
-    const WJ = "\u2060"; 
+    const WJ = "\u2060";
     const format = (text) => text.split(" ").map(word => word.split("").join(WJ)).join(" ");
 
+    const solarStr = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+    const lunarStr = getLunarDate(date);
+
     return {
+        solar: solarStr,
+        lunar: lunarStr,
         shen,
         yi: format(rawData.yi),
         ji: format(rawData.ji)
+    };
+};
+
+/**
+ * 周易仿真起卦算法 (大衍筮法概率仿真)
+ */
+export const performDivination = () => {
+    const castLine = () => {
+        // 模拟三个硬币/蓍草分拨
+        // 概率分布: 老阳(3), 少阴(5), 少阳(7), 老阴(1) -> 总和 16
+        const rand = Math.floor(Math.random() * 16);
+        if (rand < 3) return { val: 9, type: 'yang', moving: true };  // 老阳
+        if (rand < 8) return { val: 8, type: 'yin', moving: false };  // 少阴
+        if (rand < 15) return { val: 7, type: 'yang', moving: false }; // 少阳
+        return { val: 6, type: 'yin', moving: true };                // 老阴
+    };
+
+    const lines = [];
+    for (let i = 0; i < 6; i++) {
+        lines.push(castLine());
+    }
+
+    // 本卦 (Original)
+    const originalLines = lines.map(l => l.type === 'yang' ? 1 : 0);
+    // 变卦 (Change) - 动爻变色
+    const changeLines = lines.map(l => {
+        if (!l.moving) return l.type === 'yang' ? 1 : 0;
+        return l.type === 'yang' ? 0 : 1;
+    });
+
+    const hasMovingLines = lines.some(l => l.moving);
+
+    return {
+        lines: originalLines, // 用于 UI 基础显示
+        raw: lines,           // 包含动爻信息
+        changeLines: hasMovingLines ? changeLines : null
     };
 };
