@@ -446,7 +446,8 @@ export default function App() {
                                 {/* Almanac Card */}
                                 <View style={[styles.almanacCard, { borderColor: theme.border, backgroundColor: theme.surface }]}>
                                     <Text style={[styles.almanacTitle, { color: theme.accent }]}>今日黄历</Text>
-                                    <Text style={[styles.shenText, { color: theme.text }]}>[{todayAlmanac.shen}日]</Text>
+                                    <Text style={[styles.dateInfoText, { color: theme.text }]}>{todayAlmanac.solar}</Text>
+                                    <Text style={[styles.lunarInfoText, { color: theme.secondary }]}>{todayAlmanac.lunar}</Text>
                                     <View style={styles.yiJiRow}>
                                         <View style={styles.yiJiCol}>
                                             <Text style={[styles.yiJiLabel, { color: '#4caf50' }]}>宜</Text>
@@ -620,7 +621,8 @@ const styles = StyleSheet.create({
     // Almanac Styles
     almanacCard: { padding: 20, borderRadius: 16, borderWidth: 1, marginBottom: 25, width: '100%' },
     almanacTitle: { fontSize: 14, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 10, textAlign: 'center', opacity: 0.7 },
-    shenText: { fontSize: 22, textAlign: 'center', marginBottom: 15, fontWeight: 'bold' },
+    dateInfoText: { fontSize: 16, textAlign: 'center', marginBottom: 4, fontFamily: 'Inter_400Regular' },
+    lunarInfoText: { fontSize: 18, textAlign: 'center', marginBottom: 15, fontWeight: 'bold' },
     yiJiRow: { flexDirection: 'row', justifyContent: 'space-between' },
     yiJiCol: { flex: 1, paddingHorizontal: 10 },
     yiJiLabel: { fontSize: 12, fontWeight: 'bold', marginBottom: 5 },
