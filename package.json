@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "build:web": "npx expo export --platform web",
     "build:macos": "npm run build:web && electron-builder --mac",
-    "build:android": "npx eas-cli build --platform android --profile preview --local --output=release/app-release.apk"
+    "build:android": "npx eas-cli build --platform android --profile preview"
   },
   "dependencies": {
     "@expo-google-fonts/cinzel": "^0.4.2",
@@ -26,7 +26,8 @@
     "lunar-javascript": "^1.6.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.73.4",
+    "react-native": "0.73.6",
+    "react-native-svg": "14.1.0",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {

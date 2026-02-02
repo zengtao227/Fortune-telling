@@ -65,7 +65,7 @@ export const HEXAGRAM_CONFIG = {
     "雷火丰": { upper: "震", lower: "离" },
     "火山旅": { upper: "离", lower: "艮" },
     "巽为风": { upper: "巽", lower: "巽" },
-    "泽兑": { upper: "兑", lower: "兑" },
+    "兑为泽": { upper: "兑", lower: "兑" },
     "风水涣": { upper: "巽", lower: "坎" },
     "水泽节": { upper: "坎", lower: "兑" },
     "风泽中孚": { upper: "巽", lower: "兑" },

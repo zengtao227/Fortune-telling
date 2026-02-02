@@ -10,7 +10,8 @@ import { Inter_400Regular } from '@expo-google-fonts/inter';
 import { THEMES, getTheme } from './src/theme';
 import { resolveAlmanacMessage, resolveIChingMessage, resolveAstrologyMessage } from './src/utils/contentResolver';
 import { getHexagramLines, findHexagramByLines } from './src/logic/iching';
-import { getZodiac, calculateAlmanac, performDivination } from './src/logic/calendar';
+import { calculateAlmanac, performDivination } from './src/logic/calendar';
+import { getBigThree } from './src/logic/astrology';
 
 const { width, height } = Dimensions.get('window');
 const isWeb = Platform.OS === 'web';
@@ -254,6 +255,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
     // Initialize state directly from storage if possible, otherwise empty
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
     const [location, setLocation] = useState('');
 
     // Load Effect
@@ -265,6 +267,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
                     const data = JSON.parse(saved);
                     if (data.name) setName(data.name);
                     if (data.date) setDate(data.date);
+                    if (data.time) setTime(data.time);
                     if (data.location) setLocation(data.location);
                 } catch (e) { }
             }
@@ -274,9 +277,9 @@ const AstrologyForm = ({ onSubmit, theme }) => {
     // Save Effect
     useEffect(() => {
         if (isWeb) {
-            localStorage.setItem('astro_saved_data', JSON.stringify({ name, date, location }));
+            localStorage.setItem('astro_saved_data', JSON.stringify({ name, date, time, location }));
         }
-    }, [name, date, location]);
+    }, [name, date, time, location]);
 
     const handleDateChange = (text) => {
         // Strict formatting logic
@@ -294,6 +297,16 @@ const AstrologyForm = ({ onSubmit, theme }) => {
         if (formatted.length > 10) formatted = formatted.slice(0, 10);
 
         setDate(formatted);
+    };
+
+    const handleTimeChange = (text) => {
+        let cleaned = text.replace(/[^0-9]/g, '');
+        let formatted = cleaned;
+        if (cleaned.length > 2) {
+            formatted = cleaned.slice(0, 2) + ':' + cleaned.slice(2);
+        }
+        if (formatted.length > 5) formatted = formatted.slice(0, 5);
+        setTime(formatted);
     };
 
     return (
@@ -318,6 +331,17 @@ const AstrologyForm = ({ onSubmit, theme }) => {
                 placeholderTextColor="rgba(255,255,255,0.3)"
             />
 
+            <Text style={[styles.label, { color: theme.secondary }]}>出生时间 (HH:mm)</Text>
+            <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
+                value={time}
+                onChangeText={handleTimeChange}
+                keyboardType="numeric"
+                maxLength={5}
+                placeholder="13:30"
+                placeholderTextColor="rgba(255,255,255,0.3)"
+            />
+
             <Text style={[styles.label, { color: theme.secondary }]}>出生地点 (Location)</Text>
             <TextInput
                 style={[styles.input, { borderColor: theme.border, color: theme.text, backgroundColor: 'rgba(0,0,0,0.2)' }]}
@@ -329,7 +353,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
 
             <TouchableOpacity
                 style={[styles.calculateButton, { backgroundColor: theme.accent }]}
-                onPress={() => onSubmit({ name, date, location })}
+                onPress={() => onSubmit({ name, date, time, location })}
             >
                 <Text style={styles.calculateButtonText}>绘制星盘 (CALCULATE)</Text>
             </TouchableOpacity>
@@ -376,8 +400,11 @@ export default function App() {
         setIsCalculating(true);
         // Scientific Calculation
         setTimeout(() => {
-            const birthDate = new Date(formData.date);
-            const zodiacInfo = getZodiac(birthDate);
+            const bigThree = getBigThree({
+                date: formData.date,
+                time: formData.time,
+                location: formData.location
+            });
 
             // Map Zodiac to nearest planet in our corpus for messages
             const zodiacToPlanetMap = {
@@ -387,13 +414,19 @@ export default function App() {
                 'Capricorn': 'Jupiter', 'Aquarius': 'Mercury', 'Pisces': 'Jupiter'
             };
 
-            const planet = zodiacToPlanetMap[zodiacInfo.en] || 'Sun';
+            const planet = zodiacToPlanetMap[bigThree.sun?.en] || 'Sun';
             const msg = resolveAstrologyMessage(planet);
+            const sunText = bigThree.sun?.en || 'Unknown';
+            const moonText = bigThree.moon?.en || (bigThree.hasPreciseTime ? 'Unknown' : '—');
+            const risingText = bigThree.ascendant?.en || (bigThree.hasPreciseTime ? 'Unknown' : '—');
+            const timeTag = formData.time ? ` ${formData.time}` : '';
 
             setResultData({
-                title: `出生星宫 · ${zodiacInfo.name}`,
+                title: `出生星宫 · ${bigThree.sun?.name || '未知'}`,
+                bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
+                hasPreciseTime: bigThree.hasPreciseTime,
                 message: msg || "星轨流转，你的命运此刻正在上升。",
-                extra: `基于 ${formData.date} 的黄道刻度推演`
+                extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`
             });
             setIsCalculating(false);
             setCurrentView('RESULT_AS');
@@ -425,7 +458,7 @@ export default function App() {
             });
             setIsCalculating(false);
             if (!isWeb) Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        }, 3000); // 3s "Ritual"
+        }, 2000); // 2s "Ritual"
     };
 
     if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: '#000' }} />;
@@ -461,6 +494,12 @@ export default function App() {
                                     <Text style={[styles.lunarInfoText, { color: theme.secondary }]}>
                                         {todayAlmanac.lunar} [{todayAlmanac.shen}日]
                                     </Text>
+                                    <Text style={[styles.almanacMetaText, { color: theme.text }]}>
+                                        干支年: {todayAlmanac.lunar.split('年')[0]}年
+                                    </Text>
+                                    <Text style={[styles.almanacMetaText, { color: theme.secondary }]}>
+                                        星宿: {todayAlmanac.xiu} · 冲煞: {todayAlmanac.chongSha}
+                                    </Text>
 
                                     <View style={styles.divider} />
 
@@ -493,7 +532,7 @@ export default function App() {
                                 <TouchableOpacity
                                     style={[styles.menuCard, { borderColor: theme.border, backgroundColor: theme.surface }]}
                                     onLongPress={handleIchingStart}
-                                    delayLongPress={3000}
+                                    delayLongPress={1500}
                                 >
                                     <Text style={[styles.cardTitle, { color: theme.accent }]}>周易起卦 (I Ching)</Text>
                                     <Text style={[styles.cardDesc, { color: theme.secondary }]}>六十四卦象，参悟变易之道</Text>
@@ -525,6 +564,14 @@ export default function App() {
                                 <Text style={[styles.resultMeta, { color: theme.secondary }]}>
                                     {resultData.extra}
                                 </Text>
+                                <Text style={[styles.resultMeta, { color: theme.text }]}>
+                                    {resultData.bigThree}
+                                </Text>
+                                {!resultData.hasPreciseTime && (
+                                    <Text style={[styles.resultMeta, { color: theme.secondary }]}>
+                                        未提供出生时间，月亮与上升以默认值显示
+                                    </Text>
+                                )}
                                 <View style={styles.divider} />
                                 <Text style={[styles.messageText, { color: theme.text }]}>
                                     {resultData.message}
@@ -634,7 +681,7 @@ const styles = StyleSheet.create({
 
     // Results
     resultTitle: { fontSize: 24, textAlign: 'center', marginBottom: 10 },
-    resultMeta: { fontSize: 12, marginBottom: 20, textAlign: 'center', opacity: 0.7 },
+    resultMeta: { fontSize: 12, marginBottom: 20, textAlign: 'center', opacity: 1.0, color: '#ffcc33' },
     divider: { height: 1, backgroundColor: 'rgba(255,255,255,0.1)', width: '100%', marginVertical: 20 },
     messageText: { fontSize: 17, lineHeight: 30, textAlign: 'justify', fontFamily: 'NotoSerifSC_400Regular' },
     backButton: { marginTop: 30, padding: 10 },
@@ -644,6 +691,7 @@ const styles = StyleSheet.create({
     almanacTitle: { fontSize: 13, textTransform: 'uppercase', letterSpacing: 3, marginBottom: 12, textAlign: 'center', opacity: 0.6 },
     dateInfoText: { fontSize: 20, textAlign: 'center', marginBottom: 4, fontFamily: 'Cinzel_700Bold' },
     lunarInfoText: { fontSize: 16, textAlign: 'center', marginBottom: 20, opacity: 0.8 },
+    almanacMetaText: { fontSize: 12, textAlign: 'center', marginBottom: 6, opacity: 0.9 },
     yiJiRow: { flexDirection: 'row', justifyContent: 'center', width: '100%', marginTop: 10 },
     yiJiCol: { flex: 1, alignItems: 'center' },
     yiJiLabel: {

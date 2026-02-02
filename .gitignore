@@ -10,3 +10,5 @@ android/
 .env*
 .eas/
 bin/
+.DS_Store
+release/
