@@ -40,7 +40,7 @@ export const calculateAlmanac = (date = new Date()) => {
     };
     times.forEach(t => {
         const zhi = t.getZhi();
-        const yi = t.getLove() || t.getYi(); // 优先取 LOVE (吉项)
+        const yi = t.getYi(); // Ensure correct method is used
         if (yi && yi.length > 0 && yi[0] !== '无') {
             jiShi.push(`${zhi}时(${HOUR_MAP[zhi]}) 宜: ${yi.slice(0, 3).join(" ")}`);
         }
