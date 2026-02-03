@@ -494,10 +494,14 @@ export default function App() {
                                     <Text style={[styles.lunarInfoText, { color: theme.secondary }]}>
                                         {todayAlmanac.lunar} [{todayAlmanac.shen}日]
                                     </Text>
+
+                                    {todayAlmanac.tianShen && (
+                                        <Text style={[styles.almanacMetaText, { color: theme.accent, fontWeight: 'bold' }]}>
+                                            {todayAlmanac.tianShen} [{todayAlmanac.tianShenType}]
+                                        </Text>
+                                    )}
+
                                     <Text style={[styles.almanacMetaText, { color: theme.text }]}>
-                                        干支年: {todayAlmanac.lunar.split('年')[0]}年
-                                    </Text>
-                                    <Text style={[styles.almanacMetaText, { color: theme.secondary }]}>
                                         星宿: {todayAlmanac.xiu} · 冲煞: {todayAlmanac.chongSha}
                                     </Text>
 
@@ -518,6 +522,16 @@ export default function App() {
                                             </Text>
                                         </View>
                                     </View>
+
+                                    {todayAlmanac.jiShi && (
+                                        <>
+                                            <View style={[styles.divider, { marginVertical: 15 }]} />
+                                            <Text style={[styles.almanacTitle, { color: theme.secondary, fontSize: 11, marginBottom: 8 }]}>吉时参考</Text>
+                                            <Text style={[styles.jiShiText, { color: theme.text }]}>
+                                                {todayAlmanac.jiShi}
+                                            </Text>
+                                        </>
+                                    )}
                                 </View>
 
                                 <Text style={[styles.introText, { color: theme.text }]}>选择你的探寻之路</Text>
@@ -701,5 +715,6 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     yiJiText: { fontSize: 14, textAlign: 'center', lineHeight: 22, fontWeight: '500' },
+    jiShiText: { fontSize: 11, textAlign: 'center', lineHeight: 18, opacity: 0.8, fontFamily: 'NotoSerifSC_400Regular' },
     verticalDivider: { width: 1, height: '80%', marginHorizontal: 5, opacity: 0.3 },
 });

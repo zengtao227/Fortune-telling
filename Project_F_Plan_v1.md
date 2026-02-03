@@ -15,25 +15,26 @@
 
 ## 3. 技术规范附录 (Best Practices)
 
-### 3.1 中式历法标准 (Chinese Calendar)
-**强制使用库**: `lunar-javascript` (npm: lunar-javascript@1.7.7+)
+### 3.1 专业黄历标准 (Chinese Almanac) - V2 增强版
+**强制使用库**: `lunar-javascript` (npm: `lunar-javascript`)
 
 | 功能 | API 调用 | 说明 |
 |------|---------|------|
-| 实例化 | `Lunar.fromDate(new Date())` | 从阳历转农历 |
-| 农历日期 | `.getMonthInChinese()` + `.getDayInChinese()` | 如"正月初一" |
-| 干支纪年 | `.getYearInGanZhi()` | 如"甲辰" |
-| 生肖 | `.getYearShengXiao()` | 如"龙" |
-| 建除十二神 | `.getZhiXing()` | 如"建/除/满/平/定/执/破/危/成/收/开/闭" |
-| 宜 | `.getDayYi()` | 数组，如["祭祀", "祈福", ...] |
-| 忌 | `.getDayJi()` | 数组，如["嫁娶", "出行", ...] |
-| 冲煞 | `.getDayChong()` + `.getDaySha()` | 如"冲鼠煞北" |
-| 吉神 | `.getDayJiShen()` | 数组 |
-| 凶煞 | `.getDayXiongSha()` | 数组 |
-| 二十八星宿 | `.getXiu()` | 如"角亢氐房心尾箕..." |
-| 胎神方位 | `.getDayTaiShen()` | 如"占门床外东南" |
-| 彭祖百忌 | `.getPengZuGan()` + `.getPengZuZhi()` | 如"甲不开仓财物耗散" |
+| 实例化 | `Lunar.fromDate(date)` | 从阳历转农历 |
+| 值神 (TianShen) | `.getDayTianShen()` | 如"司命", "青龙" |
+| 黄道/黑道 | `.getDayTianShenType()` | 显示该日是否为"黄道吉日" |
+| 精确宜忌 | `.getDayYi()` / `.getDayJi()` | 抓取上限提升至 15/10 项 |
+| 吉时参考 | `.getTimes()` | 遍历十二时辰的 `getYi()` 数据 |
+| 建除十二神 | `.getZhiXing()` | 如"建/开/危..." |
+| 冲煞 | `.getDayChongDesc()` + `.getDaySha()` | 如"冲鼠煞北" |
+| 防碎词技术 | 使用 `\u2060` (WJ) | 绑定二字/四字词组，防止非正常折行 |
 
+---
+
+### 3.2 视觉排版规范 (UI Standards)
+*   **中轴对称**: 所有日历/黄历信息必须水平居中。
+*   **黄道吉日高亮**: 若为黄道吉日，值神名称应以金色加粗显示。
+*   **动态平衡换行**: 宜忌文本若超过 4 词，需在中间位置执行 `\n` 均衡拆分，确保长方形/梯形构图。
 ### 3.2 西式天文标准 (Western Astronomy)
 **强制使用库**: `astronomy-engine` (npm: astronomy-engine@2.1.19+)
 
