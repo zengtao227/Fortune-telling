@@ -14,6 +14,13 @@ export const calculateAlmanac = (date = new Date()) => {
     const solar = Solar.fromDate(date);
     const lunar = solar.getLunar();
 
+    // 基础日期信息
+    const solarStr = `${solar.getYear()}年${solar.getMonth()}月${solar.getDay()}日`;
+    const lunarStr = `${lunar.getYearInGanZhi()}${lunar.getYearShengXiao()}年 · ${lunar.getMonthInChinese()}月${lunar.getDayInChinese()}`;
+
+    // 建除十二神
+    const zhiXing = lunar.getZhiXing();
+
     // 值神与黄黑道
     const tianShen = lunar.getDayTianShen();
     const tianShenType = lunar.getDayTianShenType();
