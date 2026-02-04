@@ -12,3 +12,4 @@ android/
 bin/
 .DS_Store
 release/
+.idea/
