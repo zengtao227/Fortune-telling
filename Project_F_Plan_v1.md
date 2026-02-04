@@ -133,6 +133,11 @@ const getZodiacFromLongitude = (lng) => ZODIAC_SIGNS[Math.floor(lng / 30) % 12];
 
 ---
 
+## 7.3 协作流程
+*   **强制要求**: 每次修改代码并验证后，必须立即推送到 GitHub。
+
+---
+
 ## 8. 执行进度
 *   [✓] UI 视觉原型确认。
 *   [✓] 时间敏感型语料库逻辑确立。
