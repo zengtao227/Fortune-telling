@@ -35,10 +35,25 @@ const YIN_YANG_IMG =
 
 // --- Persistence Helper ---
 const STORAGE_KEY = "mystic_user_data";
+const canUseStorage =
+  isWeb && typeof window !== "undefined" && !!window.localStorage;
+const safeGetItem = (key) => {
+  if (!canUseStorage) return null;
+  try {
+    return window.localStorage.getItem(key);
+  } catch (e) {
+    return null;
+  }
+};
+const safeSetItem = (key, value) => {
+  if (!canUseStorage) return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (e) {}
+};
 const saveUserData = async (data) => {
   try {
-    if (isWeb) localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    // Note: AsyncStorage would be used in native, but for web-first verify simple localStorage is enough or mock it
+    if (isWeb) safeSetItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
     console.warn(e);
   }
@@ -46,7 +61,7 @@ const saveUserData = async (data) => {
 const loadUserData = async () => {
   try {
     if (isWeb) {
-      const item = localStorage.getItem(STORAGE_KEY);
+      const item = safeGetItem(STORAGE_KEY);
       return item ? JSON.parse(item) : null;
     }
   } catch (e) {
@@ -498,7 +513,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
   // Load Effect
   useEffect(() => {
     if (isWeb) {
-      const saved = localStorage.getItem("astro_saved_data");
+      const saved = safeGetItem("astro_saved_data");
       if (saved) {
         try {
           const data = JSON.parse(saved);
@@ -514,7 +529,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
   // Save Effect
   useEffect(() => {
     if (isWeb) {
-      localStorage.setItem(
+      safeSetItem(
         "astro_saved_data",
         JSON.stringify({ name, date, time, location }),
       );
