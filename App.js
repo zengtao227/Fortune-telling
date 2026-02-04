@@ -798,235 +798,46 @@ export default function App() {
     ? (resultData.changeTitle.split(" · ")[1] || resultData.changeTitle).trim()
     : "";
 
-  if (!fontsLoaded)
-    return (
-      <LinearGradient
-        colors={theme.backgroundGradient}
-        style={styles.container}
-      >
-        <StatusBar style="light" />
-        <StarBackground />
+  return (
+    <LinearGradient
+      colors={theme.backgroundGradient}
+      style={styles.container}
+    >
+      <StatusBar style="light" />
+      <StarBackground />
 
-        <View style={styles.safeArea}>
-          <ScrollView contentContainerStyle={styles.scroll}>
-            {/* Header: Consistent across all views */}
-            <View style={styles.header}>
-              <Text
-                style={[
-                  styles.appTitle,
-                  { color: theme.accent, fontFamily: fontsLoaded ? theme.fontTitle : (Platform.OS === 'web' ? 'serif' : undefined) },
-                ]}
+      <View style={styles.safeArea}>
+        <ScrollView contentContainerStyle={styles.scroll}>
+          {/* Header: Consistent across all views */}
+          <View style={styles.header}>
+            <Text
+              style={[
+                styles.appTitle,
+                { color: theme.accent, fontFamily: fontsLoaded ? theme.fontTitle : (Platform.OS === 'web' ? 'serif' : undefined) },
+              ]}
+            >
+              MYSTIC TAROT
+            </Text>
+            {currentView !== "HOME" && (
+              <TouchableOpacity
+                onPress={() => setCurrentView("HOME")}
+                style={styles.homeBtn}
               >
-                MYSTIC TAROT
-              </Text>
-              {currentView !== "HOME" && (
-                <TouchableOpacity
-                  onPress={() => setCurrentView("HOME")}
-                  style={styles.homeBtn}
-                >
-                  <Text style={{ color: theme.secondary, fontSize: 12 }}>
-                    HOME
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </View>
+                <Text style={{ color: theme.secondary, fontSize: 12 }}>
+                  HOME
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
 
-            {/* Main Content */}
-            <View style={styles.cardContainer}>
-              {currentView === "HOME" && (
-                <>
-                  {/* Almanac Card */}
-                  <View
-                    style={[
-                      styles.almanacCard,
-                      {
-                        borderColor: theme.border,
-                        backgroundColor: theme.surface,
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[styles.almanacTitle, { color: theme.accent }]}
-                    >
-                      今日黄历
-                    </Text>
-                    <Text style={[styles.dateInfoText, { color: theme.text }]}>
-                      {todayAlmanac.solar}
-                    </Text>
-                    <Text
-                      style={[styles.lunarInfoText, { color: theme.secondary }]}
-                    >
-                      {todayAlmanac.lunar} [{todayAlmanac.shen}日]
-                    </Text>
-
-                    {todayAlmanac.tianShen && (
-                      <Text
-                        style={[
-                          styles.almanacMetaText,
-                          { color: theme.accent, fontWeight: "bold" },
-                        ]}
-                      >
-                        {todayAlmanac.tianShen} [{todayAlmanac.tianShenType}]
-                      </Text>
-                    )}
-
-                    <Text
-                      style={[styles.almanacMetaText, { color: theme.text }]}
-                    >
-                      星宿: {todayAlmanac.xiu} · 冲煞: {todayAlmanac.chongSha}
-                    </Text>
-
-                    <View style={styles.divider} />
-
-                    <View style={styles.yiJiRow}>
-                      <View style={styles.yiJiCol}>
-                        <Text
-                          style={[
-                            styles.yiJiLabel,
-                            { backgroundColor: "#4caf50" },
-                          ]}
-                        >
-                          宜
-                        </Text>
-                        <Text style={[styles.yiJiText, { color: theme.text }]}>
-                          {balancePhrases(todayAlmanac.yi)}
-                        </Text>
-                      </View>
-                      <View
-                        style={[
-                          styles.verticalDivider,
-                          { backgroundColor: theme.border },
-                        ]}
-                      />
-                      <View style={styles.yiJiCol}>
-                        <Text
-                          style={[
-                            styles.yiJiLabel,
-                            { backgroundColor: "#f44336" },
-                          ]}
-                        >
-                          忌
-                        </Text>
-                        <Text style={[styles.yiJiText, { color: theme.text }]}>
-                          {balancePhrases(todayAlmanac.ji)}
-                        </Text>
-                      </View>
-                    </View>
-
-                    {todayAlmanac.jiShi && (
-                      <>
-                        <View
-                          style={[styles.divider, { marginVertical: 15 }]}
-                        />
-                        <Text
-                          style={[
-                            styles.almanacTitle,
-                            {
-                              color: theme.secondary,
-                              fontSize: 11,
-                              marginBottom: 8,
-                            },
-                          ]}
-                        >
-                          吉时参考
-                        </Text>
-                        <Text style={[styles.jiShiText, { color: theme.text }]}>
-                          {todayAlmanac.jiShi}
-                        </Text>
-                      </>
-                    )}
-                  </View>
-
-                  <Text style={[styles.introText, { color: theme.text }]}>
-                    选择你的探寻之路
-                  </Text>
-                  <TouchableOpacity
-                    style={[
-                      styles.menuCard,
-                      {
-                        borderColor: theme.border,
-                        backgroundColor: theme.surface,
-                      },
-                    ]}
-                    onPress={() => setCurrentView("ASTRO")}
-                  >
-                    <Text style={[styles.cardTitle, { color: theme.accent }]}>
-                      西洋占星 (Astrology)
-                    </Text>
-                    <Text style={[styles.cardDesc, { color: theme.secondary }]}>
-                      绘制出生星盘，探寻行星指引
-                    </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={[
-                      styles.menuCard,
-                      {
-                        borderColor: theme.border,
-                        backgroundColor: theme.surface,
-                      },
-                    ]}
-                    onLongPress={handleIchingStart}
-                    delayLongPress={1000}
-                  >
-                    <Text style={[styles.cardTitle, { color: theme.accent }]}>
-                      周易起卦 (I Ching)
-                    </Text>
-                    <Text style={[styles.cardDesc, { color: theme.secondary }]}>
-                      六十四卦象，参悟变易之道
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        color: theme.accent,
-                        marginTop: 10,
-                        opacity: 0.6,
-                      }}
-                    >
-                      · 长按触发仪式 ·
-                    </Text>
-                  </TouchableOpacity>
-                </>
-              )}
-
-              {currentView === "ASTRO" && !isCalculating && (
+          {/* Main Content */}
+          <View style={styles.cardContainer}>
+            {currentView === "HOME" && (
+              <>
+                {/* Almanac Card */}
                 <View
                   style={[
-                    styles.glassCard,
-                    {
-                      borderColor: theme.border,
-                      backgroundColor: theme.surface,
-                    },
-                  ]}
-                >
-                  <Text style={[styles.sectionTitle, { color: theme.accent }]}>
-                    输入星盘信息
-                  </Text>
-                  <AstrologyForm onSubmit={handleAstroSubmit} theme={theme} />
-                </View>
-              )}
-
-              {/* Result Views share loading state logic differently? No, simpler to just show loader if calculating */}
-
-              {(currentView === "RESULT_AS" || currentView === "ASTRO") &&
-                isCalculating && (
-                  <View
-                    style={[
-                      styles.glassCard,
-                      {
-                        borderColor: theme.border,
-                        backgroundColor: theme.surface,
-                      },
-                    ]}
-                  >
-                    <AstroLoader />
-                  </View>
-                )}
-
-              {currentView === "RESULT_AS" && !isCalculating && (
-                <View
-                  style={[
-                    styles.glassCard,
+                    styles.almanacCard,
                     {
                       borderColor: theme.border,
                       backgroundColor: theme.surface,
@@ -1034,107 +845,295 @@ export default function App() {
                   ]}
                 >
                   <Text
-                    style={[
-                      styles.resultTitle,
-                      { color: theme.accent, fontFamily: theme.fontTitle },
-                    ]}
+                    style={[styles.almanacTitle, { color: theme.accent }]}
                   >
-                    {resultData.title}
+                    今日黄历
                   </Text>
-                  <Text style={[styles.resultMeta, { color: theme.secondary }]}>
-                    {resultData.extra}
+                  <Text style={[styles.dateInfoText, { color: theme.text }]}>
+                    {todayAlmanac.solar}
                   </Text>
-                  <Text style={[styles.resultMeta, { color: theme.text }]}>
-                    {resultData.bigThree}
+                  <Text
+                    style={[styles.lunarInfoText, { color: theme.secondary }]}
+                  >
+                    {todayAlmanac.lunar} [{todayAlmanac.shen}日]
                   </Text>
-                  {!resultData.hasPreciseTime && (
+
+                  {todayAlmanac.tianShen && (
                     <Text
-                      style={[styles.resultMeta, { color: theme.secondary }]}
+                      style={[
+                        styles.almanacMetaText,
+                        { color: theme.accent, fontWeight: "bold" },
+                      ]}
                     >
-                      未提供出生时间，月亮与上升以默认值显示
+                      {todayAlmanac.tianShen} [{todayAlmanac.tianShenType || "吉"}]
                     </Text>
                   )}
+
+                  <Text
+                    style={[styles.almanacMetaText, { color: theme.text }]}
+                  >
+                    星宿: {todayAlmanac.xiu} · 冲煞: {todayAlmanac.chongSha}
+                  </Text>
+
                   <View style={styles.divider} />
+
+                  <View style={styles.yiJiRow}>
+                    <View style={styles.yiJiCol}>
+                      <Text
+                        style={[
+                          styles.yiJiLabel,
+                          { backgroundColor: "#4caf50" },
+                        ]}
+                      >
+                        宜
+                      </Text>
+                      <Text style={[styles.yiJiText, { color: theme.text }]}>
+                        {balancePhrases(todayAlmanac.yi)}
+                      </Text>
+                    </View>
+                    <View
+                      style={[
+                        styles.verticalDivider,
+                        { backgroundColor: theme.border },
+                      ]}
+                    />
+                    <View style={styles.yiJiCol}>
+                      <Text
+                        style={[
+                          styles.yiJiLabel,
+                          { backgroundColor: "#f44336" },
+                        ]}
+                      >
+                        忌
+                      </Text>
+                      <Text style={[styles.yiJiText, { color: theme.text }]}>
+                        {balancePhrases(todayAlmanac.ji)}
+                      </Text>
+                    </View>
+                  </View>
+
+                  {todayAlmanac.jiShi && (
+                    <>
+                      <View
+                        style={[styles.divider, { marginVertical: 15 }]}
+                      />
+                      <Text
+                        style={[
+                          styles.almanacTitle,
+                          {
+                            color: theme.secondary,
+                            fontSize: 11,
+                            marginBottom: 8,
+                          },
+                        ]}
+                      >
+                        吉时参考
+                      </Text>
+                      <Text style={[styles.jiShiText, { color: theme.text }]}>
+                        {todayAlmanac.jiShi}
+                      </Text>
+                    </>
+                  )}
+                </View>
+
+                <Text style={[styles.introText, { color: theme.text }]}>
+                  选择你的探寻之路
+                </Text>
+                <TouchableOpacity
+                  style={[
+                    styles.menuCard,
+                    {
+                      borderColor: theme.border,
+                      backgroundColor: theme.surface,
+                    },
+                  ]}
+                  onPress={() => setCurrentView("ASTRO")}
+                >
+                  <Text style={[styles.cardTitle, { color: theme.accent }]}>
+                    西洋占星 (Astrology)
+                  </Text>
+                  <Text style={[styles.cardDesc, { color: theme.secondary }]}>
+                    绘制出生星盘，探寻行星指引
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.menuCard,
+                    {
+                      borderColor: theme.border,
+                      backgroundColor: theme.surface,
+                    },
+                  ]}
+                  onLongPress={handleIchingStart}
+                  delayLongPress={1000}
+                >
+                  <Text style={[styles.cardTitle, { color: theme.accent }]}>
+                    周易起卦 (I Ching)
+                  </Text>
+                  <Text style={[styles.cardDesc, { color: theme.secondary }]}>
+                    六十四卦象，参悟变易之道
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 10,
+                      color: theme.accent,
+                      marginTop: 10,
+                      opacity: 0.6,
+                    }}
+                  >
+                    · 长按触发仪式 ·
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+
+            {currentView === "ASTRO" && !isCalculating && (
+              <View
+                style={[
+                  styles.glassCard,
+                  {
+                    borderColor: theme.border,
+                    backgroundColor: theme.surface,
+                  },
+                ]}
+              >
+                <Text style={[styles.sectionTitle, { color: theme.accent }]}>
+                  输入星盘信息
+                </Text>
+                <AstrologyForm onSubmit={handleAstroSubmit} theme={theme} />
+              </View>
+            )}
+
+            {/* Result Views share loading state logic differently? No, simpler to just show loader if calculating */}
+
+            {(currentView === "RESULT_AS" || currentView === "ASTRO") &&
+              isCalculating && (
+                <View
+                  style={[
+                    styles.glassCard,
+                    {
+                      borderColor: theme.border,
+                      backgroundColor: theme.surface,
+                    },
+                  ]}
+                >
+                  <AstroLoader />
+                </View>
+              )}
+
+            {currentView === "RESULT_AS" && !isCalculating && (
+              <View
+                style={[
+                  styles.glassCard,
+                  {
+                    borderColor: theme.border,
+                    backgroundColor: theme.surface,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.resultTitle,
+                    { color: theme.accent, fontFamily: theme.fontTitle },
+                  ]}
+                >
+                  {resultData.title}
+                </Text>
+                <Text style={[styles.resultMeta, { color: theme.secondary }]}>
+                  {resultData.extra}
+                </Text>
+                <Text style={[styles.resultMeta, { color: theme.text }]}>
+                  {resultData.bigThree}
+                </Text>
+                {!resultData.hasPreciseTime && (
+                  <Text
+                    style={[styles.resultMeta, { color: theme.secondary }]}
+                  >
+                    未提供出生时间，月亮与上升以默认值显示
+                  </Text>
+                )}
+                <View style={styles.divider} />
+                <Text style={[styles.messageText, { color: theme.text }]}>
+                  {resultData.message}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setCurrentView("ASTRO")}
+                  style={styles.backButton}
+                >
+                  <Text style={{ color: theme.accent }}>重新绘制</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {currentView === "RESULT_IC" && isCalculating && (
+              <View
+                style={[
+                  styles.glassCard,
+                  {
+                    borderColor: theme.border,
+                    backgroundColor: theme.surface,
+                  },
+                ]}
+              >
+                <YinYangLoader />
+              </View>
+            )}
+
+            {currentView === "RESULT_IC" && !isCalculating && (
+              <View
+                style={[
+                  styles.glassCard,
+                  {
+                    borderColor: theme.border,
+                    backgroundColor: theme.surface,
+                  },
+                ]}
+              >
+                <HexagramVisual
+                  name={resultData.title}
+                  lines={resultData.lines}
+                  rawLines={resultData.rawLines}
+                  changeName={
+                    resultData.changeTitle
+                      ? resultData.changeTitle.split(" · ")[1]
+                      : null
+                  }
+                  changeLines={resultData.changeLines}
+                  theme={theme}
+                />
+                <View style={styles.divider} />
+                <View style={styles.messageBlock}>
+                  <Text style={[styles.resultLabel, { color: theme.accent }]}>
+                    {originalHexName}：
+                  </Text>
                   <Text style={[styles.messageText, { color: theme.text }]}>
                     {resultData.message}
                   </Text>
-                  <TouchableOpacity
-                    onPress={() => setCurrentView("ASTRO")}
-                    style={styles.backButton}
-                  >
-                    <Text style={{ color: theme.accent }}>重新绘制</Text>
-                  </TouchableOpacity>
                 </View>
-              )}
-
-              {currentView === "RESULT_IC" && isCalculating && (
-                <View
-                  style={[
-                    styles.glassCard,
-                    {
-                      borderColor: theme.border,
-                      backgroundColor: theme.surface,
-                    },
-                  ]}
-                >
-                  <YinYangLoader />
-                </View>
-              )}
-
-              {currentView === "RESULT_IC" && !isCalculating && (
-                <View
-                  style={[
-                    styles.glassCard,
-                    {
-                      borderColor: theme.border,
-                      backgroundColor: theme.surface,
-                    },
-                  ]}
-                >
-                  <HexagramVisual
-                    name={resultData.title}
-                    lines={resultData.lines}
-                    rawLines={resultData.rawLines}
-                    changeName={
-                      resultData.changeTitle
-                        ? resultData.changeTitle.split(" · ")[1]
-                        : null
-                    }
-                    changeLines={resultData.changeLines}
-                    theme={theme}
-                  />
-                  <View style={styles.divider} />
-                  <View style={styles.messageBlock}>
-                    <Text style={[styles.resultLabel, { color: theme.accent }]}>
-                      {originalHexName}：
+                {resultData.changeTitle && (
+                  <View style={[styles.messageBlock, { marginTop: 15 }]}>
+                    <Text style={[styles.resultLabel, { color: "#ff5722" }]}>
+                      {changeHexName}：
                     </Text>
                     <Text style={[styles.messageText, { color: theme.text }]}>
-                      {resultData.message}
+                      {resultData.changeMessage}
                     </Text>
                   </View>
-                  {resultData.changeTitle && (
-                    <View style={[styles.messageBlock, { marginTop: 15 }]}>
-                      <Text style={[styles.resultLabel, { color: "#ff5722" }]}>
-                        {changeHexName}：
-                      </Text>
-                      <Text style={[styles.messageText, { color: theme.text }]}>
-                        {resultData.changeMessage}
-                      </Text>
-                    </View>
-                  )}
-                  <TouchableOpacity
-                    onPress={() => setCurrentView("HOME")}
-                    style={styles.backButton}
-                  >
-                    <Text style={{ color: theme.accent }}>返回首页</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-          </ScrollView>
-        </View>
-      </LinearGradient>
-    );
+                )}
+                <TouchableOpacity
+                  onPress={() => setCurrentView("HOME")}
+                  style={styles.backButton}
+                >
+                  <Text style={{ color: theme.accent }}>返回首页</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </View>
+    </LinearGradient>
+  );
 }
 
 const styles = StyleSheet.create({
