@@ -183,18 +183,18 @@ const YinYangLoader = () => {
     );
 };
 
-const HexagramVisual = ({ name, lines, rawLines, changeName, changeLines }) => {
+const HexagramVisual = ({ name, lines, rawLines, changeName, changeLines, theme }) => {
     // lines: array of 0/1. Bottom up logic.
     // rawLines: array of {val, type, moving}.
     const displayLines = [...(rawLines || [])].reverse();
     const displayChangeLines = [...(changeLines || [])].reverse();
 
     return (
-        <View style={{ alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ alignItems: 'center', width: '100%' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                 {/* Original Hexagram */}
                 <View style={styles.hexagramContainer}>
-                    <View style={styles.hexagramBox}>
+                    <View style={[styles.hexagramBox, { borderColor: theme.border }]}>
                         {displayLines.map((l, idx) => (
                             <View key={idx} style={styles.lineRow}>
                                 {l.type === 'yang' ? (
@@ -207,46 +207,49 @@ const HexagramVisual = ({ name, lines, rawLines, changeName, changeLines }) => {
                                     </View>
                                 )}
                                 {l.moving && (
-                                    <Text style={{ position: 'absolute', right: -25, color: '#ff5722', fontWeight: 'bold' }}>
-                                        {l.val === 9 ? '◯' : '✕'}
-                                    </Text>
+                                    <View style={styles.movingMarker}>
+                                        <Text style={styles.movingMarkerText}>{l.val === 9 ? '○' : '✕'}</Text>
+                                    </View>
                                 )}
                             </View>
                         ))}
                     </View>
-                    <Text style={styles.hexName}>{name.split(' · ')[1] || name}</Text>
+                    <Text style={[styles.hexName, { color: theme.accent }]}>{name.split(' · ')[1] || name}</Text>
                 </View>
 
                 {/* Arrow if there's a change */}
                 {changeName && (
-                    <Text style={{ fontSize: 30, color: '#ffcc33', marginHorizontal: 15 }}>→</Text>
+                    <Text style={{ fontSize: 24, color: theme.accent, marginHorizontal: 12, opacity: 0.4 }}>→</Text>
                 )}
 
                 {/* Change Hexagram */}
                 {changeName && (
                     <View style={styles.hexagramContainer}>
-                        <View style={styles.hexagramBox}>
+                        <View style={[styles.hexagramBox, { borderColor: 'rgba(255,255,255,0.05)', backgroundColor: 'transparent' }]}>
                             {displayChangeLines.map((val, idx) => (
                                 <View key={idx} style={styles.lineRow}>
                                     {val === 1 ? (
-                                        <View style={styles.yangLine} />
+                                        <View style={[styles.yangLine, { backgroundColor: 'rgba(255,204,51,0.5)', shadowOpacity: 0 }]} />
                                     ) : (
                                         <View style={styles.yinLineContainer}>
-                                            <View style={styles.yinLinePart} />
+                                            <View style={[styles.yinLinePart, { backgroundColor: 'rgba(255,204,51,0.5)', shadowOpacity: 0 }]} />
                                             <View style={styles.yinLineGap} />
-                                            <View style={styles.yinLinePart} />
+                                            <View style={[styles.yinLinePart, { backgroundColor: 'rgba(255,204,51,0.5)', shadowOpacity: 0 }]} />
                                         </View>
                                     )}
                                 </View>
                             ))}
                         </View>
-                        <Text style={styles.hexName}>{changeName}</Text>
+                        <Text style={[styles.hexName, { color: theme.secondary, fontSize: 18 }]}>{changeName}</Text>
                     </View>
                 )}
             </View>
-            <Text style={[styles.resultMeta, { marginTop: 10 }]}>
-                {changeName ? "动爻已发，物极必反" : "六爻安静，持守本心"}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: '#ff5722', marginRight: 6 }} />
+                <Text style={[styles.resultMeta, { marginVertical: 0 }]}>
+                    {changeName ? "变爻已现，事物正向对极转化" : "六爻贞静，守持本象之意"}
+                </Text>
+            </View>
         </View>
     );
 };
@@ -352,10 +355,13 @@ const AstrologyForm = ({ onSubmit, theme }) => {
             />
 
             <TouchableOpacity
-                style={[styles.calculateButton, { backgroundColor: theme.accent }]}
+                style={[styles.calculateButton, { backgroundColor: theme.accent, shadowColor: theme.accent }]}
                 onPress={() => onSubmit({ name, date, time, location })}
             >
-                <Text style={styles.calculateButtonText}>绘制星盘 (CALCULATE)</Text>
+                <View style={{ alignItems: 'center' }}>
+                    <Text style={styles.calculateButtonText}>绘制星盘</Text>
+                    <Text style={{ fontSize: 9, color: '#000', opacity: 0.5, letterSpacing: 1.5, marginTop: 2, fontWeight: 'bold' }}>CHART GENERATOR</Text>
+                </View>
             </TouchableOpacity>
         </View>
     );
@@ -546,11 +552,11 @@ export default function App() {
                                 <TouchableOpacity
                                     style={[styles.menuCard, { borderColor: theme.border, backgroundColor: theme.surface }]}
                                     onLongPress={handleIchingStart}
-                                    delayLongPress={1500}
+                                    delayLongPress={1000}
                                 >
                                     <Text style={[styles.cardTitle, { color: theme.accent }]}>周易起卦 (I Ching)</Text>
                                     <Text style={[styles.cardDesc, { color: theme.secondary }]}>六十四卦象，参悟变易之道</Text>
-                                    <Text style={{ fontSize: 10, color: theme.accent, marginTop: 10, opacity: 0.8 }}>(长按3秒以起卦)</Text>
+                                    <Text style={{ fontSize: 10, color: theme.accent, marginTop: 10, opacity: 0.6 }}>· 长按触发仪式 ·</Text>
                                 </TouchableOpacity>
                             </>
                         )}
@@ -610,6 +616,7 @@ export default function App() {
                                     rawLines={resultData.rawLines}
                                     changeName={resultData.changeTitle ? resultData.changeTitle.split(' · ')[1] : null}
                                     changeLines={resultData.changeLines}
+                                    theme={theme}
                                 />
                                 <View style={styles.divider} />
                                 <Text style={[styles.messageText, { color: theme.text }]}>
@@ -684,14 +691,16 @@ const styles = StyleSheet.create({
     calculateButtonText: { color: '#000', fontWeight: 'bold', letterSpacing: 1 },
 
     // Hexagram
-    hexagramContainer: { alignItems: 'center', marginVertical: 10 },
-    hexagramBox: { padding: 20, borderWidth: 2, borderColor: 'rgba(255,204,51,0.1)', borderRadius: 10 }, // Frame around hexagram
-    lineRow: { marginVertical: 6 },
-    yangLine: { width: 140, height: 16, backgroundColor: '#ffcc33', borderRadius: 2, shadowColor: '#ffcc33', shadowRadius: 5, shadowOpacity: 0.5 },
-    yinLineContainer: { flexDirection: 'row', width: 140, justifyContent: 'space-between' },
-    yinLinePart: { width: 60, height: 16, backgroundColor: '#ffcc33', borderRadius: 2, shadowColor: '#ffcc33', shadowRadius: 5, shadowOpacity: 0.5 },
-    yinLineGap: { width: 20 },
-    hexName: { marginTop: 25, fontSize: 26, color: '#ffcc33', fontFamily: 'NotoSerifSC_700Bold', letterSpacing: 4 },
+    hexagramContainer: { alignItems: 'center', marginVertical: 10, paddingHorizontal: 5 },
+    hexagramBox: { padding: 15, borderWidth: 1, borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.1)' },
+    lineRow: { marginVertical: 4, position: 'relative', alignItems: 'center', justifyContent: 'center' },
+    yangLine: { width: 100, height: 12, backgroundColor: '#ffcc33', borderRadius: 2, shadowColor: '#ffcc33', shadowRadius: 4, shadowOpacity: 0.4 },
+    yinLineContainer: { flexDirection: 'row', width: 100, justifyContent: 'space-between' },
+    yinLinePart: { width: 44, height: 12, backgroundColor: '#ffcc33', borderRadius: 2, shadowColor: '#ffcc33', shadowRadius: 4, shadowOpacity: 0.4 },
+    yinLineGap: { width: 12 },
+    movingMarker: { position: 'absolute', right: -16, top: -2 },
+    movingMarkerText: { color: '#ff5722', fontSize: 16, fontWeight: 'bold' },
+    hexName: { marginTop: 15, fontSize: 18, color: '#ffcc33', fontFamily: 'NotoSerifSC_700Bold', letterSpacing: 2 },
 
     // Results
     resultTitle: { fontSize: 24, textAlign: 'center', marginBottom: 10 },

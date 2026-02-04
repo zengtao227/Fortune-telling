@@ -5,7 +5,7 @@ export const THEMES = {
 
 export const tarotTheme = {
     background: '#0f051d',
-    backgroundGradient: ['#1a0b2e', '#0f051d', '#05020a'],
+    backgroundGradient: ['#1a0b2e', '#120826', '#0f051d', '#080312', '#05020a'],
     surface: 'rgba(30, 20, 50, 0.7)',
     cardGradient: ['rgba(60, 40, 100, 0.4)', 'rgba(30, 20, 50, 0.6)'],
     text: '#e9d5ff',
