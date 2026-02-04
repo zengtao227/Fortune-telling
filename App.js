@@ -49,7 +49,7 @@ const safeSetItem = (key, value) => {
   if (!canUseStorage) return;
   try {
     window.localStorage.setItem(key, value);
-  } catch (e) {}
+  } catch (e) { }
 };
 const saveUserData = async (data) => {
   try {
@@ -521,7 +521,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
           if (data.date) setDate(data.date);
           if (data.time) setTime(data.time);
           if (data.location) setLocation(data.location);
-        } catch (e) {}
+        } catch (e) { }
       }
     }
   }, []);
@@ -687,7 +687,14 @@ export default function App() {
   const [resultData, setResultData] = useState(null);
   const [isCalculating, setIsCalculating] = useState(false); // For animation
 
-  const [todayAlmanac] = useState(calculateAlmanac(new Date()));
+  const [todayAlmanac, setTodayAlmanac] = useState(() => {
+    try {
+      return calculateAlmanac(new Date());
+    } catch (e) {
+      console.error("Initial Almanac Error:", e);
+      return { solar: "公元2025年", lunar: "读取中...", yi: "宜事天成", ji: "诸事谨慎", shen: "吉" };
+    }
+  });
 
   const balancePhrases = (text) => {
     if (!text) return "";
@@ -807,7 +814,7 @@ export default function App() {
               <Text
                 style={[
                   styles.appTitle,
-                  { color: theme.accent, fontFamily: theme.fontTitle },
+                  { color: theme.accent, fontFamily: fontsLoaded ? theme.fontTitle : (Platform.OS === 'web' ? 'serif' : undefined) },
                 ]}
               >
                 MYSTIC TAROT

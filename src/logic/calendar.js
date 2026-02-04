@@ -81,11 +81,11 @@ export const calculateAlmanac = (date = new Date()) => {
 
     return {
         // 基础信息
-        solar: solarStr,
-        lunar: lunarStr,
-        shen: zhiXing,
-        tianShen,
-        tianShenType,
+        solar: solarStr || "",
+        lunar: lunarStr || "",
+        shen: zhiXing || "吉",
+        tianShen: tianShen || "",
+        tianShenType: tianShenType || "",
 
         // 宜忌 (格式化后)
         yi: formatPhrases(yiArray, 15),
@@ -96,22 +96,22 @@ export const calculateAlmanac = (date = new Date()) => {
         jiArray,
 
         // 吉时
-        jiShi: jiShi.join("\n"),
+        jiShi: jiShi.join("\n") || "吉时待查",
 
         // 神煞信息
-        chongSha,
-        jiShen: jiShen.slice(0, 6).join("、") || "无",
-        xiongSha: xiongSha.slice(0, 6).join("、") || "无",
+        chongSha: chongSha || "无",
+        jiShen: (jiShen && jiShen.length > 0) ? jiShen.slice(0, 6).join("、") : "无",
+        xiongSha: (xiongSha && xiongSha.length > 0) ? xiongSha.slice(0, 6).join("、") : "无",
 
         // 星宿
-        xiu: `${xiu}宿`,
-        zheng,
+        xiu: xiu ? `${xiu}宿` : "未知宿",
+        zheng: zheng || "",
 
         // 其他
-        taiShen,
-        pengZu: `${pengZuGan} ${pengZuZhi}`,
+        taiShen: taiShen || "",
+        pengZu: `${pengZuGan || ""} ${pengZuZhi || ""}`,
         jieQi: jieQi || "",
-        jiuXing
+        jiuXing: jiuXing || ""
     };
 };
 
