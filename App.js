@@ -349,6 +349,7 @@ const HexagramVisual = ({
   const nameLabel = ((name || "").split(" · ")[1] || name || "").trim();
   const changeLabel = (changeName || "").trim();
   const hasMoving = (rawLines || []).some((l) => l.moving);
+  const hasChange = !!changeLabel;
 
   return (
     <View style={{ alignItems: "center", width: "100%" }}>
@@ -405,7 +406,7 @@ const HexagramVisual = ({
         </View>
 
         {/* Arrow if there's a change */}
-        {changeName && (
+        {hasChange && (
           <Text
             style={{
               fontSize: 24,
@@ -419,7 +420,7 @@ const HexagramVisual = ({
         )}
 
         {/* Change Hexagram */}
-        {changeName && (
+        {hasChange && (
           <View style={styles.hexagramContainer}>
             <View
               style={[
@@ -437,7 +438,7 @@ const HexagramVisual = ({
                       style={[
                         styles.yangLine,
                         {
-                          backgroundColor: "rgba(255,204,51,0.5)",
+                          backgroundColor: "rgba(255,204,51,0.9)",
                           shadowOpacity: 0,
                         },
                       ]}
@@ -448,7 +449,7 @@ const HexagramVisual = ({
                         style={[
                           styles.yinLinePart,
                           {
-                            backgroundColor: "rgba(255,204,51,0.5)",
+                            backgroundColor: "rgba(255,204,51,0.9)",
                             shadowOpacity: 0,
                           },
                         ]}
@@ -458,7 +459,7 @@ const HexagramVisual = ({
                         style={[
                           styles.yinLinePart,
                           {
-                            backgroundColor: "rgba(255,204,51,0.5)",
+                            backgroundColor: "rgba(255,204,51,0.9)",
                             shadowOpacity: 0,
                           },
                         ]}
@@ -496,7 +497,7 @@ const HexagramVisual = ({
           }}
         />
         <Text style={[styles.resultMeta, { marginVertical: 0 }]}>
-          {changeName ? "变爻已现，事物正向对极转化" : "六爻贞静，守持本象之意"}
+          {hasChange ? "变爻已现，事物正向对极转化" : "六爻贞静，守持本象之意"}
         </Text>
       </View>
     </View>
@@ -1095,7 +1096,7 @@ export default function App() {
                   lines={resultData.lines}
                   rawLines={resultData.rawLines}
                   changeName={
-                    resultData.changeTitle
+                    resultData.changeTitle && resultData.changeTitle.includes(" · ")
                       ? resultData.changeTitle.split(" · ")[1]
                       : null
                   }
@@ -1108,7 +1109,7 @@ export default function App() {
                     {originalHexName}：
                   </Text>
                   <Text style={[styles.messageText, { color: theme.text }]}>
-                    {resultData.message}
+                    {(resultData.message || "").trim()}
                   </Text>
                 </View>
                 {resultData.changeTitle && (
@@ -1117,7 +1118,7 @@ export default function App() {
                       {changeHexName}：
                     </Text>
                     <Text style={[styles.messageText, { color: theme.text }]}>
-                      {resultData.changeMessage}
+                      {(resultData.changeMessage || "").trim()}
                     </Text>
                   </View>
                 )}
