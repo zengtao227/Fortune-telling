@@ -12,7 +12,9 @@
             "backgroundColor": "#0c0c1e"
         },
         "assetBundlePatterns": [
-            "**/*"
+            "assets/**/*",
+            "node_modules/@expo-google-fonts/cinzel/700Bold/*",
+            "node_modules/@expo-google-fonts/noto-serif-sc/400Regular/*"
         ],
         "ios": {
             "supportsTablet": true,
