@@ -1,0 +1,79 @@
+› Installing 1 other package using npm
+› Using 57 instead of ~56.0.18 for expo because this version was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+
+added 48 packages, removed 10 packages, changed 24 packages, and audited 1249 packages in 14s
+
+225 packages are looking for funding
+  run `npm fund` for details
+
+11 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Running npx expo install under the updated expo version
+> expo install --fix
+The following packages should be updated for best compatibility with the installed expo version:
+  @expo/metro-runtime@56.0.18 - expected version: ~57.0.8
+  expo-font@56.0.7 - expected version: ~57.0.1
+  expo-haptics@56.0.3 - expected version: ~57.0.1
+  expo-linear-gradient@56.0.4 - expected version: ~57.0.1
+  expo-splash-screen@56.0.14 - expected version: ~57.0.5
+  expo-status-bar@56.0.4 - expected version: ~57.0.1
+  jest-expo@56.0.5 - expected version: ~57.0.3
+  react-native@0.85.3 - expected version: 0.86.2
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 8 SDK 57.0.0 compatible native modules using npm
+> npm install
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: fortune-telling@1.0.1
+npm error Found: jest-expo@56.0.5
+npm error node_modules/jest-expo
+npm error   jest-expo@"~57.0.3" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error jest-expo@"~57.0.3" from the root project
+npm error
+npm error Conflicting peer dependency: @react-native/jest-preset@0.86.2
+npm error node_modules/@react-native/jest-preset
+npm error   peer @react-native/jest-preset@"^0.86.2" from jest-expo@57.0.3
+npm error   node_modules/jest-expo
+npm error     jest-expo@"~57.0.3" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error /Users/zengtao/.npm/_logs/2026-08-04T12_53_25_349Z-eresolve-report.txt
+npm error A complete log of this run can be found in: /Users/zengtao/.npm/_logs/2026-08-04T12_53_25_349Z-debug-0.log
+Error: npm install exited with non-zero code: 1
+Error: npm install exited with non-zero code: 1
+    at ChildProcess.completionListener (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/spawn-async/build/spawnAsync.js:113:23)
+    at Object.onceWrapper (node:events:634:26)
+    at ChildProcess.emit (node:events:519:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+    ...
+    at spawnAsync (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/spawn-async/build/spawnAsync.js:9:23)
+    at NpmPackageManager.runAsync (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/package-manager/build/node/BasePackageManager.js:41:42)
+    at /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/package-manager/build/node/NpmPackageManager.js:36:20
+    at /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/package-manager/build/utils/spawn.js:14:34
+Error: npx expo install --fix exited with non-zero code: 1
+Error: npx expo install --fix exited with non-zero code: 1
+    at ChildProcess.completionListener (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/spawn-async/build/spawnAsync.js:113:23)
+    at Object.onceWrapper (node:events:634:26)
+    at ChildProcess.emit (node:events:519:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+    ...
+    at spawnAsync (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/@expo/spawn-async/build/spawnAsync.js:9:23)
+    at installExpoPackageAsync (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/node_modules/@expo/cli/build/src/install/installExpoPackage.js:114:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async installPackagesAsync (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/node_modules/@expo/cli/build/src/install/installAsync.js:176:16)
