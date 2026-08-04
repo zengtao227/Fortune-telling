@@ -1,0 +1,51 @@
+› Installing 1 other package using npm
+› Using 54 instead of ~53.0.27 for expo because this version was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+
+added 71 packages, removed 30 packages, changed 21 packages, and audited 1326 packages in 18s
+
+236 packages are looking for funding
+  run `npm fund` for details
+
+12 vulnerabilities (11 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Running npx expo install under the updated expo version
+> expo install --fix
+The following packages should be updated for best compatibility with the installed expo version:
+  @expo/metro-runtime@5.0.5 - expected version: ~6.1.2
+  @react-native-async-storage/async-storage@2.1.2 - expected version: 2.2.0
+  expo-font@13.3.2 - expected version: ~14.0.12
+  expo-haptics@14.1.4 - expected version: ~15.0.8
+  expo-linear-gradient@14.1.5 - expected version: ~15.0.8
+  expo-status-bar@2.2.3 - expected version: ~3.0.9
+  jest-expo@53.0.14 - expected version: ~54.0.17
+  react@19.0.0 - expected version: 19.1.0
+  react-dom@19.0.0 - expected version: 19.1.0
+  react-native@0.79.6 - expected version: 0.81.5
+  react-native-svg@15.11.2 - expected version: 15.12.1
+  react-native-web@0.20.0 - expected version: ^0.21.0
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 12 SDK 54.0.0 compatible native modules using npm
+> npm install
+
+added 14 packages, removed 69 packages, changed 51 packages, and audited 1271 packages in 10s
+
+229 packages are looking for funding
+  run `npm fund` for details
+
+12 vulnerabilities (11 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
