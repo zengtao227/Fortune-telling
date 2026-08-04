@@ -118,7 +118,7 @@ export const getBigThree = (params) => {
     const { date, time, location } = params;
 
     // 解析日期时间
-    let birthDate = new Date(date);
+    const birthDate = new Date(date);
     if (time && time.includes(':')) {
         const [hours, minutes] = time.split(':').map(Number);
         birthDate.setHours(hours, minutes, 0, 0);
@@ -126,6 +126,7 @@ export const getBigThree = (params) => {
 
     // 解析位置 (默认上海)
     let lat = 31.23, lng = 121.47;
+    let locationMatched = false;
     if (location) {
         // 简单的城市经纬度映射
         const CITY_COORDS = {
@@ -150,6 +151,7 @@ export const getBigThree = (params) => {
         for (const [city, coords] of Object.entries(CITY_COORDS)) {
             if (location.includes(city)) {
                 [lat, lng] = coords;
+                locationMatched = true;
                 break;
             }
         }
@@ -164,7 +166,9 @@ export const getBigThree = (params) => {
         sun: sunSign,
         moon: moonSign,
         ascendant: ascendant,
-        hasPreciseTime: !!time
+        hasPreciseTime: !!time,
+        // 上升星座依赖出生地经纬度；地点未填或未匹配到城市库时，ascendant 是用默认坐标(上海)估算的
+        locationEstimated: !!time && !locationMatched
     };
 };
 
@@ -191,32 +195,4 @@ const getFallbackSunSign = (date) => {
     }
 
     return ZODIAC_SIGNS[9]; // 默认摩羯座
-};
-
-/**
- * 获取行星运行信息（可选扩展）
- */
-export const getPlanetaryInfo = (date) => {
-    try {
-        const astroDate = Astronomy.MakeTime(date);
-
-        const planets = ['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
-        const info = {};
-
-        planets.forEach(planet => {
-            try {
-                const pos = Astronomy.EclipticGeoMoon(astroDate); // 简化示例
-                info[planet] = {
-                    longitude: pos.lon,
-                    zodiac: getZodiacFromLongitude(pos.lon)
-                };
-            } catch (e) {
-                info[planet] = null;
-            }
-        });
-
-        return info;
-    } catch (e) {
-        return null;
-    }
 };

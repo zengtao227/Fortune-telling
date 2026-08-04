@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Font from "expo-font";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,7 +22,6 @@ import { calculateAlmanac, performDivination } from "./src/logic/calendar";
 import { getHexagramLines, findHexagramByLines } from "./src/logic/iching";
 import { THEMES, getTheme } from "./src/theme";
 import {
-  resolveAlmanacMessage,
   resolveIChingMessage,
   resolveAstrologyMessage,
 } from "./src/utils/contentResolver";
@@ -29,45 +29,31 @@ import {
 const { width, height } = Dimensions.get("window");
 const isWeb = Platform.OS === "web";
 
-// --- Assets ---
-const YIN_YANG_IMG =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/1200px-Yin_yang.svg.png"; // Placeholder for Tai Chi
-
 // --- Persistence Helper ---
-const STORAGE_KEY = "mystic_user_data";
-const canUseStorage =
+// Web uses localStorage (sync); native uses AsyncStorage (async) — unified behind one async API.
+const canUseWebStorage =
   isWeb && typeof window !== "undefined" && !!window.localStorage;
-const safeGetItem = (key) => {
-  if (!canUseStorage) return null;
-  try {
-    return window.localStorage.getItem(key);
-  } catch (e) {
-    return null;
-  }
-};
-const safeSetItem = (key, value) => {
-  if (!canUseStorage) return;
-  try {
-    window.localStorage.setItem(key, value);
-  } catch (e) { }
-};
-const saveUserData = async (data) => {
-  try {
-    if (isWeb) safeSetItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (e) {
-    console.warn(e);
-  }
-};
-const loadUserData = async () => {
-  try {
-    if (isWeb) {
-      const item = safeGetItem(STORAGE_KEY);
-      return item ? JSON.parse(item) : null;
+
+const storage = {
+  async getItem(key) {
+    try {
+      if (isWeb) return canUseWebStorage ? window.localStorage.getItem(key) : null;
+      return await AsyncStorage.getItem(key);
+    } catch (e) {
+      return null;
     }
-  } catch (e) {
-    return null;
-  }
-  return null;
+  },
+  async setItem(key, value) {
+    try {
+      if (isWeb) {
+        if (canUseWebStorage) window.localStorage.setItem(key, value);
+        return;
+      }
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      // Persistence is best-effort (quota/permissions); safe to ignore.
+    }
+  },
 };
 
 // --- Web CSS Injection ---
@@ -513,28 +499,30 @@ const AstrologyForm = ({ onSubmit, theme }) => {
 
   // Load Effect
   useEffect(() => {
-    if (isWeb) {
-      const saved = safeGetItem("astro_saved_data");
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          if (data.name) setName(data.name);
-          if (data.date) setDate(data.date);
-          if (data.time) setTime(data.time);
-          if (data.location) setLocation(data.location);
-        } catch (e) { }
+    let cancelled = false;
+    storage.getItem("astro_saved_data").then((saved) => {
+      if (!saved || cancelled) return;
+      try {
+        const data = JSON.parse(saved);
+        if (data.name) setName(data.name);
+        if (data.date) setDate(data.date);
+        if (data.time) setTime(data.time);
+        if (data.location) setLocation(data.location);
+      } catch (e) {
+        // Corrupt saved draft; ignore and keep empty fields.
       }
-    }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Save Effect
   useEffect(() => {
-    if (isWeb) {
-      safeSetItem(
-        "astro_saved_data",
-        JSON.stringify({ name, date, time, location }),
-      );
-    }
+    storage.setItem(
+      "astro_saved_data",
+      JSON.stringify({ name, date, time, location }),
+    );
   }, [name, date, time, location]);
 
   const handleDateChange = (text) => {
@@ -583,7 +571,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
         value={name}
         onChangeText={setName}
         placeholder="Mystic Seeker"
-        placeholderTextColor="rgba(255,255,255,0.3)"
+        placeholderTextColor={theme.placeholder}
       />
 
       <Text style={[styles.label, { color: theme.secondary }]}>
@@ -604,7 +592,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
         keyboardType="numeric"
         maxLength={10}
         placeholder="2000-01-01"
-        placeholderTextColor="rgba(255,255,255,0.3)"
+        placeholderTextColor={theme.placeholder}
       />
 
       <Text style={[styles.label, { color: theme.secondary }]}>
@@ -625,7 +613,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
         keyboardType="numeric"
         maxLength={5}
         placeholder="13:30"
-        placeholderTextColor="rgba(255,255,255,0.3)"
+        placeholderTextColor={theme.placeholder}
       />
 
       <Text style={[styles.label, { color: theme.secondary }]}>
@@ -644,7 +632,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
         value={location}
         onChangeText={setLocation}
         placeholder="Shanghai, China"
-        placeholderTextColor="rgba(255,255,255,0.3)"
+        placeholderTextColor={theme.placeholder}
       />
 
       <TouchableOpacity
@@ -655,11 +643,13 @@ const AstrologyForm = ({ onSubmit, theme }) => {
         onPress={() => onSubmit({ name, date, time, location })}
       >
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.calculateButtonText}>绘制星盘</Text>
+          <Text style={[styles.calculateButtonText, { color: theme.onAccent }]}>
+            绘制星盘
+          </Text>
           <Text
             style={{
               fontSize: 9,
-              color: "#000",
+              color: theme.onAccent,
               opacity: 0.5,
               letterSpacing: 1.5,
               marginTop: 2,
@@ -674,7 +664,34 @@ const AstrologyForm = ({ onSubmit, theme }) => {
   );
 };
 
-export default function App() {
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("App crashed:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={styles.errorScreen}>
+          <Text style={styles.errorTitle}>星轨暂时紊乱</Text>
+          <Text style={styles.errorHint}>请重新打开应用</Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function AppInner() {
   const [fontsLoaded] = Font.useFonts({
     Cinzel_700Bold: require("@expo-google-fonts/cinzel/700Bold/Cinzel_700Bold.ttf"),
     NotoSerifSC_400Regular: require("@expo-google-fonts/noto-serif-sc/400Regular/NotoSerifSC_400Regular.ttf"),
@@ -753,6 +770,7 @@ export default function App() {
         title: `出生星宫 · ${bigThree.sun?.name || "未知"}`,
         bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
         hasPreciseTime: bigThree.hasPreciseTime,
+        locationEstimated: bigThree.locationEstimated,
         message: msg || "星轨流转，你的命运此刻正在上升。",
         extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`,
       });
@@ -804,7 +822,7 @@ export default function App() {
       colors={theme.backgroundGradient}
       style={styles.container}
     >
-      <StatusBar style="light" />
+      <StatusBar style={theme.statusBarStyle} />
       <StarBackground />
 
       <View style={styles.safeArea}>
@@ -819,16 +837,36 @@ export default function App() {
             >
               MYSTIC TAROT
             </Text>
-            {currentView !== "HOME" && (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TouchableOpacity
-                onPress={() => setCurrentView("HOME")}
-                style={styles.homeBtn}
+                onPress={() =>
+                  setThemeMode(
+                    themeMode === THEMES.TAROT ? THEMES.ZEN : THEMES.TAROT,
+                  )
+                }
+                style={[
+                  styles.homeBtn,
+                  {
+                    borderColor: theme.border,
+                    marginRight: currentView !== "HOME" ? 8 : 0,
+                  },
+                ]}
               >
                 <Text style={{ color: theme.secondary, fontSize: 12 }}>
-                  HOME
+                  {themeMode === THEMES.TAROT ? "☀ 素色" : "☾ 神秘"}
                 </Text>
               </TouchableOpacity>
-            )}
+              {currentView !== "HOME" && (
+                <TouchableOpacity
+                  onPress={() => setCurrentView("HOME")}
+                  style={[styles.homeBtn, { borderColor: theme.border }]}
+                >
+                  <Text style={{ color: theme.secondary, fontSize: 12 }}>
+                    HOME
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
 
           {/* Main Content */}
@@ -876,14 +914,14 @@ export default function App() {
                     星宿: {todayAlmanac.xiu} · 冲煞: {todayAlmanac.chongSha}
                   </Text>
 
-                  <View style={styles.divider} />
+                  <View style={[styles.divider, { backgroundColor: theme.border }]} />
 
                   <View style={styles.yiJiRow}>
                     <View style={styles.yiJiCol}>
                       <Text
                         style={[
                           styles.yiJiLabel,
-                          { backgroundColor: "#4caf50" },
+                          { backgroundColor: "#2e7d32" },
                         ]}
                       >
                         宜
@@ -902,7 +940,7 @@ export default function App() {
                       <Text
                         style={[
                           styles.yiJiLabel,
-                          { backgroundColor: "#f44336" },
+                          { backgroundColor: "#b71c1c" },
                         ]}
                       >
                         忌
@@ -916,7 +954,10 @@ export default function App() {
                   {todayAlmanac.jiShi && (
                     <>
                       <View
-                        style={[styles.divider, { marginVertical: 15 }]}
+                        style={[
+                          styles.divider,
+                          { marginVertical: 15, backgroundColor: theme.border },
+                        ]}
                       />
                       <Text
                         style={[
@@ -1054,7 +1095,14 @@ export default function App() {
                     未提供出生时间，月亮与上升以默认值显示
                   </Text>
                 )}
-                <View style={styles.divider} />
+                {resultData.locationEstimated && (
+                  <Text
+                    style={[styles.resultMeta, { color: theme.secondary }]}
+                  >
+                    未识别出生地点，上升星座已用默认坐标(上海)估算
+                  </Text>
+                )}
+                <View style={[styles.divider, { backgroundColor: theme.border }]} />
                 <Text style={[styles.messageText, { color: theme.text }]}>
                   {resultData.message}
                 </Text>
@@ -1103,7 +1151,7 @@ export default function App() {
                   changeLines={resultData.changeLines}
                   theme={theme}
                 />
-                <View style={styles.divider} />
+                <View style={[styles.divider, { backgroundColor: theme.border }]} />
                 <View style={styles.messageBlock}>
                   <Text style={[styles.resultLabel, { color: theme.accent }]}>
                     {originalHexName}：
@@ -1137,8 +1185,30 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppInner />
+    </ErrorBoundary>
+  );
+}
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  errorScreen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#0f051d",
+    padding: 30,
+  },
+  errorTitle: {
+    color: "#e9d5ff",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  errorHint: { color: "#b388ff", fontSize: 14 },
   safeArea: { flex: 1, alignItems: "center" }, // Centers the content horizontal
   scroll: {
     flexGrow: 1,
@@ -1233,7 +1303,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10,
   },
-  calculateButtonText: { color: "#000", fontWeight: "bold", letterSpacing: 1 },
+  calculateButtonText: { fontWeight: "bold", letterSpacing: 1 },
 
   // Hexagram
   hexagramContainer: {

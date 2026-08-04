@@ -12,6 +12,9 @@ export const tarotTheme = {
   accent: "#ffcc33",
   secondary: "#b388ff",
   border: "rgba(255, 204, 51, 0.3)",
+  placeholder: "rgba(255, 255, 255, 0.3)",
+  onAccent: "#000",
+  statusBarStyle: "light",
   fontTitle: "Cinzel_700Bold",
   fontBody: "NotoSerifSC_400Regular",
   shadow: {
@@ -31,7 +34,10 @@ export const zenTheme = {
   text: "#2d3436",
   accent: "#4a4a4a",
   secondary: "#8e8e8e",
-  border: "rgba(0, 0, 0, 0.05)",
+  border: "rgba(0, 0, 0, 0.12)",
+  placeholder: "rgba(0, 0, 0, 0.35)",
+  onAccent: "#fff",
+  statusBarStyle: "dark",
   fontTitle: "NotoSerifSC_400Regular",
   fontBody: "NotoSerifSC_400Regular",
   shadow: {
