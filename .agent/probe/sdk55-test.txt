@@ -1,0 +1,198 @@
+
+> fortune-telling@1.0.1 test
+> jest
+
+FAIL src/logic/__tests__/iching.test.js
+  ● Test suite failed to run
+
+    SyntaxError: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/react-native/jest/mock.js: Unexpected token, expected "," (38:14)
+
+      36 | function deref(ref: $Flow$ModuleRef<mixed>): string {
+      37 |   // $FlowFixMe[incompatible-type]
+    > 38 |   return (ref as string).substring(2);
+         |               ^
+      39 | }
+      40 |
+
+      at constructor (node_modules/@babel/parser/lib/index.js:369:19)
+      at FlowParserMixin.raise (node_modules/@babel/parser/lib/index.js:6620:19)
+      at FlowParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6640:16)
+      at FlowParserMixin.expect (node_modules/@babel/parser/lib/index.js:6920:12)
+      at FlowParserMixin.parseParenAndDistinguishExpression (node_modules/@babel/parser/lib/index.js:11687:14)
+      at FlowParserMixin.parseParenAndDistinguishExpression (node_modules/@babel/parser/lib/index.js:3607:18)
+      at FlowParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11357:23)
+      at FlowParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:4780:20)
+      at FlowParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11102:23)
+      at FlowParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11087:21)
+      at FlowParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11067:23)
+      at FlowParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10920:61)
+      at FlowParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10925:23)
+      at FlowParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10902:23)
+      at FlowParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10852:21)
+      at FlowParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:3565:18)
+      at FlowParserMixin.parseExpressionBase (node_modules/@babel/parser/lib/index.js:10805:23)
+      at node_modules/@babel/parser/lib/index.js:10801:39
+      at FlowParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12450:16)
+      at FlowParserMixin.parseExpression (node_modules/@babel/parser/lib/index.js:10801:17)
+      at FlowParserMixin.parseReturnStatement (node_modules/@babel/parser/lib/index.js:13171:28)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12827:21)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12796:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:2934:24)
+      at FlowParserMixin.parseStatementListItem (node_modules/@babel/parser/lib/index.js:12776:17)
+      at FlowParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13345:61)
+      at FlowParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13338:10)
+      at FlowParserMixin.parseBlock (node_modules/@babel/parser/lib/index.js:13326:10)
+      at FlowParserMixin.parseFunctionBody (node_modules/@babel/parser/lib/index.js:12129:24)
+      at FlowParserMixin.parseFunctionBody (node_modules/@babel/parser/lib/index.js:2911:11)
+      at FlowParserMixin.parseFunctionBodyAndFinish (node_modules/@babel/parser/lib/index.js:12115:10)
+      at FlowParserMixin.parseFunctionBodyAndFinish (node_modules/@babel/parser/lib/index.js:2919:18)
+      at node_modules/@babel/parser/lib/index.js:13474:12
+      at FlowParserMixin.withSmartMixTopicForbiddingContext (node_modules/@babel/parser/lib/index.js:12432:14)
+      at FlowParserMixin.parseFunction (node_modules/@babel/parser/lib/index.js:13473:10)
+      at FlowParserMixin.parseFunctionStatement (node_modules/@babel/parser/lib/index.js:13154:17)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12820:21)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12796:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:2934:24)
+      at FlowParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12773:17)
+      at FlowParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13345:36)
+      at FlowParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13338:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12651:10)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12641:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:3701:28)
+      at FlowParserMixin.parse (node_modules/@babel/parser/lib/index.js:14517:25)
+      at parse (node_modules/@babel/parser/lib/index.js:14551:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:51:37)
+
+FAIL src/logic/__tests__/astrology.test.js
+  ● Test suite failed to run
+
+    SyntaxError: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/react-native/jest/mock.js: Unexpected token, expected "," (38:14)
+
+      36 | function deref(ref: $Flow$ModuleRef<mixed>): string {
+      37 |   // $FlowFixMe[incompatible-type]
+    > 38 |   return (ref as string).substring(2);
+         |               ^
+      39 | }
+      40 |
+
+      at constructor (node_modules/@babel/parser/lib/index.js:369:19)
+      at FlowParserMixin.raise (node_modules/@babel/parser/lib/index.js:6620:19)
+      at FlowParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6640:16)
+      at FlowParserMixin.expect (node_modules/@babel/parser/lib/index.js:6920:12)
+      at FlowParserMixin.parseParenAndDistinguishExpression (node_modules/@babel/parser/lib/index.js:11687:14)
+      at FlowParserMixin.parseParenAndDistinguishExpression (node_modules/@babel/parser/lib/index.js:3607:18)
+      at FlowParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11357:23)
+      at FlowParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:4780:20)
+      at FlowParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11102:23)
+      at FlowParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11087:21)
+      at FlowParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11067:23)
+      at FlowParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10920:61)
+      at FlowParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10925:23)
+      at FlowParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10902:23)
+      at FlowParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10852:21)
+      at FlowParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:3565:18)
+      at FlowParserMixin.parseExpressionBase (node_modules/@babel/parser/lib/index.js:10805:23)
+      at node_modules/@babel/parser/lib/index.js:10801:39
+      at FlowParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12450:16)
+      at FlowParserMixin.parseExpression (node_modules/@babel/parser/lib/index.js:10801:17)
+      at FlowParserMixin.parseReturnStatement (node_modules/@babel/parser/lib/index.js:13171:28)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12827:21)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12796:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:2934:24)
+      at FlowParserMixin.parseStatementListItem (node_modules/@babel/parser/lib/index.js:12776:17)
+      at FlowParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13345:61)
+      at FlowParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13338:10)
+      at FlowParserMixin.parseBlock (node_modules/@babel/parser/lib/index.js:13326:10)
+      at FlowParserMixin.parseFunctionBody (node_modules/@babel/parser/lib/index.js:12129:24)
+      at FlowParserMixin.parseFunctionBody (node_modules/@babel/parser/lib/index.js:2911:11)
+      at FlowParserMixin.parseFunctionBodyAndFinish (node_modules/@babel/parser/lib/index.js:12115:10)
+      at FlowParserMixin.parseFunctionBodyAndFinish (node_modules/@babel/parser/lib/index.js:2919:18)
+      at node_modules/@babel/parser/lib/index.js:13474:12
+      at FlowParserMixin.withSmartMixTopicForbiddingContext (node_modules/@babel/parser/lib/index.js:12432:14)
+      at FlowParserMixin.parseFunction (node_modules/@babel/parser/lib/index.js:13473:10)
+      at FlowParserMixin.parseFunctionStatement (node_modules/@babel/parser/lib/index.js:13154:17)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12820:21)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12796:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:2934:24)
+      at FlowParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12773:17)
+      at FlowParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13345:36)
+      at FlowParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13338:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12651:10)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12641:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:3701:28)
+      at FlowParserMixin.parse (node_modules/@babel/parser/lib/index.js:14517:25)
+      at parse (node_modules/@babel/parser/lib/index.js:14551:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:51:37)
+
+FAIL src/logic/__tests__/calendar.test.js
+  ● Test suite failed to run
+
+    SyntaxError: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/react-native/jest/mock.js: Unexpected token, expected "," (38:14)
+
+      36 | function deref(ref: $Flow$ModuleRef<mixed>): string {
+      37 |   // $FlowFixMe[incompatible-type]
+    > 38 |   return (ref as string).substring(2);
+         |               ^
+      39 | }
+      40 |
+
+      at constructor (node_modules/@babel/parser/lib/index.js:369:19)
+      at FlowParserMixin.raise (node_modules/@babel/parser/lib/index.js:6620:19)
+      at FlowParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6640:16)
+      at FlowParserMixin.expect (node_modules/@babel/parser/lib/index.js:6920:12)
+      at FlowParserMixin.parseParenAndDistinguishExpression (node_modules/@babel/parser/lib/index.js:11687:14)
+      at FlowParserMixin.parseParenAndDistinguishExpression (node_modules/@babel/parser/lib/index.js:3607:18)
+      at FlowParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11357:23)
+      at FlowParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:4780:20)
+      at FlowParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11102:23)
+      at FlowParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11087:21)
+      at FlowParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11067:23)
+      at FlowParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10920:61)
+      at FlowParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10925:23)
+      at FlowParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10902:23)
+      at FlowParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10852:21)
+      at FlowParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:3565:18)
+      at FlowParserMixin.parseExpressionBase (node_modules/@babel/parser/lib/index.js:10805:23)
+      at node_modules/@babel/parser/lib/index.js:10801:39
+      at FlowParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12450:16)
+      at FlowParserMixin.parseExpression (node_modules/@babel/parser/lib/index.js:10801:17)
+      at FlowParserMixin.parseReturnStatement (node_modules/@babel/parser/lib/index.js:13171:28)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12827:21)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12796:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:2934:24)
+      at FlowParserMixin.parseStatementListItem (node_modules/@babel/parser/lib/index.js:12776:17)
+      at FlowParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13345:61)
+      at FlowParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13338:10)
+      at FlowParserMixin.parseBlock (node_modules/@babel/parser/lib/index.js:13326:10)
+      at FlowParserMixin.parseFunctionBody (node_modules/@babel/parser/lib/index.js:12129:24)
+      at FlowParserMixin.parseFunctionBody (node_modules/@babel/parser/lib/index.js:2911:11)
+      at FlowParserMixin.parseFunctionBodyAndFinish (node_modules/@babel/parser/lib/index.js:12115:10)
+      at FlowParserMixin.parseFunctionBodyAndFinish (node_modules/@babel/parser/lib/index.js:2919:18)
+      at node_modules/@babel/parser/lib/index.js:13474:12
+      at FlowParserMixin.withSmartMixTopicForbiddingContext (node_modules/@babel/parser/lib/index.js:12432:14)
+      at FlowParserMixin.parseFunction (node_modules/@babel/parser/lib/index.js:13473:10)
+      at FlowParserMixin.parseFunctionStatement (node_modules/@babel/parser/lib/index.js:13154:17)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12820:21)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12796:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:2934:24)
+      at FlowParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12773:17)
+      at FlowParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13345:36)
+      at FlowParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13338:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12651:10)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12641:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:3701:28)
+      at FlowParserMixin.parse (node_modules/@babel/parser/lib/index.js:14517:25)
+      at parse (node_modules/@babel/parser/lib/index.js:14551:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:51:37)
+
+Test Suites: 3 failed, 3 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.929 s
+Ran all test suites.

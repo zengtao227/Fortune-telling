@@ -1,0 +1,49 @@
+› Installing 1 other package using npm
+› Using 55 instead of ~54.0.36 for expo because this version was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+
+added 40 packages, removed 49 packages, changed 22 packages, and audited 1257 packages in 17s
+
+226 packages are looking for funding
+  run `npm fund` for details
+
+10 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Running npx expo install under the updated expo version
+> expo install --fix
+The following packages should be updated for best compatibility with the installed expo version:
+  @expo/metro-runtime@6.1.2 - expected version: ~55.0.12
+  expo-font@14.0.12 - expected version: ~55.0.8
+  expo-haptics@15.0.8 - expected version: ~55.0.16
+  expo-linear-gradient@15.0.8 - expected version: ~55.0.16
+  expo-status-bar@3.0.9 - expected version: ~55.0.6
+  jest-expo@54.0.17 - expected version: ~55.0.20
+  react@19.1.0 - expected version: 19.2.0
+  react-dom@19.1.0 - expected version: 19.2.0
+  react-native@0.81.5 - expected version: 0.83.10
+  react-native-svg@15.12.1 - expected version: 15.15.3
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 10 SDK 55.0.0 compatible native modules using npm
+> npm install
+
+added 8 packages, removed 35 packages, changed 30 packages, and audited 1230 packages in 7s
+
+226 packages are looking for funding
+  run `npm fund` for details
+
+10 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
