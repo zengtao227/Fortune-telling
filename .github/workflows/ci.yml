@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main, agent/fdroid-readiness]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.1
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK 36
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Install dependencies and generate lock
+        run: npm install
+      - name: Upload generated dependency lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-lock
+          path: package-lock.json
+      - name: Expo diagnostics
+        run: npx expo-doctor
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm test
+      - name: Generate Android project
+        env:
+          EXPO_NO_TELEMETRY: "1"
+        run: npx expo prebuild --clean --platform android --no-install
+      - name: Build unsigned release APK
+        working-directory: android
+        run: ./gradlew --no-daemon assembleRelease
+      - name: Reject Internet permission
+        run: |
+          APK=android/app/build/outputs/apk/release/app-release.apk
+          AAPT2=$(find "$ANDROID_HOME/build-tools" -name aapt2 | sort -V | tail -1)
+          "$AAPT2" dump permissions "$APK" | tee permissions.txt
+          ! grep -q android.permission.INTERNET permissions.txt
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: fdroid-unsigned-apk
+          path: android/app/build/outputs/apk/release/app-release.apk

@@ -1,70 +1,41 @@
 {
   "name": "fortune-telling",
-  "version": "1.0.1",
+  "version": "1.1.0",
+  "private": true,
+  "license": "MIT",
   "main": "node_modules/expo/AppEntry.js",
+  "packageManager": "npm@10.9.2",
+  "engines": { "node": ">=22.13 <23" },
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "build:web": "npx expo export --platform web",
-    "build": "npm run build:web",
-    "vercel-build": "npm run build:web",
-    "build:macos": "npm run build:web && electron-builder --mac",
-    "build:android": "npx eas-cli build --platform android --profile preview",
-    "lint": "eslint .",
-    "test": "jest"
+    "lint": "eslint . --max-warnings=0",
+    "test": "jest --runInBand",
+    "prebuild:android": "expo prebuild --clean --platform android",
+    "build:android": "npm run prebuild:android && cd android && ./gradlew assembleRelease",
+    "verify": "npm run lint && npm test",
+    "fdroid": "bash scripts/build-fdroid.sh"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
+  "jest": { "preset": "jest-expo" },
   "dependencies": {
-    "@expo-google-fonts/cinzel": "^0.4.2",
-    "@expo-google-fonts/noto-serif-sc": "^0.4.2",
-    "@expo/metro-runtime": "~3.1.3",
-    "@react-native-async-storage/async-storage": "1.21.0",
-    "astronomy-engine": "^2.1.19",
-    "eslint": "^8.0.0",
-    "eslint-config-universe": "^15.0.3",
-    "expo": "~50.0.0",
-    "expo-font": "~11.10.3",
-    "expo-haptics": "~12.8.1",
-    "expo-linear-gradient": "~12.7.2",
-    "expo-status-bar": "~1.11.1",
-    "jest": "^29.3.1",
-    "jest-expo": "~50.0.4",
-    "lucide-react-native": "^0.344.0",
-    "lunar-javascript": "^1.6.12",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native": "0.73.6",
-    "react-native-svg": "14.1.0",
-    "react-native-web": "~0.19.6",
-    "react-test-renderer": "18.2.0"
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "astronomy-engine": "2.1.19",
+    "expo": "~57.0.0",
+    "expo-haptics": "~57.0.1",
+    "expo-linear-gradient": "~57.0.0",
+    "expo-status-bar": "~57.0.0",
+    "lunar-javascript": "1.7.7",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.2",
+    "react-native-web": "^0.21.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "electron": "^40.1.0",
-    "electron-builder": "^26.7.0",
-    "wait-on": "^9.0.3"
-  },
-  "private": true,
-  "build": {
-    "appId": "com.zengtao.fortunetelling",
-    "productName": "Fortune Telling",
-    "directories": {
-      "output": "release/macos"
-    },
-    "files": [
-      "dist/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "mac": {
-      "category": "public.app-category.lifestyle",
-      "target": [
-        "dmg"
-      ]
-    }
+    "@babel/core": "^7.29.0",
+    "eslint": "8.57.1",
+    "jest": "29.7.0",
+    "jest-expo": "~57.0.0"
   }
 }
