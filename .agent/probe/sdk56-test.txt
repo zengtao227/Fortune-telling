@@ -1,0 +1,13 @@
+
+> fortune-telling@1.0.1 test
+> jest
+
+PASS src/logic/__tests__/astrology.test.js
+PASS src/logic/__tests__/calendar.test.js
+PASS src/logic/__tests__/iching.test.js
+
+Test Suites: 3 passed, 3 total
+Tests:       34 passed, 34 total
+Snapshots:   0 total
+Time:        1.93 s
+Ran all test suites.

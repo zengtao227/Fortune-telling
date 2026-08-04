@@ -1,44 +1,48 @@
 {
-    "expo": {
-        "name": "FortuneTelling",
-        "slug": "fortune-telling",
-        "version": "1.0.1",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "userInterfaceStyle": "automatic",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#0c0c1e"
-        },
-        "assetBundlePatterns": [
-            "assets/**/*",
-            "node_modules/@expo-google-fonts/cinzel/700Bold/*",
-            "node_modules/@expo-google-fonts/noto-serif-sc/400Regular/*"
-        ],
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "com.zengtao.fortunetelling",
-            "buildNumber": "2"
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#0c0c1e"
-            },
-            "package": "com.zengtao.fortunetelling",
-            "versionCode": 2
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        },
-        "plugins": [
-            "expo-font"
-        ],
-        "extra": {
-            "eas": {
-                "projectId": "04087a65-70df-481f-bb88-9ae443b283cc"
-            }
+  "expo": {
+    "name": "FortuneTelling",
+    "slug": "fortune-telling",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": [
+      "assets/**/*",
+      "node_modules/@expo-google-fonts/cinzel/700Bold/*",
+      "node_modules/@expo-google-fonts/noto-serif-sc/400Regular/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.zengtao.fortunetelling",
+      "buildNumber": "2"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0c0c1e"
+      },
+      "package": "com.zengtao.fortunetelling",
+      "versionCode": 2
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#0c0c1e"
         }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "04087a65-70df-481f-bb88-9ae443b283cc"
+      }
     }
+  }
 }

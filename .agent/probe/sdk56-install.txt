@@ -1,0 +1,50 @@
+› Installing 1 other package using npm
+› Using 56 instead of ~55.0.28 for expo because this version was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+
+added 90 packages, removed 31 packages, changed 17 packages, and audited 1284 packages in 28s
+
+225 packages are looking for funding
+  run `npm fund` for details
+
+11 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Running npx expo install under the updated expo version
+> expo install --fix
+The following packages should be updated for best compatibility with the installed expo version:
+  @expo/metro-runtime@55.0.12 - expected version: ~56.0.18
+  expo-font@55.0.8 - expected version: ~56.0.7
+  expo-haptics@55.0.16 - expected version: ~56.0.3
+  expo-linear-gradient@55.0.16 - expected version: ~56.0.4
+  expo-status-bar@55.0.6 - expected version: ~56.0.4
+  jest-expo@55.0.20 - expected version: ~56.0.5
+  react@19.2.0 - expected version: 19.2.3
+  react-dom@19.2.0 - expected version: 19.2.3
+  react-native@0.83.10 - expected version: 0.85.3
+  react-native-svg@15.15.3 - expected version: 15.15.4
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 10 SDK 56.0.0 compatible native modules using npm
+> npm install
+
+added 4 packages, removed 58 packages, changed 43 packages, and audited 1230 packages in 7s
+
+225 packages are looking for funding
+  run `npm fund` for details
+
+10 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Added config plugin: expo-status-bar
