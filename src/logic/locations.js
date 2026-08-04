@@ -1,0 +1,26 @@
+export const LOCATIONS = [
+  { id: "beijing", names: ["北京", "Beijing"], latitude: 39.9042, longitude: 116.4074, timeZone: "Asia/Shanghai" },
+  { id: "shanghai", names: ["上海", "Shanghai"], latitude: 31.2304, longitude: 121.4737, timeZone: "Asia/Shanghai" },
+  { id: "guangzhou", names: ["广州", "Guangzhou"], latitude: 23.1291, longitude: 113.2644, timeZone: "Asia/Shanghai" },
+  { id: "shenzhen", names: ["深圳", "Shenzhen"], latitude: 22.5431, longitude: 114.0579, timeZone: "Asia/Shanghai" },
+  { id: "chengdu", names: ["成都", "Chengdu"], latitude: 30.5728, longitude: 104.0668, timeZone: "Asia/Shanghai" },
+  { id: "hong-kong", names: ["香港", "Hong Kong"], latitude: 22.3193, longitude: 114.1694, timeZone: "Asia/Hong_Kong" },
+  { id: "taipei", names: ["台北", "Taipei"], latitude: 25.033, longitude: 121.5654, timeZone: "Asia/Taipei" },
+  { id: "tokyo", names: ["东京", "Tokyo"], latitude: 35.6762, longitude: 139.6503, timeZone: "Asia/Tokyo" },
+  { id: "singapore", names: ["新加坡", "Singapore"], latitude: 1.3521, longitude: 103.8198, timeZone: "Asia/Singapore" },
+  { id: "zurich", names: ["苏黎世", "Zurich", "Zürich"], latitude: 47.3769, longitude: 8.5417, timeZone: "Europe/Zurich" },
+  { id: "basel", names: ["巴塞尔", "Basel"], latitude: 47.5596, longitude: 7.5886, timeZone: "Europe/Zurich" },
+  { id: "london", names: ["伦敦", "London"], latitude: 51.5074, longitude: -0.1278, timeZone: "Europe/London" },
+  { id: "paris", names: ["巴黎", "Paris"], latitude: 48.8566, longitude: 2.3522, timeZone: "Europe/Paris" },
+  { id: "new-york", names: ["纽约", "New York"], latitude: 40.7128, longitude: -74.006, timeZone: "America/New_York" },
+  { id: "los-angeles", names: ["洛杉矶", "Los Angeles"], latitude: 34.0522, longitude: -118.2437, timeZone: "America/Los_Angeles" },
+  { id: "sydney", names: ["悉尼", "Sydney"], latitude: -33.8688, longitude: 151.2093, timeZone: "Australia/Sydney" },
+];
+
+const normalize = (value) => (value || "").trim().toLocaleLowerCase();
+
+export const resolveLocation = (value) => {
+  const needle = normalize(value);
+  if (!needle) return null;
+  return LOCATIONS.find((item) => item.names.some((name) => needle.includes(normalize(name)))) || null;
+};
