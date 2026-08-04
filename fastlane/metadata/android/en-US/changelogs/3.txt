@@ -1,0 +1,1 @@
+Prepared the app for F-Droid: upgraded Expo, disabled remote updates and Internet permission, added strict date/time validation and birthplace timezone handling, made local saving opt-in with a clear-data action, improved accessibility and almanac refresh, and added licensing, build scripts, store metadata, and CI.
