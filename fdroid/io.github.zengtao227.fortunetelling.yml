@@ -1,0 +1,39 @@
+Categories:
+  - Science & Education
+  - Time
+License: MIT
+AuthorName: zengtao227
+SourceCode: https://github.com/zengtao227/Fortune-telling
+IssueTracker: https://github.com/zengtao227/Fortune-telling/issues
+
+AutoName: Mystic Compass
+Summary: Offline almanac, I Ching casting, and simplified astrology
+Description: |-
+  A fully offline traditional-culture entertainment app with a Chinese
+  almanac, six-line I Ching casting, and simplified Sun/Moon/Rising
+  calculations. It contains no ads, analytics, accounts, cloud APIs, or
+  Internet permission. Birth data is stored only after explicit opt-in.
+
+RepoType: git
+Repo: https://github.com/zengtao227/Fortune-telling.git
+
+Builds:
+  - versionName: 1.1.0
+    versionCode: 3
+    commit: v1.1.0
+    sudo:
+      - apt-get update
+      - apt-get install -y nodejs npm openjdk-17-jdk
+    init:
+      - export EXPO_NO_TELEMETRY=1
+    build:
+      - npm install
+      - npm run verify
+      - npx expo prebuild --clean --platform android --no-install
+      - cd android && ./gradlew --no-daemon assembleRelease
+    output: android/app/build/outputs/apk/release/app-release.apk
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.1.0
+CurrentVersionCode: 3
