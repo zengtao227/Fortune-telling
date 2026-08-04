@@ -84,8 +84,9 @@ export const localDateTimeToUtc = ({ year, month, day, hour, minute }, timeZone)
     const candidates = [...new Set(rawCandidates)].filter(verify).sort((a, b) => a - b);
 
     if (candidates.length === 0) {
-        // 跳空：用切换前偏移量反推出的瞬间，天然落在切换幅度之后的第一个有效时刻，
-        // 不需要假设固定跳过1小时——切换幅度本身可能不是1小时。
+        // 跳空：按切换幅度把输入的墙上时间整体顺延(用切换前偏移量反推)，
+        // 不假设固定1小时——这是确定性规则，不是数学意义上"最近"的有效时刻
+        // (例如缺口是02:00-03:00时，02:30 会被顺延到03:30，而非更近的03:00)。
         return { type: 'gap', utc: new Date(target - offsetBefore) };
     }
     if (candidates.length === 1) {

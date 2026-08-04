@@ -1119,7 +1119,7 @@ function AppInner() {
                   <Text
                     style={[styles.resultMeta, { color: theme.secondary }]}
                   >
-                    该时刻在当地时区因夏令时切换而不存在，已顺延至最近的有效时刻估算
+                    该时刻在当地时区因夏令时切换而不存在，已按切换幅度顺延估算
                   </Text>
                 )}
                 {resultData.timeAmbiguous && (
