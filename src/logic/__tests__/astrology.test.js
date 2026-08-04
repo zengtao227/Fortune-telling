@@ -1,6 +1,6 @@
 import * as Astronomy from "astronomy-engine";
 
-import { getBigThree, getSunSign } from "../astrology";
+import { getBigThree, getSunSign, localDateTimeToUtc } from "../astrology";
 
 const ZODIAC_ORDER = [
   "白羊座",
@@ -63,5 +63,58 @@ describe("getBigThree 地点 fallback 标记", () => {
     const result = getBigThree({ date: "2000-06-15", location: "Atlantis" });
     expect(result.ascendant).toBeNull();
     expect(result.locationEstimated).toBe(false);
+  });
+
+  test("地点未识别时仍返回完整的日月升三合，而不是报错", () => {
+    const result = getBigThree({
+      date: "2000-06-15",
+      time: "12:00",
+      location: "Atlantis",
+    });
+    expect(result.sun).not.toBeNull();
+    expect(result.moon).not.toBeNull();
+    expect(result.ascendant).not.toBeNull();
+    expect(result.timeEstimated).toBe(false);
+  });
+});
+
+describe("localDateTimeToUtc 时区精确换算", () => {
+  test("无夏令时时区(Asia/Shanghai)按固定 UTC+8 换算", () => {
+    const result = localDateTimeToUtc(
+      { year: 2000, month: 6, day: 15, hour: 12, minute: 0 },
+      "Asia/Shanghai",
+    );
+    expect(result.toISOString()).toBe("2000-06-15T04:00:00.000Z");
+  });
+
+  test("落在美东夏令时切换缺口(2024-03-10 02:30 本地时间不存在)会抛出异常", () => {
+    expect(() =>
+      localDateTimeToUtc(
+        { year: 2024, month: 3, day: 10, hour: 2, minute: 30 },
+        "America/New_York",
+      ),
+    ).toThrow();
+  });
+});
+
+describe("getBigThree 夏令时跳空场景的宽容处理", () => {
+  test("出生时刻落在春季跳空缺口时不报错，顺延1小时并标记 timeEstimated", () => {
+    const result = getBigThree({
+      date: "2024-03-10",
+      time: "02:30",
+      location: "New York",
+    });
+    expect(result.timeEstimated).toBe(true);
+    expect(result.locationEstimated).toBe(false);
+    expect(result.ascendant).not.toBeNull();
+  });
+
+  test("正常时刻(无夏令时缺口)不标记 timeEstimated", () => {
+    const result = getBigThree({
+      date: "2024-03-10",
+      time: "01:30",
+      location: "New York",
+    });
+    expect(result.timeEstimated).toBe(false);
   });
 });

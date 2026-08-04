@@ -5,6 +5,9 @@
 
 import * as Astronomy from 'astronomy-engine';
 
+import { parseDateParts, parseTimeParts } from './inputValidation';
+import { resolveLocation } from './locations';
+
 // 十二星座配置
 const ZODIAC_SIGNS = [
     { name: '白羊座', en: 'Aries', element: '火', ruler: '火星' },
@@ -27,10 +30,67 @@ const ZODIAC_SIGNS = [
  * @returns {Object} 星座信息
  */
 const getZodiacFromLongitude = (longitude) => {
-    // 确保经度在 0-360 范围内
     const normalizedLng = ((longitude % 360) + 360) % 360;
     const index = Math.floor(normalizedLng / 30);
     return ZODIAC_SIGNS[index];
+};
+
+const zonedParts = (date, timeZone) => {
+    const parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hourCycle: 'h23',
+    }).formatToParts(date);
+    return Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, Number(part.value)]));
+};
+
+/**
+ * 将某个 IANA 时区下的墙上时间精确换算为 UTC，含历史夏令时规则。
+ * 若该本地时刻落在"春季跳空"缺口(该时区当天不存在该时刻)，会抛出异常，
+ * 由调用方 resolveBirthUtc 顺延处理，这里保持"不存在就报错"的精确语义。
+ */
+export const localDateTimeToUtc = ({ year, month, day, hour, minute }, timeZone) => {
+    const target = Date.UTC(year, month - 1, day, hour, minute, 0);
+    let guess = target;
+    for (let i = 0; i < 4; i += 1) {
+        const shown = zonedParts(new Date(guess), timeZone);
+        const shownAsUtc = Date.UTC(shown.year, shown.month - 1, shown.day, shown.hour, shown.minute, shown.second);
+        const correction = target - shownAsUtc;
+        if (correction === 0) break;
+        guess += correction;
+    }
+    const result = new Date(guess);
+    const verify = zonedParts(result, timeZone);
+    if (
+        verify.year !== year || verify.month !== month || verify.day !== day ||
+        verify.hour !== hour || verify.minute !== minute
+    ) {
+        throw new Error('该出生时间在所选时区不存在（可能处于夏令时切换）');
+    }
+    return result;
+};
+
+/**
+ * 出生时刻若落在春季跳空缺口，顺延1小时取最近的有效本地时刻，
+ * 并标记 timeEstimated，而不是让用户看到报错——地点/时间识别失败时
+ * 始终给出一个尽力估算的结果，而非拒绝。
+ */
+const resolveBirthUtc = (dateParts, timeParts, timeZone) => {
+    try {
+        return { utc: localDateTimeToUtc({ ...dateParts, ...timeParts }, timeZone), timeEstimated: false };
+    } catch (e) {
+        const nudgedTotalMinutes = timeParts.hour * 60 + timeParts.minute + 60;
+        const nudgedTimeParts = {
+            hour: Math.floor(nudgedTotalMinutes / 60) % 24,
+            minute: nudgedTotalMinutes % 60,
+        };
+        return { utc: localDateTimeToUtc({ ...dateParts, ...nudgedTimeParts }, timeZone), timeEstimated: true };
+    }
 };
 
 /**
@@ -42,11 +102,9 @@ export const getSunSign = (birthDate) => {
     try {
         const astroDate = Astronomy.MakeTime(birthDate);
         const sunPos = Astronomy.SunPosition(astroDate);
-        const longitude = sunPos.elon;
-        return getZodiacFromLongitude(longitude);
+        return getZodiacFromLongitude(sunPos.elon);
     } catch (e) {
         console.warn('Sun sign calculation error:', e);
-        // 回退到简单日期判断
         return getFallbackSunSign(birthDate);
     }
 };
@@ -60,8 +118,7 @@ export const getMoonSign = (birthDate) => {
     try {
         const astroDate = Astronomy.MakeTime(birthDate);
         const moonPos = Astronomy.EclipticGeoMoon(astroDate);
-        const longitude = moonPos.lon;
-        return getZodiacFromLongitude(longitude);
+        return getZodiacFromLongitude(moonPos.lon);
     } catch (e) {
         console.warn('Moon sign calculation error:', e);
         return null;
@@ -79,21 +136,14 @@ export const getMoonSign = (birthDate) => {
 export const getAscendant = (birthDate, latitude = 31.23, longitude = 121.47) => {
     try {
         const astroDate = Astronomy.MakeTime(birthDate);
-
-        // 计算恒星时 (Sidereal Time)
         const gast = Astronomy.SiderealTime(astroDate);
+        const lstDegrees = (((gast + longitude / 15) % 24) + 24) % 24 * 15;
 
-        // 本地恒星时 (Local Sidereal Time)
-        const lst = (gast + longitude / 15) % 24;
-        const lstDegrees = lst * 15;
-
-        // 计算黄赤交角 (Obliquity of the Ecliptic) - 约23.44度
-        const obliquity = 23.44;
+        const obliquity = 23.4392911; // IAU 平均黄赤交角常数，精度优于此前硬编码的 23.44
         const obliqRad = obliquity * Math.PI / 180;
         const latRad = latitude * Math.PI / 180;
         const lstRad = lstDegrees * Math.PI / 180;
 
-        // 上升点计算公式
         const ascRad = Math.atan2(
             Math.cos(lstRad),
             -(Math.sin(lstRad) * Math.cos(obliqRad) + Math.tan(latRad) * Math.sin(obliqRad))
@@ -109,66 +159,46 @@ export const getAscendant = (birthDate, latitude = 31.23, longitude = 121.47) =>
     }
 };
 
+// 城市库未识别时的宽容估算基准：上海坐标 + 上海时区
+const FALLBACK_LOCATION = { latitude: 31.23, longitude: 121.47, timeZone: 'Asia/Shanghai' };
+
 /**
  * 获取完整的"大三合"星座信息
  * @param {Object} params - 包含 date, time, location
  * @returns {Object} 日月升三合信息
  */
-export const getBigThree = (params) => {
-    const { date, time, location } = params;
+export const getBigThree = ({ date, time, location }) => {
+    const dateParts = parseDateParts(date);
+    if (!dateParts) throw new Error('出生日期无效');
 
-    // 解析日期时间
-    const birthDate = new Date(date);
-    if (time && time.includes(':')) {
-        const [hours, minutes] = time.split(':').map(Number);
-        birthDate.setHours(hours, minutes, 0, 0);
-    }
-
-    // 解析位置 (默认上海)
-    let lat = 31.23, lng = 121.47;
-    let locationMatched = false;
-    if (location) {
-        // 简单的城市经纬度映射
-        const CITY_COORDS = {
-            '北京': [39.90, 116.40],
-            '上海': [31.23, 121.47],
-            '广州': [23.13, 113.26],
-            '深圳': [22.54, 114.06],
-            '杭州': [30.29, 120.15],
-            '成都': [30.67, 104.07],
-            '南京': [32.06, 118.80],
-            '武汉': [30.58, 114.27],
-            '西安': [34.27, 108.95],
-            '重庆': [29.56, 106.55],
-            'Beijing': [39.90, 116.40],
-            'Shanghai': [31.23, 121.47],
-            'New York': [40.71, -74.01],
-            'London': [51.51, -0.13],
-            'Tokyo': [35.68, 139.69],
-            'Paris': [48.86, 2.35]
+    if (!time) {
+        const noonUtc = new Date(Date.UTC(dateParts.year, dateParts.month - 1, dateParts.day, 12));
+        return {
+            sun: getSunSign(noonUtc),
+            moon: null,
+            ascendant: null,
+            hasPreciseTime: false,
+            locationEstimated: false,
+            timeEstimated: false,
         };
-
-        for (const [city, coords] of Object.entries(CITY_COORDS)) {
-            if (location.includes(city)) {
-                [lat, lng] = coords;
-                locationMatched = true;
-                break;
-            }
-        }
     }
 
-    // 计算三合
-    const sunSign = getSunSign(birthDate);
-    const moonSign = time ? getMoonSign(birthDate) : null;
-    const ascendant = time ? getAscendant(birthDate, lat, lng) : null;
+    const timeParts = parseTimeParts(time);
+    if (!timeParts) throw new Error('出生时间无效');
+
+    const resolved = resolveLocation(location);
+    const locationEstimated = !resolved;
+    const target = resolved || FALLBACK_LOCATION;
+
+    const { utc: birthDateUtc, timeEstimated } = resolveBirthUtc(dateParts, timeParts, target.timeZone);
 
     return {
-        sun: sunSign,
-        moon: moonSign,
-        ascendant: ascendant,
-        hasPreciseTime: !!time,
-        // 上升星座依赖出生地经纬度；地点未填或未匹配到城市库时，ascendant 是用默认坐标(上海)估算的
-        locationEstimated: !!time && !locationMatched
+        sun: getSunSign(birthDateUtc),
+        moon: getMoonSign(birthDateUtc),
+        ascendant: getAscendant(birthDateUtc, target.latitude, target.longitude),
+        hasPreciseTime: true,
+        locationEstimated,
+        timeEstimated,
     };
 };
 

@@ -20,6 +20,7 @@ import {
 import { getBigThree } from "./src/logic/astrology";
 import { calculateAlmanac, performDivination } from "./src/logic/calendar";
 import { getHexagramLines, findHexagramByLines } from "./src/logic/iching";
+import { parseDateParts, parseTimeParts } from "./src/logic/inputValidation";
 import { THEMES, getTheme } from "./src/theme";
 import {
   resolveIChingMessage,
@@ -727,19 +728,31 @@ function AppInner() {
 
   // Astro Logic
   const handleAstroSubmit = (formData) => {
-    if (!formData.date || formData.date.length < 10) {
-      alert("请输入完整的日期 YYYY-MM-DD");
+    if (!parseDateParts(formData.date)) {
+      alert("请输入有效的出生日期 YYYY-MM-DD");
+      return;
+    }
+    if (formData.time && !parseTimeParts(formData.time)) {
+      alert("请输入有效的出生时间 HH:mm");
       return;
     }
 
     setIsCalculating(true);
     // Scientific Calculation
     setTimeout(() => {
-      const bigThree = getBigThree({
-        date: formData.date,
-        time: formData.time,
-        location: formData.location,
-      });
+      let bigThree;
+      try {
+        bigThree = getBigThree({
+          date: formData.date,
+          time: formData.time,
+          location: formData.location,
+        });
+      } catch (e) {
+        console.error("getBigThree error:", e);
+        setIsCalculating(false);
+        alert("星盘计算出错，请检查输入的日期/时间后重试");
+        return;
+      }
 
       // Map Zodiac to nearest planet in our corpus for messages
       const zodiacToPlanetMap = {
@@ -771,6 +784,7 @@ function AppInner() {
         bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
         hasPreciseTime: bigThree.hasPreciseTime,
         locationEstimated: bigThree.locationEstimated,
+        timeEstimated: bigThree.timeEstimated,
         message: msg || "星轨流转，你的命运此刻正在上升。",
         extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`,
       });
@@ -1099,7 +1113,14 @@ function AppInner() {
                   <Text
                     style={[styles.resultMeta, { color: theme.secondary }]}
                   >
-                    未识别出生地点，上升星座已用默认坐标(上海)估算
+                    未识别出生地点，上升星座已用默认坐标与时区(上海)估算
+                  </Text>
+                )}
+                {resultData.timeEstimated && (
+                  <Text
+                    style={[styles.resultMeta, { color: theme.secondary }]}
+                  >
+                    该时刻在当地时区因夏令时切换而不存在，已顺延1小时估算
                   </Text>
                 )}
                 <View style={[styles.divider, { backgroundColor: theme.border }]} />
