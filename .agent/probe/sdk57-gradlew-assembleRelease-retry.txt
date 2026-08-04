@@ -1,0 +1,2020 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:settings-plugin:pluginDescriptors UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:pluginDescriptors UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:processResources UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:shared:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:processResources NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:jar UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:settings-plugin:jar UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileKotlin UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:jar UP-TO-DATE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-module-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-module-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :expo-module-gradle-plugin:processResources UP-TO-DATE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:compileKotlin UP-TO-DATE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:pluginDescriptors UP-TO-DATE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:processResources UP-TO-DATE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-max-sdk-override-plugin:jar UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileKotlin UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:pluginDescriptors UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:processResources UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:jar UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:react-native-gradle-plugin:jar UP-TO-DATE
+> Task :expo-module-gradle-plugin:compileKotlin UP-TO-DATE
+> Task :expo-module-gradle-plugin:compileJava NO-SOURCE
+> Task :expo-module-gradle-plugin:classes UP-TO-DATE
+> Task :expo-module-gradle-plugin:jar UP-TO-DATE
+
+> Configure project :
+[32m[ExpoRootProject][0m Using the following versions:
+  - buildTools:  [32m36.0.0[0m
+  - minSdk:      [32m24[0m
+  - compileSdk:  [32m36[0m
+  - targetSdk:   [32m36[0m
+  - ndk:         [32m27.1.12297006[0m
+  - kotlin:      [32m2.1.20[0m
+  - ksp:         [32m2.1.20-2.0.1[0m
+
+> Configure project :app
+ ℹ️  [33mApplying gradle plugin[0m '[32mexpo-max-sdk-override-plugin[0m'
+  [expo-max-sdk-override-plugin] This plugin will find all permissions declared with `android:maxSdkVersion`. If there exists a declaration with the `android:maxSdkVersion` annotation and another one without, the plugin will remove the annotation from the final merged manifest. In order to see a log with the changes run a clean build of the app.
+
+> Configure project :expo
+
+Using expo modules
+  - [32mexpo-log-box[0m (57.0.2)
+  - [32mexpo-constants[0m (57.0.9)
+  - [32mexpo-modules-core[0m (57.0.9)
+  - [33m[📦][0m [32mexpo-dom-webview[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-asset[0m (57.0.8)
+  - [33m[📦][0m [32mexpo-file-system[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-font[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-haptics[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-keep-awake[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-linear-gradient[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-splash-screen[0m (57.0.5)
+  - [33m[📦][0m [32mexpo-status-bar[0m (57.0.1)
+  - [33m[📦][0m [32mexpo-system-ui[0m (57.0.2)
+
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :expo-modules-core:preBuild UP-TO-DATE
+> Task :expo-log-box:preBuild UP-TO-DATE
+> Task :expo-log-box:preReleaseBuild UP-TO-DATE
+> Task :expo-modules-core:preReleaseBuild UP-TO-DATE
+> Task :expo:generatePackagesList UP-TO-DATE
+> Task :expo:preBuild UP-TO-DATE
+> Task :expo:preReleaseBuild UP-TO-DATE
+> Task :expo-log-box:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :expo-log-box:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo-log-box:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :app:generateAutolinkingNewArchitectureFiles UP-TO-DATE
+> Task :expo:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :expo-log-box:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :expo-log-box:generateReleaseBuildConfig UP-TO-DATE
+> Task :expo:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-log-box:generateReleaseResValues UP-TO-DATE
+> Task :expo:generateReleaseBuildConfig UP-TO-DATE
+> Task :expo-log-box:generateReleaseResources UP-TO-DATE
+> Task :expo:generateReleaseResValues UP-TO-DATE
+> Task :expo:generateReleaseResources UP-TO-DATE
+> Task :app:generateAutolinkingPackageList UP-TO-DATE
+> Task :expo-log-box:packageReleaseResources UP-TO-DATE
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :react-native-svg:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :react-native-async-storage_async-storage:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preReleaseBuild UP-TO-DATE
+> Task :app:generateReactNativeEntryPoint UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :expo:packageReleaseResources UP-TO-DATE
+> Task :expo-log-box:parseReleaseLocalResources UP-TO-DATE
+> Task :expo:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-async-storage_async-storage:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseBuildConfig UP-TO-DATE
+> Task :expo-log-box:generateReleaseRFile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseResValues UP-TO-DATE
+> Task :expo:generateReleaseRFile UP-TO-DATE
+> Task :react-native-svg:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-svg:preBuild UP-TO-DATE
+> Task :react-native-svg:preReleaseBuild UP-TO-DATE
+> Task :expo-log-box:javaPreCompileRelease UP-TO-DATE
+> Task :expo:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseResources UP-TO-DATE
+> Task :expo-log-box:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-svg:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :expo:writeReleaseAarMetadata UP-TO-DATE
+> Task :expo-log-box:extractDeepLinksRelease UP-TO-DATE
+> Task :expo:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:packageReleaseResources UP-TO-DATE
+> Task :react-native-svg:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-svg:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-async-storage_async-storage:parseReleaseLocalResources UP-TO-DATE
+> Task :expo-log-box:processReleaseManifest UP-TO-DATE
+> Task :expo:processReleaseManifest UP-TO-DATE
+> Task :expo-log-box:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-svg:generateReleaseBuildConfig UP-TO-DATE
+> Task :expo:compileReleaseLibraryResources UP-TO-DATE
+> Task :expo-log-box:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-svg:generateReleaseResValues UP-TO-DATE
+> Task :expo:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseRFile UP-TO-DATE
+> Task :expo-log-box:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:javaPreCompileRelease UP-TO-DATE
+> Task :expo:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-svg:generateReleaseResources UP-TO-DATE
+> Task :expo-log-box:compileReleaseShaders NO-SOURCE
+> Task :expo:compileReleaseShaders NO-SOURCE
+> Task :expo-log-box:generateReleaseAssets UP-TO-DATE
+> Task :expo:generateReleaseAssets UP-TO-DATE
+> Task :expo:mergeReleaseAssets UP-TO-DATE
+> Task :expo-log-box:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-svg:packageReleaseResources UP-TO-DATE
+> Task :expo-log-box:extractProguardFiles UP-TO-DATE
+> Task :expo:extractProguardFiles UP-TO-DATE
+> Task :react-native-svg:parseReleaseLocalResources UP-TO-DATE
+> Task :expo-log-box:prepareLintJarForPublish UP-TO-DATE
+> Task :expo:prepareLintJarForPublish UP-TO-DATE
+> Task :expo-log-box:stripReleaseDebugSymbols NO-SOURCE
+> Task :app:buildKotlinToolingMetadata UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo:stripReleaseDebugSymbols NO-SOURCE
+> Task :expo-log-box:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :expo-log-box:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :expo-log-box:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :expo:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :react-native-svg:generateReleaseRFile UP-TO-DATE
+> Task :expo:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :react-native-svg:javaPreCompileRelease UP-TO-DATE
+> Task :expo:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :app:createBundleReleaseJsAndAssets UP-TO-DATE
+
+> Task :expo-constants:createExpoConfig
+The NODE_ENV environment variable is required but was not specified. Ensure the project is bundled with Expo CLI or NODE_ENV is set. Using only .env.local and .env
+
+> Task :expo-constants:preBuild
+> Task :app:preBuild
+> Task :app:preReleaseBuild
+> Task :expo-constants:preReleaseBuild
+> Task :expo-constants:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :expo-constants:mergeReleaseNativeLibs NO-SOURCE
+> Task :expo-constants:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :expo-constants:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-constants:generateReleaseBuildConfig UP-TO-DATE
+> Task :expo-constants:generateReleaseResValues UP-TO-DATE
+> Task :expo-constants:generateReleaseResources UP-TO-DATE
+> Task :expo-constants:packageReleaseResources UP-TO-DATE
+> Task :expo-constants:parseReleaseLocalResources UP-TO-DATE
+> Task :expo-constants:generateReleaseRFile UP-TO-DATE
+> Task :expo-constants:javaPreCompileRelease UP-TO-DATE
+> Task :expo-constants:writeReleaseAarMetadata UP-TO-DATE
+> Task :expo-constants:extractDeepLinksRelease UP-TO-DATE
+> Task :expo-constants:processReleaseManifest UP-TO-DATE
+> Task :expo-constants:compileReleaseLibraryResources UP-TO-DATE
+> Task :expo-constants:prepareReleaseArtProfile UP-TO-DATE
+> Task :expo-constants:mergeReleaseShaders UP-TO-DATE
+> Task :expo-constants:compileReleaseShaders NO-SOURCE
+> Task :expo-constants:generateReleaseAssets UP-TO-DATE
+> Task :expo-constants:mergeReleaseAssets UP-TO-DATE
+> Task :expo-constants:extractProguardFiles UP-TO-DATE
+> Task :expo-constants:prepareLintJarForPublish UP-TO-DATE
+> Task :expo-constants:stripReleaseDebugSymbols NO-SOURCE
+> Task :expo-constants:copyReleaseJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :expo-constants:extractDeepLinksForAarRelease UP-TO-DATE
+> Task :expo-constants:writeReleaseLintModelMetadata UP-TO-DATE
+> Task :expo-constants:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :expo-constants:mergeReleaseResources UP-TO-DATE
+> Task :expo-constants:verifyReleaseResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-svg:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:processReleaseManifest UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseShaders NO-SOURCE
+> Task :react-native-async-storage_async-storage:generateReleaseAssets UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-async-storage_async-storage:processReleaseJavaRes NO-SOURCE
+> Task :react-native-svg:bundleLibRuntimeToDirRelease UP-TO-DATE
+cache executionHistory.bin (/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/android/.gradle/9.3.1/executionHistory/executionHistory.bin) is corrupt. Discarding.
+> Task :react-native-async-storage_async-storage:createFullJarRelease
+> Task :react-native-svg:extractDeepLinksRelease
+> Task :react-native-svg:processReleaseManifest
+> Task :react-native-svg:writeReleaseAarMetadata
+> Task :react-native-svg:prepareReleaseArtProfile
+> Task :react-native-svg:bundleLibRuntimeToJarRelease
+> Task :react-native-svg:bundleLibCompileToJarRelease
+> Task :react-native-async-storage_async-storage:extractProguardFiles
+cache resourceHashesCache.bin (/Users/zengtao/.gradle/caches/9.3.1/fileHashes/resourceHashesCache.bin) is corrupt. Discarding.
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@5ff5d8bd.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/e21e5da92b8453af1b4f30361a0cc519' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:174)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/e21e5da92b8453af1b4f30361a0cc519' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630783 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@128a16b7.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/2f526cf014f68daea834b44865da4307' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/2f526cf014f68daea834b44865da4307' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630858 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@591c21a6.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/5311eebeea7f66f842824b48e011311f' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/5311eebeea7f66f842824b48e011311f' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630883 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@770d26f9.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/889c81be5db5ff374bd460b09a44d33f' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/889c81be5db5ff374bd460b09a44d33f' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630908 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@48a083f8.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/89a7a9656a466e8ff0dc37ad86092561' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/89a7a9656a466e8ff0dc37ad86092561' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630933 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@255f403b.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/0a9eb1173a7f762d86e8830118c65fc1' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/0a9eb1173a7f762d86e8830118c65fc1' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630958 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@4bc4bbfa.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/546169c58dd4f18811ee0b406de9e7b5' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/546169c58dd4f18811ee0b406de9e7b5' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630983 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@325d6c3c.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/82eb9d5f03e9e4f9476d1a4266953f65' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/82eb9d5f03e9e4f9476d1a4266953f65' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631008 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@1b66687.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/14759cd593c1f452e1806196c5223f18' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/14759cd593c1f452e1806196c5223f18' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631033 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@64dfe112.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/af38a39b7bec3f8a0435a78982de820a' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/af38a39b7bec3f8a0435a78982de820a' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631058 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@407376d4.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/7428daaaff11ca086722540be2423c47' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/7428daaaff11ca086722540be2423c47' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631083 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@67898e8c.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/b5e4ab9a13073c3188d8f9db605ebacb' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/b5e4ab9a13073c3188d8f9db605ebacb' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631108 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@d0d02ff.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/e28fb97cecfec58b282a23bf2e45eb81' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/e28fb97cecfec58b282a23bf2e45eb81' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631133 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@624e0964.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/acb701667dfda5f4bc8db0a7b0b319dc' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/acb701667dfda5f4bc8db0a7b0b319dc' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631158 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@7d75212d.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/7f5194aa1ba4083a01dbd9a4a57c8b2a' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/7f5194aa1ba4083a01dbd9a4a57c8b2a' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631183 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@7e34bc69.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/91d430818955ce19bb8bf772eef0e300' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/91d430818955ce19bb8bf772eef0e300' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631208 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@76e0124c.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/0a1214488d078e7ee4d4fbd4a3bafc04' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/0a1214488d078e7ee4d4fbd4a3bafc04' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631233 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@7534cf55.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/766abcedbf14a78be0ed7ad5e61fea96' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/766abcedbf14a78be0ed7ad5e61fea96' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631258 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@5d01158b.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/f917ca7b27ce3e3600674f799e49fc90' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/f917ca7b27ce3e3600674f799e49fc90' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631283 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@56428d12.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/e1bf810705e8919d90511d29383892d9' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/e1bf810705e8919d90511d29383892d9' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631308 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@2f3f8f2a.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/9dbbd8d0e9deb30992e3512d93d974c0' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/9dbbd8d0e9deb30992e3512d93d974c0' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631333 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@179e134a.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/21ac46f9916e6f9258b224da5fc09198' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/21ac46f9916e6f9258b224da5fc09198' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631358 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@32cd2cd.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/67f0b95bef33c2f88536f071d5b47f1c' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/67f0b95bef33c2f88536f071d5b47f1c' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631383 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@7c0b845f.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/c7832df7612f7b0273cb1cf171d01f81' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/c7832df7612f7b0273cb1cf171d01f81' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631408 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@2914843.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/7bd09c00a9b2cee37ef023cd468f36a7' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/7bd09c00a9b2cee37ef023cd468f36a7' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631433 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@7e77a731.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/918ab5c1642a08807492c5364fe66822' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/918ab5c1642a08807492c5364fe66822' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631458 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@64f976a5.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/9cd751861a01ed760847f2730c33e6a3' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/9cd751861a01ed760847f2730c33e6a3' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631483 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@17e9b362.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/d9b3772d01f80e392be82b2b3643adc7' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/d9b3772d01f80e392be82b2b3643adc7' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631508 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@23bd5b80.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/98d3687bb227c1058374a3c8a1ac4cb2' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/98d3687bb227c1058374a3c8a1ac4cb2' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631533 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@208f10ae.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/6fc192f56e0b8ce4ff21c863da607294' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/6fc192f56e0b8ce4ff21c863da607294' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631558 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@6cbdb625.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/b4ddacd0897a4f60d74e44bd7aab067e' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/b4ddacd0897a4f60d74e44bd7aab067e' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631583 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@30d00721.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/1524af6ad7fdbbeae2bda3b65bb21cb8' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/1524af6ad7fdbbeae2bda3b65bb21cb8' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631608 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@26a2e857.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/6fef7b700ff51a9c9d8653be06f91576' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/6fef7b700ff51a9c9d8653be06f91576' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631633 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@3b4dae27.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/684e463f9cd19c8ab29e940d4c165907' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/684e463f9cd19c8ab29e940d4c165907' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631658 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@183d7aff.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/48ef9ccf6b1ac47118335d2fc4b3cc4a' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/48ef9ccf6b1ac47118335d2fc4b3cc4a' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631683 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@80d51a6.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/575fa8a07f9c5180137d1bcb6f745a8b' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/575fa8a07f9c5180137d1bcb6f745a8b' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631708 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@635d79fe.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/0ae3cd883d8d7788bcfe6394b7366654' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/0ae3cd883d8d7788bcfe6394b7366654' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631733 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@5d5a26f3.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/faf929265075fb2187fd9d3248b90d4e' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/faf929265075fb2187fd9d3248b90d4e' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631758 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+> Task :react-native-svg:mergeReleaseShaders
+> Task :react-native-svg:compileReleaseShaders NO-SOURCE
+> Task :react-native-svg:generateReleaseAssets UP-TO-DATE
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@3f0aa8a0.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/3ecdf93b6d9327f672857ee1d4c96a3c' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/3ecdf93b6d9327f672857ee1d4c96a3c' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631858 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@a932ec4.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/56d0a2a9fe1fd929db689b00da61b55e' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/56d0a2a9fe1fd929db689b00da61b55e' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631808 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+> Task :react-native-svg:mergeReleaseAssets
+> Task :react-native-svg:processReleaseJavaRes NO-SOURCE
+> Task :react-native-svg:createFullJarRelease
+> Task :react-native-svg:extractProguardFiles
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@415d51fb.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/d58ee03ac4c31131dcf43732d3f77aee' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/d58ee03ac4c31131dcf43732d3f77aee' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630833 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@6b326ada.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/3eb2baf42fd6012cbdc2be0a2eec6026' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/3eb2baf42fd6012cbdc2be0a2eec6026' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631833 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@bbec67e.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/40ae3f7033010403a0dc7fe30e0ad667' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/40ae3f7033010403a0dc7fe30e0ad667' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 631883 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+> Task :react-native-svg:compileReleaseLibraryResources
+Failed to execute org.gradle.cache.internal.AsyncCacheAccessDecoratedCache$$Lambda$541/0x0000000701498da8@de8a883.
+java.io.UncheckedIOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/65d9ea899c7de935561239b3453df1e3' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	at org.gradle.internal.UncheckedException.throwAsUncheckedException(UncheckedException.java:61)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:161)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.lambda$put$1(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.doWriteAction(DefaultFileLockManager.java:232)
+	at org.gradle.cache.internal.DefaultFileLockManager$DefaultFileLock.writeFile(DefaultFileLockManager.java:222)
+	at org.gradle.cache.internal.DefaultCacheCoordinator$UnitOfWorkFileAccess.writeFile(DefaultCacheCoordinator.java:488)
+	at org.gradle.cache.internal.DefaultMultiProcessSafeIndexedCache.put(DefaultMultiProcessSafeIndexedCache.java:67)
+	at org.gradle.cache.internal.AsyncCacheAccessDecoratedCache.lambda$putLater$1(AsyncCacheAccessDecoratedCache.java:56)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker$1.run(ExclusiveCacheAccessingWorker.java:179)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.lambda$toSupplier$2(DefaultCacheCoordinator.java:241)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:262)
+	at org.gradle.cache.internal.DefaultCacheCoordinator.useCache(DefaultCacheCoordinator.java:236)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.flushOperations(ExclusiveCacheAccessingWorker.java:169)
+	at org.gradle.cache.internal.ExclusiveCacheAccessingWorker.run(ExclusiveCacheAccessingWorker.java:139)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: Could not add entry '/Users/zengtao/.gradle/caches/9.3.1/transforms/65d9ea899c7de935561239b3453df1e3' to cache file-access.bin (/Users/zengtao/.gradle/caches/journal-1/file-access.bin).
+	... 19 more
+Caused by: org.gradle.cache.internal.btree.CorruptedCacheException: Corrupted DataBlock 630808 found in cache '/Users/zengtao/.gradle/caches/journal-1/file-access.bin'.
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.blockCorruptedException(FileBackedBlockStore.java:267)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore$BlockImpl.read(FileBackedBlockStore.java:246)
+	at org.gradle.cache.internal.btree.FileBackedBlockStore.read(FileBackedBlockStore.java:123)
+	at org.gradle.cache.internal.btree.CachingBlockStore.read(CachingBlockStore.java:100)
+	at org.gradle.cache.internal.btree.FreeListBlockStore.read(FreeListBlockStore.java:86)
+	at org.gradle.cache.internal.btree.StateCheckBlockStore.read(StateCheckBlockStore.java:67)
+	at org.gradle.cache.internal.btree.BTreePersistentIndexedCache.put(BTreePersistentIndexedCache.java:146)
+	... 18 more
+> Task :expo-log-box:mapReleaseSourceSetPaths
+> Task :react-native-svg:generateReleaseLintModel
+> Task :react-native-async-storage_async-storage:generateReleaseLintModel
+> Task :react-native-async-storage_async-storage:stripReleaseDebugSymbols NO-SOURCE
+> Task :react-native-svg:stripReleaseDebugSymbols NO-SOURCE
+> Task :react-native-svg:prepareLintJarForPublish
+> Task :react-native-async-storage_async-storage:prepareLintJarForPublish
+> Task :react-native-async-storage_async-storage:extractDeepLinksForAarRelease
+> Task :react-native-svg:extractDeepLinksForAarRelease
+> Task :react-native-svg:copyReleaseJniLibsProjectAndLocalJars
+> Task :react-native-async-storage_async-storage:copyReleaseJniLibsProjectAndLocalJars
+> Task :expo-log-box:mergeReleaseResources
+> Task :expo-log-box:verifyReleaseResources
+> Task :react-native-async-storage_async-storage:extractReleaseAnnotations
+> Task :react-native-async-storage_async-storage:mergeReleaseGeneratedProguardFiles
+> Task :react-native-async-storage_async-storage:mergeReleaseConsumerProguardFiles
+> Task :react-native-svg:extractReleaseAnnotations
+> Task :react-native-svg:mergeReleaseGeneratedProguardFiles
+> Task :react-native-svg:mergeReleaseConsumerProguardFiles
+> Task :react-native-async-storage_async-storage:writeReleaseLintModelMetadata
+> Task :react-native-svg:writeReleaseLintModelMetadata
+> Task :react-native-async-storage_async-storage:generateReleaseLintVitalModel
+> Task :react-native-svg:generateReleaseLintVitalModel
+> Task :react-native-async-storage_async-storage:mapReleaseSourceSetPaths
+> Task :react-native-svg:mapReleaseSourceSetPaths
+> Task :react-native-svg:mergeReleaseJavaResource
+> Task :react-native-async-storage_async-storage:mergeReleaseJavaResource
+> Task :react-native-svg:mergeReleaseResources
+> Task :react-native-async-storage_async-storage:mergeReleaseResources
+> Task :react-native-async-storage_async-storage:syncReleaseLibJars
+> Task :react-native-async-storage_async-storage:bundleReleaseLocalLintAar
+> Task :react-native-async-storage_async-storage:bundleReleaseAar
+> Task :react-native-svg:syncReleaseLibJars
+> Task :react-native-svg:bundleReleaseLocalLintAar
+> Task :react-native-svg:bundleReleaseAar
+> Task :react-native-svg:verifyReleaseResources
+> Task :react-native-svg:assembleRelease
+> Task :react-native-async-storage_async-storage:verifyReleaseResources
+> Task :react-native-async-storage_async-storage:assembleRelease
+> Task :expo-modules-core:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :app:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-async-storage_async-storage:lintVitalAnalyzeRelease
+> Task :react-native-svg:lintVitalAnalyzeRelease
+> Task :expo-modules-core:buildCMakeRelWithDebInfo[arm64-v8a]
+> Task :app:buildCMakeRelWithDebInfo[arm64-v8a]
+
+> Task :expo-modules-core:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: ninja: Entering directory `/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/5p3n1419/arm64-v8a'
+C/C++: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/cpp/fabric/ExpoComponentDescriptorFactory.cpp:17:5: warning: 'RawPropsParser' is deprecated [-Wdeprecated-declarations]
+C/C++:    17 |     react::RawPropsParser(/*useRawPropsJsiValue=*/true)
+C/C++:       |     ^
+C/C++: /Users/zengtao/.gradle/caches/9.3.1/transforms/b37ffe1efa1b10ee957b7bd9b0325943/transformed/react-android-0.86.2-release/prefab/modules/reactnative/include/react/renderer/core/RawPropsParser.h:31:5: note: 'RawPropsParser' has been explicitly marked deprecated here
+C/C++:    31 |   [[deprecated]] explicit RawPropsParser(bool /* ignored */) : RawPropsParser() {}
+C/C++:       |     ^
+C/C++: 1 warning generated.
+
+> Task :expo-modules-core:configureCMakeRelWithDebInfo[armeabi-v7a]
+> Task :app:configureCMakeRelWithDebInfo[armeabi-v7a]
+
+> Task :expo-modules-core:buildCMakeRelWithDebInfo[armeabi-v7a]
+C/C++: ninja: Entering directory `/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/5p3n1419/armeabi-v7a'
+C/C++: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/cpp/fabric/ExpoComponentDescriptorFactory.cpp:17:5: warning: 'RawPropsParser' is deprecated [-Wdeprecated-declarations]
+C/C++:    17 |     react::RawPropsParser(/*useRawPropsJsiValue=*/true)
+C/C++:       |     ^
+C/C++: /Users/zengtao/.gradle/caches/9.3.1/transforms/b37ffe1efa1b10ee957b7bd9b0325943/transformed/react-android-0.86.2-release/prefab/modules/reactnative/include/react/renderer/core/RawPropsParser.h:31:5: note: 'RawPropsParser' has been explicitly marked deprecated here
+C/C++:    31 |   [[deprecated]] explicit RawPropsParser(bool /* ignored */) : RawPropsParser() {}
+C/C++:       |     ^
+C/C++: 1 warning generated.
+
+> Task :expo-modules-core:configureCMakeRelWithDebInfo[x86]
+
+> Task :expo-modules-core:buildCMakeRelWithDebInfo[x86]
+C/C++: ninja: Entering directory `/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/5p3n1419/x86'
+C/C++: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/cpp/fabric/ExpoComponentDescriptorFactory.cpp:17:5: warning: 'RawPropsParser' is deprecated [-Wdeprecated-declarations]
+C/C++:    17 |     react::RawPropsParser(/*useRawPropsJsiValue=*/true)
+C/C++:       |     ^
+C/C++: /Users/zengtao/.gradle/caches/9.3.1/transforms/b37ffe1efa1b10ee957b7bd9b0325943/transformed/react-android-0.86.2-release/prefab/modules/reactnative/include/react/renderer/core/RawPropsParser.h:31:5: note: 'RawPropsParser' has been explicitly marked deprecated here
+C/C++:    31 |   [[deprecated]] explicit RawPropsParser(bool /* ignored */) : RawPropsParser() {}
+C/C++:       |     ^
+C/C++: 1 warning generated.
+
+> Task :app:buildCMakeRelWithDebInfo[armeabi-v7a]
+> Task :app:configureCMakeRelWithDebInfo[x86]
+> Task :expo-modules-core:configureCMakeRelWithDebInfo[x86_64]
+
+> Task :expo-modules-core:buildCMakeRelWithDebInfo[x86_64]
+C/C++: ninja: Entering directory `/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/.cxx/RelWithDebInfo/5p3n1419/x86_64'
+C/C++: /Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/cpp/fabric/ExpoComponentDescriptorFactory.cpp:17:5: warning: 'RawPropsParser' is deprecated [-Wdeprecated-declarations]
+C/C++:    17 |     react::RawPropsParser(/*useRawPropsJsiValue=*/true)
+C/C++:       |     ^
+C/C++: /Users/zengtao/.gradle/caches/9.3.1/transforms/b37ffe1efa1b10ee957b7bd9b0325943/transformed/react-android-0.86.2-release/prefab/modules/reactnative/include/react/renderer/core/RawPropsParser.h:31:5: note: 'RawPropsParser' has been explicitly marked deprecated here
+C/C++:    31 |   [[deprecated]] explicit RawPropsParser(bool /* ignored */) : RawPropsParser() {}
+C/C++:       |     ^
+C/C++: 1 warning generated.
+
+> Task :expo-modules-core:mergeReleaseJniLibFolders
+> Task :expo-modules-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-modules-core:generateReleaseBuildConfig
+> Task :expo-modules-core:generateReleaseResValues
+> Task :expo-modules-core:generateReleaseResources
+> Task :expo-modules-core:packageReleaseResources
+> Task :expo-modules-core:parseReleaseLocalResources
+> Task :expo-modules-core:generateReleaseRFile
+> Task :expo-modules-core:writeReleaseAarMetadata
+> Task :expo-modules-core:javaPreCompileRelease
+> Task :expo-modules-core:mergeReleaseNativeLibs
+> Task :expo:mapReleaseSourceSetPaths
+> Task :expo:mergeReleaseResources
+> Task :expo-modules-core:extractDeepLinksRelease
+> Task :expo-modules-core:compileReleaseLibraryResources
+> Task :expo-modules-core:prepareReleaseArtProfile
+> Task :expo-modules-core:mergeReleaseShaders
+> Task :expo-modules-core:compileReleaseShaders NO-SOURCE
+> Task :expo-modules-core:generateReleaseAssets UP-TO-DATE
+> Task :expo-modules-core:copyReleaseJniLibsProjectOnly
+
+> Task :expo-modules-core:processReleaseManifest
+/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/AndroidManifest.xml:8:9-11:45 Warning:
+	meta-data#com.facebook.soloader.enabled@android:value was tagged at AndroidManifest.xml:8 to replace other declarations but no other declaration present
+
+> Task :expo-modules-core:mergeReleaseAssets
+> Task :expo-modules-core:extractProguardFiles
+> Task :expo-modules-core:extractDeepLinksForAarRelease
+> Task :expo-modules-core:writeReleaseLintModelMetadata
+> Task :expo-modules-core:mapReleaseSourceSetPaths
+> Task :expo-modules-core:prepareLintJarForPublish
+> Task :app:buildCMakeRelWithDebInfo[x86]
+> Task :expo-modules-core:stripReleaseDebugSymbols
+> Task :expo-modules-core:mergeReleaseResources
+> Task :expo-modules-core:copyReleaseJniLibsProjectAndLocalJars
+> Task :app:configureCMakeRelWithDebInfo[x86_64]
+> Task :expo-modules-core:verifyReleaseResources
+> Task :expo:verifyReleaseResources
+> Task :expo-modules-core:compileReleaseKotlin
+> Task :app:buildCMakeRelWithDebInfo[x86_64]
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:generateReleaseBuildConfig
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:generateReleaseResValues
+> Task :app:checkReleaseAarMetadata
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:generateReleaseResources
+> Task :app:packageReleaseResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+> Task :app:parseReleaseLocalResources
+
+> Task :app:processReleaseMainManifest
+/Users/zengtao/Doc/My code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/android/app/src/main/AndroidManifest.xml Warning:
+	provider#expo.modules.filesystem.FileSystemFileProvider@android:authorities was tagged at AndroidManifest.xml:0 to replace other declarations but no other declaration present
+
+> Task :app:expoReleaseOverrideMaxSdkConflicts
+[33m---------- Expo Max Sdk Override Plugin ----------[0m
+[32m>>> No 'android:maxSdkVersion' conflicts found[0m
+[33m--------------------------------------------------[0m
+
+> Task :app:processReleaseManifest
+> Task :app:processReleaseManifestForPackage
+> Task :app:javaPreCompileRelease
+> Task :app:desugarReleaseFileDependencies
+> Task :app:mergeReleaseStartupProfile
+> Task :app:mergeReleaseResources
+> Task :app:mergeReleaseNativeLibs
+
+> Task :expo-modules-core:compileReleaseKotlin
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/apploader/AppLoaderProvider.kt:34:52 Unchecked cast of 'Class<*>!' to 'Class<out HeadlessAppLoader>'.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/AppContext.kt:14:8 'class UIManagerModule : ReactContextBaseJavaModule, LifecycleEventListener, UIManager' is deprecated. Deprecated in Java.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/AppContext.kt:22:8 'typealias ErrorManagerModule = JSLoggerModule' is deprecated. Use JSLoggerModule instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/AppContext.kt:61:13 'val hostingRuntimeContext: MainRuntime' is deprecated. Use AppContext.runtimeContext instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/AppContext.kt:271:21 'typealias ErrorManagerModule = JSLoggerModule' is deprecated. Use JSLoggerModule instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/AppContext.kt:380:21 'val DEFAULT: Int' is deprecated. UIManagerType.DEFAULT will be deleted in the next release of React Native. Use [LEGACY] instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/AppContext.kt:381:10 'class UIManagerModule : ReactContextBaseJavaModule, LifecycleEventListener, UIManager' is deprecated. Deprecated in Java.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/defaultmodules/NativeModulesProxyModule.kt:16:5 'fun Constants(legacyConstantsProvider: () -> Map<String, Any?>): Unit' is deprecated. Use `Constant` or `Property` instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/events/KModuleEventEmitterWrapper.kt:99:21 'fun getEventDispatcherForReactTag(context: ReactContext, reactTag: Int): EventDispatcher?' is deprecated. reactTag is no longer needed.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/events/KModuleEventEmitterWrapper.kt:108:21 'fun getEventDispatcherForReactTag(context: ReactContext, reactTag: Int): EventDispatcher?' is deprecated. reactTag is no longer needed.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/views/ViewDefinitionBuilder.kt:470:16 'val errorManager: JSLoggerModule?' is deprecated. Use AppContext.jsLogger instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/views/ViewDefinitionBuilder.kt:470:30 'fun reportExceptionToLogBox(codedException: CodedException): Unit' is deprecated. Use appContext.jsLogger.error(...) instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/views/ViewManagerDefinition.kt:41:16 'val errorManager: JSLoggerModule?' is deprecated. Use AppContext.jsLogger instead.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-modules-core/android/src/main/java/expo/modules/kotlin/views/ViewManagerDefinition.kt:41:30 'fun reportExceptionToLogBox(codedException: CodedException): Unit' is deprecated. Use appContext.jsLogger.error(...) instead.
+
+> Task :expo-modules-core:compileReleaseJavaWithJavac
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :expo-modules-core:bundleLibCompileToJarRelease
+> Task :expo-modules-core:processReleaseJavaRes
+
+> Task :expo-constants:compileReleaseKotlin
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo-constants/android/src/main/java/expo/modules/constants/ConstantsModule.kt:13:5 'fun Constants(legacyConstantsProvider: () -> Map<String, Any?>): Unit' is deprecated. Use `Constant` or `Property` instead.
+
+> Task :expo-modules-core:bundleLibRuntimeToJarRelease
+> Task :expo-modules-core:bundleLibRuntimeToDirRelease
+> Task :expo-modules-core:generateReleaseLintModel
+> Task :expo-modules-core:createFullJarRelease
+> Task :expo-modules-core:extractReleaseAnnotations
+> Task :expo-modules-core:mergeReleaseGeneratedProguardFiles
+> Task :expo-modules-core:mergeReleaseConsumerProguardFiles
+> Task :expo-constants:compileReleaseJavaWithJavac
+> Task :expo-constants:bundleLibCompileToJarRelease
+> Task :expo-log-box:compileReleaseKotlin
+> Task :expo-constants:bundleLibRuntimeToDirRelease
+> Task :expo-constants:processReleaseJavaRes
+> Task :expo-constants:generateReleaseLintModel
+> Task :expo-constants:extractReleaseAnnotations
+> Task :expo-constants:mergeReleaseGeneratedProguardFiles
+> Task :expo-constants:mergeReleaseConsumerProguardFiles
+> Task :expo-modules-core:mergeReleaseJavaResource
+> Task :app:mergeExtDexRelease
+> Task :expo-modules-core:syncReleaseLibJars
+> Task :expo-modules-core:bundleReleaseLocalLintAar
+> Task :expo-constants:mergeReleaseJavaResource
+> Task :expo-constants:syncReleaseLibJars
+> Task :expo-constants:bundleReleaseLocalLintAar
+> Task :expo-constants:generateReleaseLintVitalModel
+> Task :expo-modules-core:generateReleaseLintVitalModel
+> Task :expo-constants:bundleReleaseAar
+> Task :expo-constants:assembleRelease
+> Task :expo-modules-core:bundleReleaseAar
+> Task :expo-modules-core:assembleRelease
+> Task :expo-constants:bundleLibRuntimeToJarRelease
+> Task :expo-constants:createFullJarRelease
+> Task :expo-log-box:compileReleaseJavaWithJavac
+> Task :expo-log-box:bundleLibCompileToJarRelease
+> Task :expo-log-box:bundleLibRuntimeToDirRelease
+> Task :expo-log-box:bundleLibRuntimeToJarRelease
+> Task :expo-log-box:processReleaseJavaRes
+> Task :expo-log-box:createFullJarRelease
+> Task :expo-log-box:generateReleaseLintModel
+> Task :expo-log-box:extractReleaseAnnotations
+> Task :expo-log-box:mergeReleaseGeneratedProguardFiles
+> Task :expo-log-box:mergeReleaseConsumerProguardFiles
+> Task :expo-log-box:mergeReleaseJavaResource
+> Task :expo-log-box:syncReleaseLibJars
+> Task :expo-log-box:bundleReleaseLocalLintAar
+> Task :expo-log-box:generateReleaseLintVitalModel
+> Task :expo-log-box:bundleReleaseAar
+> Task :expo-log-box:assembleRelease
+> Task :app:stripReleaseDebugSymbols
+> Task :app:extractReleaseNativeSymbolTables
+
+> Task :expo:compileReleaseKotlin
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/ExpoModulesPackage.kt:34:16 This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/ReactActivityDelegateWrapper.kt:22:8 'class ReactInstanceManager : Any' is deprecated. Deprecated in Java.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/ReactActivityDelegateWrapper.kt:102:16 This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/ReactActivityDelegateWrapper.kt:102:43 'class ReactInstanceManager : Any' is deprecated. Deprecated in Java.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/ReactActivityDelegateWrapper.kt:103:21 'val reactInstanceManager: ReactInstanceManager' is deprecated. Deprecated in Java.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/fetch/ExpoFetchModule.kt:33:39 'constructor(reactContext: ReactContext): ForwardingCookieHandler' is deprecated. Use the default constructor.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/fetch/NativeResponse.kt:44:16 This declaration overrides a deprecated member but is not marked as deprecated itself. Add the '@Deprecated' annotation or suppress the diagnostic.
+w: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/node_modules/expo/android/src/main/java/expo/modules/fetch/NativeResponse.kt:46:11 'fun deallocate(): Unit' is deprecated. Use sharedObjectDidRelease() instead.
+
+> Task :expo-constants:lintVitalAnalyzeRelease
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :app:compressReleaseAssets
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:extractProguardFiles
+> Task :app:processReleaseResources
+> Task :expo:compileReleaseJavaWithJavac
+> Task :expo:bundleLibCompileToJarRelease
+> Task :expo:bundleLibRuntimeToJarRelease
+> Task :expo:processReleaseJavaRes
+> Task :expo:createFullJarRelease
+> Task :expo:bundleLibRuntimeToDirRelease
+> Task :expo:generateReleaseLintModel
+> Task :expo:extractReleaseAnnotations
+> Task :expo:mergeReleaseGeneratedProguardFiles
+> Task :expo:mergeReleaseConsumerProguardFiles
+> Task :expo:mergeReleaseJavaResource
+> Task :expo:syncReleaseLibJars
+> Task :expo:bundleReleaseLocalLintAar
+> Task :expo:generateReleaseLintVitalModel
+> Task :expo:bundleReleaseAar
+> Task :expo:assembleRelease
+> Task :app:mergeReleaseNativeDebugMetadata
+> Task :expo-log-box:lintVitalAnalyzeRelease
+> Task :app:collectReleaseDependencies
+> Task :app:sdkReleaseDependencyData
+> Task :app:validateSigningRelease
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:compileReleaseKotlin
+> Task :app:compileReleaseJavaWithJavac
+> Task :app:optimizeReleaseResources
+> Task :app:dexBuilderRelease
+> Task :app:mergeReleaseGlobalSynthetics
+> Task :app:generateReleaseLintVitalReportModel
+> Task :app:processReleaseJavaRes
+> Task :expo:lintVitalAnalyzeRelease
+> Task :app:mergeReleaseJavaResource
+> Task :app:mergeDexRelease
+> Task :app:compileReleaseArtProfile
+> Task :expo-modules-core:lintVitalAnalyzeRelease
+> Task :app:lintVitalAnalyzeRelease
+> Task :app:lintVitalReportRelease
+> Task :app:lintVitalRelease
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+
+[Incubating] Problems report is available at: file:///Users/zengtao/Doc/My%20code/Fortune-telling/.claude/worktrees/agent-a18328a2a6dc99b7f/android/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 4m 11s
+350 actionable tasks: 215 executed, 135 up-to-date

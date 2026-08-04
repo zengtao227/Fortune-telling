@@ -1,0 +1,17 @@
+Starting Metro Bundler
+
+Web Bundled 5078ms node_modules/expo/AppEntry.js (317 modules)
+
+› Assets (2):
+node_modules/@expo-google-fonts/cinzel/700Bold/Cinzel_700Bold.7fa8033ca19d3d9dea10e6f019712228.ttf (77KB)
+node_modules/@expo-google-fonts/noto-serif-sc/400Regular/NotoSerifSC_400Regular.7d16395dd72e187fbc425838042b7bfb.ttf (15MB)
+
+› web bundles (1):
+_expo/static/js/web/AppEntry-f6101a25ee809e5a5f12b8425f7873cb.js (1.1MB)
+
+› Files (3):
+favicon.ico (15KB)
+index.html (1.2KB)
+metadata.json (49B)
+
+Exported: dist

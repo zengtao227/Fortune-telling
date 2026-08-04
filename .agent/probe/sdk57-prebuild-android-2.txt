@@ -1,0 +1,8 @@
+- Clearing android
+✔ Cleared android code
+- Creating native directory (./android)
+✔ Created native directory
+- Updating package.json
+✔ Updated package.json | no changes
+- Running prebuild
+✔ Finished prebuild
