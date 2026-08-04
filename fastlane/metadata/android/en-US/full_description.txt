@@ -1,0 +1,14 @@
+Mystic Compass is a fully offline traditional-culture entertainment app.
+
+Features:
+• Locally calculated Chinese almanac information
+• Entertainment-oriented six-line I Ching casting using a traditional probability model
+• Simplified Sun, Moon, and Rising signs using birth date, birth time, city coordinates, and the city's historical IANA timezone
+
+Privacy:
+• No ads, analytics, tracking, accounts, cloud APIs, or device location
+• Birth details are not saved by default
+• Optional local saving requires explicit consent and can be cleared at any time
+• The F-Droid Android build does not request Internet permission
+
+This app is for cultural entertainment and self-reflection only. It is not medical, legal, financial, psychological, or other professional advice and does not provide deterministic predictions.
