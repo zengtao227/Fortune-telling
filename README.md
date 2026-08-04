@@ -25,7 +25,7 @@ Moon and Rising calculations require a recognized city because latitude, longitu
 Requirements:
 
 - Node.js 22.13.x
-- npm 11.5.x
+- npm 10.9.2
 - JDK 17 or the JDK version required by Expo SDK 57
 - Android SDK 36 for Android builds
 
