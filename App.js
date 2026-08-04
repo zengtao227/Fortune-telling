@@ -20,7 +20,7 @@ import {
 import { getBigThree } from "./src/logic/astrology";
 import { calculateAlmanac, performDivination } from "./src/logic/calendar";
 import { getHexagramLines, findHexagramByLines } from "./src/logic/iching";
-import { parseDateParts, parseTimeParts } from "./src/logic/inputValidation";
+import { validateAstrologyInput } from "./src/logic/inputValidation";
 import { THEMES, getTheme } from "./src/theme";
 import {
   resolveIChingMessage,
@@ -728,70 +728,67 @@ function AppInner() {
 
   // Astro Logic
   const handleAstroSubmit = (formData) => {
-    if (!parseDateParts(formData.date)) {
-      alert("请输入有效的出生日期 YYYY-MM-DD");
-      return;
-    }
-    if (formData.time && !parseTimeParts(formData.time)) {
-      alert("请输入有效的出生时间 HH:mm");
+    const validation = validateAstrologyInput(formData);
+    if (!validation.ok) {
+      alert(validation.error);
       return;
     }
 
     setIsCalculating(true);
     // Scientific Calculation
     setTimeout(() => {
-      let bigThree;
       try {
-        bigThree = getBigThree({
+        const bigThree = getBigThree({
           date: formData.date,
           time: formData.time,
           location: formData.location,
         });
+
+        // Map Zodiac to nearest planet in our corpus for messages
+        const zodiacToPlanetMap = {
+          Aries: "Mars",
+          Taurus: "Venus",
+          Gemini: "Mercury",
+          Cancer: "Moon",
+          Leo: "Sun",
+          Virgo: "Mercury",
+          Libra: "Venus",
+          Scorpio: "Mars",
+          Sagittarius: "Jupiter",
+          Capricorn: "Jupiter",
+          Aquarius: "Mercury",
+          Pisces: "Jupiter",
+        };
+
+        const planet = zodiacToPlanetMap[bigThree.sun?.en] || "Sun";
+        const msg = resolveAstrologyMessage(planet);
+        const sunText = bigThree.sun?.en || "Unknown";
+        const moonText =
+          bigThree.moon?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
+        const risingText =
+          bigThree.ascendant?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
+        const timeTag = formData.time ? ` ${formData.time}` : "";
+
+        setResultData({
+          title: `出生星宫 · ${bigThree.sun?.name || "未知"}`,
+          bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
+          hasPreciseTime: bigThree.hasPreciseTime,
+          locationEstimated: bigThree.locationEstimated,
+          locationProvided: bigThree.locationProvided,
+          timeEstimated: bigThree.timeEstimated,
+          timeAmbiguous: bigThree.timeAmbiguous,
+          message: msg || "星轨流转，你的命运此刻正在上升。",
+          extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`,
+        });
+        setCurrentView("RESULT_AS");
+        if (!isWeb)
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } catch (e) {
         console.error("getBigThree error:", e);
-        setIsCalculating(false);
         alert("星盘计算出错，请检查输入的日期/时间后重试");
-        return;
+      } finally {
+        setIsCalculating(false);
       }
-
-      // Map Zodiac to nearest planet in our corpus for messages
-      const zodiacToPlanetMap = {
-        Aries: "Mars",
-        Taurus: "Venus",
-        Gemini: "Mercury",
-        Cancer: "Moon",
-        Leo: "Sun",
-        Virgo: "Mercury",
-        Libra: "Venus",
-        Scorpio: "Mars",
-        Sagittarius: "Jupiter",
-        Capricorn: "Jupiter",
-        Aquarius: "Mercury",
-        Pisces: "Jupiter",
-      };
-
-      const planet = zodiacToPlanetMap[bigThree.sun?.en] || "Sun";
-      const msg = resolveAstrologyMessage(planet);
-      const sunText = bigThree.sun?.en || "Unknown";
-      const moonText =
-        bigThree.moon?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
-      const risingText =
-        bigThree.ascendant?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
-      const timeTag = formData.time ? ` ${formData.time}` : "";
-
-      setResultData({
-        title: `出生星宫 · ${bigThree.sun?.name || "未知"}`,
-        bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
-        hasPreciseTime: bigThree.hasPreciseTime,
-        locationEstimated: bigThree.locationEstimated,
-        timeEstimated: bigThree.timeEstimated,
-        message: msg || "星轨流转，你的命运此刻正在上升。",
-        extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`,
-      });
-      setIsCalculating(false);
-      setCurrentView("RESULT_AS");
-      if (!isWeb)
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }, 1500);
   };
 
@@ -1113,14 +1110,23 @@ function AppInner() {
                   <Text
                     style={[styles.resultMeta, { color: theme.secondary }]}
                   >
-                    未识别出生地点，上升星座已用默认坐标与时区(上海)估算
+                    {resultData.locationProvided
+                      ? "未识别出生地点，上升星座已用默认坐标与时区(上海)估算"
+                      : "未填写出生地点，上升星座已用默认坐标与时区(上海)估算"}
                   </Text>
                 )}
                 {resultData.timeEstimated && (
                   <Text
                     style={[styles.resultMeta, { color: theme.secondary }]}
                   >
-                    该时刻在当地时区因夏令时切换而不存在，已顺延1小时估算
+                    该时刻在当地时区因夏令时切换而不存在，已顺延至最近的有效时刻估算
+                  </Text>
+                )}
+                {resultData.timeAmbiguous && (
+                  <Text
+                    style={[styles.resultMeta, { color: theme.secondary }]}
+                  >
+                    该时刻因夏令时回拨在当天出现两次，已按较早的一次估算
                   </Text>
                 )}
                 <View style={[styles.divider, { backgroundColor: theme.border }]} />

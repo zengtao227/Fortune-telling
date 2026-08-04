@@ -49,48 +49,59 @@ const zonedParts = (date, timeZone) => {
     return Object.fromEntries(parts.filter((part) => part.type !== 'literal').map((part) => [part.type, Number(part.value)]));
 };
 
-/**
- * 将某个 IANA 时区下的墙上时间精确换算为 UTC，含历史夏令时规则。
- * 若该本地时刻落在"春季跳空"缺口(该时区当天不存在该时刻)，会抛出异常，
- * 由调用方 resolveBirthUtc 顺延处理，这里保持"不存在就报错"的精确语义。
- */
-export const localDateTimeToUtc = ({ year, month, day, hour, minute }, timeZone) => {
-    const target = Date.UTC(year, month - 1, day, hour, minute, 0);
-    let guess = target;
-    for (let i = 0; i < 4; i += 1) {
-        const shown = zonedParts(new Date(guess), timeZone);
-        const shownAsUtc = Date.UTC(shown.year, shown.month - 1, shown.day, shown.hour, shown.minute, shown.second);
-        const correction = target - shownAsUtc;
-        if (correction === 0) break;
-        guess += correction;
-    }
-    const result = new Date(guess);
-    const verify = zonedParts(result, timeZone);
-    if (
-        verify.year !== year || verify.month !== month || verify.day !== day ||
-        verify.hour !== hour || verify.minute !== minute
-    ) {
-        throw new Error('该出生时间在所选时区不存在（可能处于夏令时切换）');
-    }
-    return result;
+// 某个 UTC 瞬间在该时区显示的墙上时间，换算回"若把这串数字当UTC"的毫秒数
+const shownAsUtcMs = (utcMs, timeZone) => {
+    const shown = zonedParts(new Date(utcMs), timeZone);
+    return Date.UTC(shown.year, shown.month - 1, shown.day, shown.hour, shown.minute, shown.second);
 };
 
 /**
- * 出生时刻若落在春季跳空缺口，顺延1小时取最近的有效本地时刻，
- * 并标记 timeEstimated，而不是让用户看到报错——地点/时间识别失败时
- * 始终给出一个尽力估算的结果，而非拒绝。
+ * 将某个 IANA 时区下的墙上时间精确换算为 UTC，含历史夏令时规则。
+ *
+ * 不用 try/catch 猜测夏令时问题，而是直接算出"该时区一天前"和"一天后"
+ * 两个安全落在切换窗口之外的 UTC 偏移量，各自反推出一个候选 UTC 瞬间，
+ * 再验证哪些候选换算回本地时间后确实等于用户输入：
+ *   0 个候选 → 该本地时间在"春季跳空"缺口中不存在
+ *   1 个候选 → 正常时间(两个偏移量算出的候选重合)
+ *   2 个候选 → 该本地时间在"秋季回拨"发生了两次，存在歧义
+ *
+ * @returns {{ type: 'unique'|'gap'|'ambiguous', utc: Date }}
  */
-const resolveBirthUtc = (dateParts, timeParts, timeZone) => {
-    try {
-        return { utc: localDateTimeToUtc({ ...dateParts, ...timeParts }, timeZone), timeEstimated: false };
-    } catch (e) {
-        const nudgedTotalMinutes = timeParts.hour * 60 + timeParts.minute + 60;
-        const nudgedTimeParts = {
-            hour: Math.floor(nudgedTotalMinutes / 60) % 24,
-            minute: nudgedTotalMinutes % 60,
-        };
-        return { utc: localDateTimeToUtc({ ...dateParts, ...nudgedTimeParts }, timeZone), timeEstimated: true };
+export const localDateTimeToUtc = ({ year, month, day, hour, minute }, timeZone) => {
+    const target = Date.UTC(year, month - 1, day, hour, minute, 0);
+    const oneDayMs = 24 * 60 * 60 * 1000;
+
+    const offsetBefore = shownAsUtcMs(target - oneDayMs, timeZone) - (target - oneDayMs);
+    const offsetAfter = shownAsUtcMs(target + oneDayMs, timeZone) - (target + oneDayMs);
+
+    const verify = (utcMs) => {
+        const shown = zonedParts(new Date(utcMs), timeZone);
+        return shown.year === year && shown.month === month && shown.day === day &&
+            shown.hour === hour && shown.minute === minute;
+    };
+
+    const rawCandidates = [target - offsetBefore, target - offsetAfter];
+    const candidates = [...new Set(rawCandidates)].filter(verify).sort((a, b) => a - b);
+
+    if (candidates.length === 0) {
+        // 跳空：用切换前偏移量反推出的瞬间，天然落在切换幅度之后的第一个有效时刻，
+        // 不需要假设固定跳过1小时——切换幅度本身可能不是1小时。
+        return { type: 'gap', utc: new Date(target - offsetBefore) };
     }
+    if (candidates.length === 1) {
+        return { type: 'unique', utc: new Date(candidates[0]) };
+    }
+    // 回拨歧义：两个候选都合法，取较早的一次(切换前，即当地时间第一次出现该时刻)。
+    return { type: 'ambiguous', utc: new Date(candidates[0]) };
+};
+
+const resolveBirthUtc = (dateParts, timeParts, timeZone) => {
+    const { type, utc } = localDateTimeToUtc({ ...dateParts, ...timeParts }, timeZone);
+    return {
+        utc,
+        timeEstimated: type === 'gap',
+        timeAmbiguous: type === 'ambiguous',
+    };
 };
 
 /**
@@ -179,7 +190,9 @@ export const getBigThree = ({ date, time, location }) => {
             ascendant: null,
             hasPreciseTime: false,
             locationEstimated: false,
+            locationProvided: false,
             timeEstimated: false,
+            timeAmbiguous: false,
         };
     }
 
@@ -190,7 +203,7 @@ export const getBigThree = ({ date, time, location }) => {
     const locationEstimated = !resolved;
     const target = resolved || FALLBACK_LOCATION;
 
-    const { utc: birthDateUtc, timeEstimated } = resolveBirthUtc(dateParts, timeParts, target.timeZone);
+    const { utc: birthDateUtc, timeEstimated, timeAmbiguous } = resolveBirthUtc(dateParts, timeParts, target.timeZone);
 
     return {
         sun: getSunSign(birthDateUtc),
@@ -198,7 +211,10 @@ export const getBigThree = ({ date, time, location }) => {
         ascendant: getAscendant(birthDateUtc, target.latitude, target.longitude),
         hasPreciseTime: true,
         locationEstimated,
+        // 未识别地点里，"压根没填"和"填了但认不出"值得在文案上区分
+        locationProvided: !!(location && location.trim()),
         timeEstimated,
+        timeAmbiguous,
     };
 };
 

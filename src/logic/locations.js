@@ -24,8 +24,22 @@ export const LOCATIONS = [
 
 const normalize = (value) => (value || "").trim().toLocaleLowerCase();
 
+const isCjk = (value) => /[㐀-鿿豈-﫿]/.test(value);
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// CJK 别名保留子串匹配，兼容"北京市朝阳区"这类带后缀的地址输入；
+// 拉丁字母别名改用单词边界匹配，避免 "Xianyang" 被误认成 "Xian" 的子串。
+// 注意：同名不同地（如 "Paris, Texas" 撞上 "Paris" 法国）不在此修复范围——
+// 这是简单名称匹配的固有局限，真正解决需要地区消歧或城市选择器 UI。
+const matchesName = (needle, rawName) => {
+  const name = normalize(rawName);
+  if (!name) return false;
+  if (isCjk(name)) return needle.includes(name);
+  return new RegExp(`\\b${escapeRegExp(name)}\\b`, "i").test(needle);
+};
+
 export const resolveLocation = (value) => {
   const needle = normalize(value);
   if (!needle) return null;
-  return LOCATIONS.find((item) => item.names.some((name) => needle.includes(normalize(name)))) || null;
+  return LOCATIONS.find((item) => item.names.some((name) => matchesName(needle, name))) || null;
 };
