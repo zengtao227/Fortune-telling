@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "main": "node_modules/expo/AppEntry.js",
-  "packageManager": "npm@11.5.1",
+  "packageManager": "npm@10.9.2",
   "engines": { "node": ">=22.13 <23" },
   "scripts": {
     "start": "expo start",
@@ -29,7 +29,7 @@
     "lunar-javascript": "1.7.7",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "react-native": "0.86.0",
+    "react-native": "0.86.2",
     "react-native-web": "0.21.0"
   },
   "devDependencies": {
