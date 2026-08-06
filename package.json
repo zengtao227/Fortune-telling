@@ -10,7 +10,6 @@
     "build:web": "npx expo export --platform web",
     "build": "npm run build:web",
     "vercel-build": "npm run build:web",
-    "build:macos": "npm run build:web && electron-builder --mac",
     "build:android": "npx eas-cli build --platform android --profile preview",
     "lint": "eslint .",
     "test": "jest"
@@ -43,28 +42,7 @@
     "react-test-renderer": "18.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "electron": "^40.1.0",
-    "electron-builder": "^26.7.0",
-    "wait-on": "^9.0.3"
+    "@babel/core": "^7.20.0"
   },
-  "private": true,
-  "build": {
-    "appId": "com.zengtao.fortunetelling",
-    "productName": "Fortune Telling",
-    "directories": {
-      "output": "release/macos"
-    },
-    "files": [
-      "dist/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "mac": {
-      "category": "public.app-category.lifestyle",
-      "target": [
-        "dmg"
-      ]
-    }
-  }
+  "private": true
 }
