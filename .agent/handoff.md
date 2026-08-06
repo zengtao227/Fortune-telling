@@ -1,67 +1,81 @@
 # Handoff
 
-最后更新：2026-08-04（会话结束前的存档，供几天后直接接着做）
+最后更新：2026-08-06
+
+## 当前结论：F-Droid 发布路径的本地/GitLab 侧准备工作基本做完了
+
+`integration/fdroid` 现在有：真实验证过的 Android 构建、完整许可证审计、可复现构建验证、更新过的 GitLab 探路 MR。剩下的都是需要 F-Droid 官方基础设施或用户决定的事，不是能在本地继续推进的了。
 
 ## 三条分支的当前状态
 
 | 分支 | 最新 commit | 状态 |
 |---|---|---|
-| `main` | `0cf1213` | 生产分支，Expo SDK 50。含 7 项无障碍修复(`abf0136`) + vercel.json 修复。 |
-| `integration/fdroid` | `acc4c53` | F-Droid 逻辑层修复，Expo 仍是 SDK 50。**未合并回 main**。 |
-| `probe/expo57` | `55b53ba` | 从 `integration/fdroid@ff5592c` 切出的抛弃式探测分支，已推送 GitHub。**不是待合并分支，只是证据**，见下方"Expo 57 探测结论"。 |
+| `main` | `57e9450` | 生产分支，Expo SDK 50。 |
+| `integration/fdroid` | `a0d6a57` | **当前工作分支**，Expo SDK 50。含 Phase 1 逻辑修复 + electron移除 + 许可证审计 + expo-system-ui修复。**未合并回 main**。 |
+| `upgrade/expo57` | `b30e073` | **已暂停，不再继续**（见下方"Expo 57 升级：决定不做"）。分支保留，不删，以后有真实理由要升级时可以直接捡起来接着做。 |
+| `probe/expo57` | `55b53ba` | 纯证据分支，已完成使命，不需要再碰。 |
 
-三条分支的 `vercel.json` 都已修复（删除失效的 `"public": true` 字段，这是本会话里持续收到"Failed preview deployment"邮件的真正根因，跟代码改动无关）。main 分支这次推送后已确认从"瞬间schema-fail"变成能进入`BUILDING`状态——**注意**：`BUILDING`只证明schema错误消失，不代表最终部署一定成功，回来时如果又收到失败邮件，先查最终 deployment 状态而不是假设这个修复还有效。
+`vercel.json`的`"public": true`失效字段问题在 main/integration/fdroid/probe/expo57 三条分支上都已修复，不会再触发"Failed preview deployment"邮件。
 
-## `integration/fdroid` 做了什么（Phase 1，已完成且经过三轮 GPT 交叉审查）
+## Expo 57 升级：决定不做，不是忘了做
 
-从 PR #2（`agent/fdroid-readiness`，Codex 提交，已标记 DO NOT MERGE，当"素材库"用，不再修补）里选择性移植了真正有价值的逻辑层改进，**没有整文件替换**，避免带出未披露的产品回归：
+做了完整的成本收益分析后决定放弃，不是半途而废：
+- **F-Droid不要求任何特定Expo/SDK版本**——查过官方Inclusion Policy确认。
+- **对Dependabot警告基本没帮助**——升级Expo不会明显减少警告数（真正有用的是删electron，见下方）。
+- **对iOS未来发布没有实质帮助**——iOS需要Xcode/CocoaPods/证书链路，这次完全没碰过，Android这边做不做完都不影响iOS要重新弄这件事。
+- **SDK50不会因为"官方停止支持"就失效**——查过Expo自己的支持政策：SDK过期主要影响Expo Go和EAS Build云服务，F-Droid走的是纯本地`prebuild`+`gradlew`构建，不依赖这两者，SDK50只要lockfile锁死就能一直稳定构建。
 
-- `src/logic/locations.js`（新增，21个地点，合并了 main 和 PR2 各自独有的城市）+ `src/logic/inputValidation.js`（新增，日期/时间格式校验 + `validateAstrologyInput` 单一入口）
-- `src/logic/astrology.js`：`localDateTimeToUtc` 用解析式的 0/1/2 候选检测处理夏令时（不用 try/catch 猜）——0个候选=春季跳空，按实际切换幅度顺延并标记 `timeEstimated`；2个候选=秋季回拨歧义，取较早一次并标记 `timeAmbiguous`；地点未识别时不 throw，回退上海坐标+时区并标记 `locationEstimated`，`locationProvided` 区分"没填"和"填了但认不出"
-- `src/logic/locations.js` 的 `resolveLocation`：CJK别名保留子串匹配(兼容"北京市朝阳区")，拉丁字母别名改用单词边界匹配(修复"Xianyang"误配"Xian")。**明确未解决**："Paris,Texas"撞法国Paris这类同名不同地歧义是字符串匹配的固有局限，强行堵会破坏App自己"Shanghai, China"占位符范式的输入，需要地区消歧或城市选择器UI才能真正解决，本次不做
-- `src/logic/calendar.js`：只换了吉时筛选谓词(`getTianShenLuck()==='吉'`)，其余19个字段(含吉神九星等7个从未上过UI的字段)原样保留
-- `App.js`：`validateAstrologyInput`单一校验入口；`getBigThree`调用点`try/catch/finally`防止卡在"计算中"状态；结果页区分`timeEstimated`/`timeAmbiguous`/`locationEstimated`+`locationProvided`四种独立提示
-- 34个测试全绿，含DST精确UTC断言(不是`not.toBeNull()`)、`resolveLocation`误匹配回归用例、`calendar.js`19字段契约测试
+如果以后有真实理由要升级（比如某个新功能真的需要新版RN/React特性），`upgrade/expo57`分支上已经有可用的基础工作：SDK57依赖升级、devDependencies整理、苏黎世跳空测试都已完成并验证过，不用从头再来。
 
-## Expo 57 探测结论（`probe/expo57`，已被我独立验证+GPT二次审查，双方结论一致：技术可行）
+## `integration/fdroid` 完整状态（截至 `a0d6a57`）
 
-**探测本身可信**：我没有照单全收agent的报告，抽查验证了——`App.js`/`src/`全程零改动(`git diff --stat`确认)、34测试在HEAD上重新跑过真的全过、APK真实存在、SDK54报错原始日志文本核对无误。GPT独立审查后同样确认"关键断言与远端分支内容一致"。
+### Phase 1 逻辑修复（经过三轮GPT交叉审查）
+从PR #2里选择性移植了真正有价值的逻辑层改进，没有整文件替换：
+- `src/logic/locations.js` + `src/logic/inputValidation.js`（新增，21地点城市库 + 校验）
+- `src/logic/astrology.js`：`localDateTimeToUtc`解析式0/1/2候选检测处理夏令时（跳空顺延标记`timeEstimated`，回拨歧义取较早标记`timeAmbiguous`），地点未识别不throw，回退上海坐标+时区
+- `src/logic/locations.js`的`resolveLocation`：CJK子串匹配+拉丁单词边界匹配，修复"Xianyang"误配"Xian"；"Paris,Texas"这类同名不同地歧义明确不解决（字符串匹配固有局限）
+- `src/logic/calendar.js`：只换吉时筛选谓词，其余19字段原样保留
+- `App.js`：单一校验入口、try/catch/finally防卡死、四种独立DST/地点提示
+- 35个测试全绿（含苏黎世春季跳空+秋季回拨、纽约春季跳空+秋季回拨精确UTC断言）
 
-**结论**：50→57逐级升级到顶，4处真实版本冲突全部有据可查（`lucide-react-native`不支持React19升级到1.28、SDK54/55的jest因react-native自带mock文件用了babel解析不了的Flow语法而真的跑不过、SDK56这个问题被上游自己修好+另外app.json的splash字段要迁移成`expo-splash-screen`插件、SDK57需要新增`@react-native/jest-preset`peer依赖）。字体/卦象/两套加载动画全程没被碰过代码。APK包名/版本号不变，权限列表干净，依赖树里没有新增埋点/统计类包。
+### 依赖清理
+- 删除`electron`/`electron-builder`/`wait-on`——main和integration/fdroid都做了，**GitHub Dependabot警告从122降到77**（已用API二次确认，不是估算）。
+- `expo-system-ui`补充——修复`userInterfaceStyle: automatic`在Android上silently不生效的问题（这个bug在SDK50上一直存在，不是SDK57升级才发现的，是这次做Android真实构建验证时才发现的）。
 
-**明确暴露、没有解决的缺口**：
-1. **Android/Hermes运行时的ICU时区数据完整性完全没验证**——所有DST测试都是Node/Jest环境跑的，这是当前最大的悬而未决风险，直接关系到这次时区精确计算逻辑在真机上到底准不准。
-2. 测试套件缺一个"苏黎世春季跳空"的用例（现在用纽约跳空顶替，同类问题但不是那个具体场景）。
-3. F-Droid相关问题（依赖树许可证合规、可复现构建）这次完全没碰。
+### 真实Android构建验证（不是只测JS）
+- `npm ci` + `expo prebuild --clean --platform android` + `gradlew assembleRelease` 跑通，产出真实APK。
+- 权限列表：`INTERNET`/`READ,WRITE_EXTERNAL_STORAGE`(maxSdk 32)/`SYSTEM_ALERT_WINDOW`/`VIBRATE`，包名`com.zengtao.fortunetelling`versionCode 2 versionName 1.0.1，均符合预期。
+- **发现一个未解决的小尾巴**：`minSdkVersion`是23（Android 6.0），低于Hermes的Intl实现依赖的`android.icu`平台库要求的API 24（Android 7.0）——理论上Android 6.0设备上时区精确计算可能不准，这类设备现在已经很少但F-Droid用户群偏好支持老设备，值得记录，不算阻塞项。
+- **可复现构建验证**：同一commit干净构建两次，解压后860个文件逐一比对，内容完全一致（外层zip容器时间戳不同，属于正常噪音，不是真正的不可复现）。
 
-## 下一步：GPT 给的采用前必做清单（我认可这个顺序，尚未开始执行）
+### 许可证审计（新增 `LICENSE` + `THIRD_PARTY_NOTICES.md`）
+- `npx license-checker --production`扫了全部1202个生产依赖包，**零非自由/专有许可证**，全是标准FLOSS许可证。
+- `package.json`原来完全没有`license`字段（自己都是UNLICENSED），已补上`"license": "MIT"`。
+- `THIRD_PARTY_NOTICES.md`是真实生成的完整清单（1202个包按许可证分组），不是PR2那种手写5条、还带着错误品牌名"Mystic Compass"的旧版本。
+- 顺手追踪了一个"看起来像埋点"的包(`@segment/loosely-validate-event`)，确认是Expo CLI自己的命令行遥测依赖链，不会打进App的JS bundle。
 
-**不要直接合并 `probe/expo57`**——它是证据分支，包含11次梯级提交和大量原始日志，不适合作为产品分支合并。正确做法：
+### GitLab fdroiddata MR (`!44809`) 已更新
+- metadata文件从`io.github.zengtao227.fortunetelling.yml`重命名为`metadata/com.zengtao.fortunetelling.yml`（applicationId已拍板定为`com.zengtao.fortunetelling`，用户2026-08-06确认）。
+- `Builds.commit`指向`integration/fdroid@a0d6a57`，`versionName`/`versionCode`改成真实值(`1.0.1`/`2`，不再是probe阶段瞎写的`1.1.0`/`3`)。
+- `scanignore`列表改成从这次真实本地构建验证过的native module清单，不再是"类比其他App"的未验证猜测。
+- **`Disabled:`字段保留**（用户2026-08-06明确选择：先只更新commit指向，不升级成正式申请收录）——F-Droid真实的build server和scanner还没跑过这个commit，之前的一切验证都是本地做的。
+- MR页面已加评论说明这次更新解决了哪些原来列出的blocker。
 
-1. 从最新 `integration/fdroid`（当前 `acc4c53`）新建 `upgrade/expo57` 分支，只重放最终必要的改动：`package.json`、`package-lock.json`、`app.json`。`.eslintrc.js`的`root:true`要先判断正常(非worktree嵌套)checkout是否还需要——探测报告里明确写了这是"worktree嵌套导致的环境问题，正常checkout不会遇到"，很可能不需要带过去。`vercel.json`已经在`integration/fdroid`修过，不用从probe再移植。
-2. `"expo": "57"` 改成标准的`"~57.0.10"`范围写法，跟其他Expo包保持风格一致，改完重跑`expo install --fix` + `npm ci` + `expo-doctor`。
-3. **重新评估两个未使用的生产依赖**：`lucide-react-native`和`react-native-svg`代码里都零引用（已用grep确认），探测阶段按规则没删，但正式升级时应该单独决定要不要删——删除本身要开一个独立、透明的cleanup commit，不能夹在Expo升级里一起做。
-4. `eslint`/`eslint-config-universe`/`jest`/`jest-expo`/`react-test-renderer`目前在`dependencies`里而不是`devDependencies`（**已核实为真**，不是GPT说错），正式整理时应该挪过去，挪完要重新生成lockfile，并且**先测试**`npm ci --omit=dev`能否正常完成Expo prebuild和Gradle构建再决定要不要真的这样发布（F-Droid构建阶段是否需要devDependencies取决于metadata的安装方式，不能想当然）。
-5. **补一条"苏黎世春季跳空"的jest测试**（`Europe/Zurich 2024-03-31 02:30`附近，具体跳空日期需要用代码里的`localDateTimeToUtc`或`Intl.DateTimeFormat`现查，不要凭记忆硬编码日期），成本很低。
-6. **Android/Hermes真机时区验证要作为这次正式升级的阻塞项，不能再跳过**：至少验证`Asia/Shanghai`正常时间、`Europe/Zurich`春季跳空、`Europe/Zurich`秋季回拨、`America/New_York`秋季回拨这四个场景在真机/模拟器上`Intl.DateTimeFormat`是否给出跟Node/Jest一致的结果。目前App里没有任何调试入口能在运行时检查这个，需要先想清楚怎么验证（临时调试面板？还是在测试脚本里通过Detox之类跑一次？）。
-7. **Android权限要单独收紧，别只是报告里提一句就算了**：已确认App代码里(`App.js`+`src/`)零网络请求(`grep`过`fetch`/`XMLHttpRequest`/`axios`/`http(s)://`全部无匹配)，所以`INTERNET`权限大概率是RN/Expo模板默认带的，不是App真正需要的——如果产品决定是完全离线，应该通过Expo的`android.blockedPermissions`配置显式拿掉，而不是保留着不管。`SYSTEM_ALERT_WINDOW`权限探测报告说是来自React Native的debug manifest，需要确认release manifest merge之后它是否真的没进最终APK，不能只信debug来源这个解释就放过。
-8. 用干净的`npm ci`重跑一遍doctor/lint/34+测试/Web export/prebuild/release APK，确认以上改动没有引入新问题。
-9. 检查release APK最终权限列表（用`aapt dump permissions`）。
-10. 整理一份简短的正式升级说明（不是探测报告那种几百行日志级别的，是给以后回顾用的精简版），开Draft PR到`integration/fdroid`，不直接合并——等我或下次session再审一遍。
+## 再往后要做的事（尚未开始）
 
-## 再往后（Phase 2/3，尚未开始）
+1. **AsyncStorage hydration race修复**（组件挂载时读取/保存两个useEffect的执行顺序问题，早前审查发现过，一直没修）。
+2. **要不要把`integration/fdroid`合并回`main`**——这个决定还没做，Phase 1的东西已经验证得很充分了，值得考虑。
+3. **PR #2处置**：倾向于关闭不合并，用户尚未最终拍板，别自己关掉。
+4. **吉神/九星等7个字段**数据层已保留，没新增UI——以后想做是独立产品功能迭代，不要混进F-Droid相关改动。
+5. **GitLab MR下一步**：等哪天真的要提交正式收录申请时，去掉`Disabled:`字段，让F-Droid真实构建服务器和scanner跑一遍，根据真实报错再迭代`scanignore`。这一步只能等外部反馈，不是能在本地继续推进的。
+6. **Android/Hermes真机时区验证**：仍然没做（需要真机或模拟器+调试入口，判断为超出目前投入产出比，长期看仍是最大的悬而未决风险点）。
 
-- AsyncStorage hydration race 修复（组件挂载时读取/保存两个useEffect的执行顺序问题，早前审查发现过，这次还没修）。
-- Phase 3 是两件独立的事，不能只做一件就算数：
-  - **安全审计**：main分支GitHub Dependabot显示122个警告(3 critical/68 high/42 moderate/9 low)，检查是否有已知CVE影响production Android构建。
-  - **许可证审计**：完整传递依赖树是否都允许分发、是否符合F-Droid收录政策；`package-lock.json`+`npm ci`可复现构建；fdroiddata metadata指向新commit并移除`Disabled:`。
-- GitLab fdroiddata探路Draft MR `!44809`：`Disabled:`字段确认会跳过真实build/scanner，已在MR留言澄清，继续保持Draft，等主线(Expo57升级+两项审计)稳定后再更新指向新commit。
-- PR #2处置：倾向于关闭不合并（GPT建议，我认同），但用户尚未最终拍板，别自己关掉。
-- 吉神/九星等7个字段(`jiShen`/`xiongSha`/`zheng`/`taiShen`/`pengZu`/`jieQi`/`jiuXing`)数据层已保留，但没有新增UI展示——如果以后想做，是一次独立的产品功能迭代，不要混进F-Droid相关改动里。
+## 已经确认、不要再反复讨论的决定
 
-## 已经确认、不要再反复讨论的产品决定
-
-- 地点未识别时走"宽容估算+双重提示"，不采用PR2的"直接拒绝"（用户2026-08-04确认）。GPT在多轮审查中反复建议改回拒绝式/降级为只算太阳星座，没有采纳——这是已经拍板的产品决定，审查意见不改变这一点。
-- macOS/Electron打包链路本次不用管（用户2026-08-04确认，发布目标是F-Droid/Android）。`electron`/`electron-builder`目前还在devDependencies里没删，属于待定项，不紧急。
-- 不整文件替换astrology.js/calendar.js，而是精确移植（谓词替换/新增文件）。
-- `.agent/handoff.md`和项目根`CONTEXT.md`是用户自己全局CLAUDE.md明确要求的产物，不是意外混入逻辑修复提交——两个文件在独立docs commit(`8178ef4`)里。GPT一开始建议不要合并进主分支，后来撤回了这条建议，确认跟用户既定工作习惯冲突后予以保留。
+- 地点未识别时走"宽容估算+双重提示"，不采用"直接拒绝"（用户2026-08-04确认，GPT多轮建议改回拒绝式，未采纳）。
+- macOS/Electron打包链路不用管，且已经把依赖真删了（用户2026-08-06确认"按你的建议开始做吧"）。
+- Expo 57升级不做（用户2026-08-06基于成本收益分析后决定，不是技术上做不到，是不划算）。
+- applicationId定为`com.zengtao.fortunetelling`（用户2026-08-06确认）。
+- GitLab MR继续保持Disabled探路状态，不升级成正式申请（用户2026-08-06确认）。
+- 不整文件替换astrology.js/calendar.js，而是精确移植。
+- `.agent/handoff.md`和项目根`CONTEXT.md`是用户自己全局CLAUDE.md明确要求的产物，予以保留。
