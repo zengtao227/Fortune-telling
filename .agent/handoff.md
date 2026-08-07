@@ -60,7 +60,7 @@
 - `scanignore`列表改成从这次真实本地构建验证过的native module清单，不再是"类比其他App"的未验证猜测。
 - **`Disabled:`字段保留**（用户2026-08-06明确选择：先只更新commit指向，不升级成正式申请收录）——F-Droid真实的build server和scanner还没跑过这个commit，之前的一切验证都是本地做的。
 - MR页面已加评论说明这次更新解决了哪些原来列出的blocker。
-- **2026-08-07 追加**：第一次推送后CI的`fdroid rewritemeta`格式检查失败(commit `9f85a263`)。没有直接照单全收自动格式化结果——先用真实diff核对了一遍，确认不是要删掉`expo prebuild`步骤(那样会改坏真实构建逻辑)，而是纯字段顺序/引号风格规范化，对照真实在架的Expo App(`app.ladefuchs.android.yml`)的recipe验证了`gradle: yes`和自定义`build:`列表可以共存，不是互斥的。按真实diff手动重写后推送(`dbfae23c`)，又因为少了一个文件末尾换行符再次失败，补上后(`3dd49caf`)推送——回来时先查这次的pipeline状态，如果还是失败，同样的方法(下载job log的raw diff，别只看summary)去看具体差在哪。
+- **2026-08-07**：第一次推送后CI的`fdroid rewritemeta`格式检查失败(commit `9f85a263`)。没有直接照单全收自动格式化结果——先用真实diff核对了一遍，确认不是要删掉`expo prebuild`步骤(那样会改坏真实构建逻辑)，而是纯字段顺序/引号风格规范化，对照真实在架的Expo App(`app.ladefuchs.android.yml`)的recipe验证了`gradle: yes`和自定义`build:`列表可以共存，不是互斥的。按真实diff手动重写后推送(`dbfae23c`)，又因为少了一个文件末尾换行符再次失败，补上后推送(`3dd49caf`)。**Pipeline #2740041291 已确认通过**——`fdroid rewritemeta`/`fdroid lint`/`schema validation`等格式类检查全绿，`Disabled:`字段仍然按设计跳过真实build/scanner(预期内，不是问题)。MR目前处于干净、格式合规的Draft状态，随时可以在决定正式提交时去掉`Disabled:`。
 
 ## 再往后要做的事（尚未开始）
 
