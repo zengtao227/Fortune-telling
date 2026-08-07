@@ -1,0 +1,6 @@
+Initial F-Droid release.
+
+- Western astrology (Sun, Moon, Ascendant) using real astronomical calculation
+- I Ching 64-hexagram divination with changing lines
+- Daily Chinese almanac card
+- Fully offline, no network access, no tracking

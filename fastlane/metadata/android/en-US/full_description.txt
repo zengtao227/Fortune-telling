@@ -1,0 +1,16 @@
+Mystic Tarot blends Western astrology and traditional Chinese divination into a single, calm, offline companion.
+
+<b>Western astrology</b>
+Enter a birth date, time, and place to calculate your Sun, Moon, and Ascendant (rising) sign using real astronomical position data (via the astronomy-engine library), not a simplified date lookup table. Birth time and location are used only for the calculation on your device and are never sent anywhere.
+
+<b>I Ching (Yi Jing) divination</b>
+Cast one of the 64 hexagrams with a traditional coin-toss style ritual, including changing lines and the resulting transformed hexagram, each paired with interpretive guidance.
+
+<b>Daily Chinese almanac (黄历)</b>
+A daily card showing the lunar date, the day's guardian deity, auspicious and inauspicious activities (宜/忌), directional conflicts (冲煞), lunar mansion (星宿), and a reference table of auspicious hours (吉时参考), computed locally from the lunar calendar.
+
+<b>Privacy</b>
+The app makes no network requests and includes no analytics, advertising, or tracking of any kind. All calculations run entirely on your device.
+
+<b>Appearance</b>
+Two visual themes are included, switchable at any time.
