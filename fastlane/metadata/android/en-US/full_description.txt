@@ -1,4 +1,4 @@
-Mystic Tarot blends Western astrology and traditional Chinese divination into a single, calm, offline companion.
+Fortune Telling blends Western astrology and traditional Chinese divination into a single, calm, offline companion.
 
 <b>Western astrology</b>
 Enter a birth date, time, and place to calculate your Sun, Moon, and Ascendant (rising) sign using real astronomical position data (via the astronomy-engine library), not a simplified date lookup table. Birth time and location are used only for the calculation on your device and are never sent anywhere.
