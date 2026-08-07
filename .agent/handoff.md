@@ -11,7 +11,7 @@
 | 分支 | 最新 commit | 状态 |
 |---|---|---|
 | `main` | `57e9450` | 生产分支，Expo SDK 50。 |
-| `integration/fdroid` | `70923f2` | **当前工作分支**，Expo SDK 50。含 Phase 1 逻辑修复 + electron移除 + 许可证审计 + expo-system-ui修复 + AsyncStorage竞态修复。**未合并回 main**。 |
+| `integration/fdroid` | `4d57fac` | **当前工作分支**，Expo SDK 50。含 Phase 1 逻辑修复 + electron移除 + 许可证审计 + expo-system-ui修复 + AsyncStorage竞态修复 + 英文fastlane商店文案。**未合并回 main**。 |
 | `upgrade/expo57` | `b30e073` | **已暂停，不再继续**（见下方"Expo 57 升级：决定不做"）。分支保留，不删，以后有真实理由要升级时可以直接捡起来接着做。 |
 | `probe/expo57` | `55b53ba` | 纯证据分支，已完成使命，不需要再碰。 |
 
@@ -62,17 +62,26 @@
 - MR页面已加评论说明这次更新解决了哪些原来列出的blocker。
 - **2026-08-07**：第一次推送后CI的`fdroid rewritemeta`格式检查失败(commit `9f85a263`)。没有直接照单全收自动格式化结果——先用真实diff核对了一遍，确认不是要删掉`expo prebuild`步骤(那样会改坏真实构建逻辑)，而是纯字段顺序/引号风格规范化，对照真实在架的Expo App(`app.ladefuchs.android.yml`)的recipe验证了`gradle: yes`和自定义`build:`列表可以共存，不是互斥的。按真实diff手动重写后推送(`dbfae23c`)，又因为少了一个文件末尾换行符再次失败，补上后推送(`3dd49caf`)。**Pipeline #2740041291 已确认通过**——`fdroid rewritemeta`/`fdroid lint`/`schema validation`等格式类检查全绿，`Disabled:`字段仍然按设计跳过真实build/scanner(预期内，不是问题)。MR目前处于干净、格式合规的Draft状态，随时可以在决定正式提交时去掉`Disabled:`。
 
+## ⚠️ 发布闸门（用户2026-08-07明确要求）
+
+**在下面两件事都解决之前，不要把这个App上架到F-Droid**（不要去掉GitLab MR的`Disabled:`字段，不要提交正式收录申请）：
+1. ~~F-Droid上架的英文商店文案要求~~ **已完成，见下方"已完成"**。
+2. **multi-language讨论**——用户发现App运行时只有中文，问是否该做多语言。已经查清楚这跟F-Droid上架要求本身无关（F-Droid只要求英文商店文案，不要求App本身多语言），但用户明确要求先讨论完这个问题再上架，不能因为"技术上已经满足F-Droid要求"就跳过这一步自己上架。**这个话题还没有开始讨论，下次接着做的第一件事就是这个。**
+
 ## 再往后要做的事（尚未开始）
 
 1. **要不要把`integration/fdroid`合并回`main`**——这个决定还没做，Phase 1的东西已经验证得很充分了，值得考虑。
-2. **PR #2处置**：倾向于关闭不合并，用户尚未最终拍板，别自己关掉。
+2. **PR #2处置**：倾向于关闭不合并，用户尚未最终拍板，别自己关掉。**新情况(2026-08-07)**：真实F-Droid社区人物`licaon-kter`(知名maintainer)在PR #2下留了条评论("do add icon.png and phoneScreenshots...")——他大概率是从GitLab MR描述里的链接点过去的，但PR #2本身是废弃分支(还带着未修复的产品回归)，不是当前工作分支。还没回复他，需要用户决定怎么处理(在integration/fdroid说明现状？还是不管？这是public GitHub评论，回复前需要用户同意)。
 3. **吉神/九星等7个字段**数据层已保留，没新增UI——以后想做是独立产品功能迭代，不要混进F-Droid相关改动。
 4. **GitLab MR下一步**：等哪天真的要提交正式收录申请时，去掉`Disabled:`字段，让F-Droid真实构建服务器和scanner跑一遍，根据真实报错再迭代`scanignore`。这一步只能等外部反馈，不是能在本地继续推进的。
 5. **Android/Hermes真机时区验证**：仍然没做（需要真机或模拟器+调试入口，判断为超出目前投入产出比，长期看仍是最大的悬而未决风险点）。
+6. **品牌命名不一致，值得跟用户核对**：GitLab metadata的`AutoName`目前写的是"Fortune Telling"，但App实际UI顶部显示的品牌是"MYSTIC TAROT"(硬编码在App.js第857行)。这次新写的fastlane`title.txt`用的是"Mystic Tarot"(匹配App实际显示)，但GitLab那边的`AutoName`还没同步改过来——不算阻塞项，但发布前应该让两边一致。
+7. **"完全不联网"文案的精确度**：fastlane文案写的是"the app makes no network requests"(代码层面完全属实，已用grep验证零网络调用)，但AndroidManifest目前仍然声明了`INTERNET`权限(只是没被代码用到)。之前在`upgrade/expo57`分支探索过用`android.blockedPermissions`去掉这个权限，但发现会同时影响debug和release构建(需要自定义config plugin才能只对release生效)，讨论到一半被Expo57的成本收益分析打断，没有最终决定。如果想让"完全不联网"这个说法在权限列表层面也站得住脚，这个还没做完。
 
 ## 已完成（2026-08-07 新增）
 
 - **AsyncStorage hydration race 修复**：`AstrologyForm`组件的Load Effect(异步`getItem`)和Save Effect(`setItem`,依赖`[name,date,time,location]`)在挂载时同时触发——Save Effect用初始的空字符串状态先跑一次，早于Load Effect的异步读取完成，会把之前保存的草稿覆盖成空值；如果App在这个窗口期被关掉，草稿就真的丢了。用`hasLoadedRef`门控修复：Load Effect完成前Save Effect直接跳过。在浏览器里做了行为验证(输入草稿→整页刷新重新挂载→草稿保留)，34测试+0 lint错误。commit `70923f2`。
+- **英文fastlane商店文案**(`fastlane/metadata/android/en-US/`)：F-Droid要求商店列表(标题/描述/截图)必须是英文，跟App本身是不是多语言完全是两回事——这个目录之前完全不存在。新写了`title.txt`("Mystic Tarot")、`short_description.txt`、`full_description.txt`(英文原创，没有机械翻译中文内容，只写verified事实)、`changelogs/2.txt`、512×512的`icon.png`(从真实1024×1024图标缩放，不是随便截的图)、3张真实App截图(首页/占星结果/周易卦象结果，含长按仪式触发的卦象可视化)。**顺手发现并修了一个真bug**：`.gitignore`里的`android/`和`ios/`两条规则没有加`/`前缀锚定到仓库根目录，导致git会把任何叫"android"的子目录都忽略掉——包括这次新建的`fastlane/metadata/android/en-US/`，这些文件加了以后`git status`完全不显示，改成`/android/`和`/ios/`才修好。commit `4d57fac`。
 
 ## 已经确认、不要再反复讨论的决定
 
