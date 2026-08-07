@@ -497,21 +497,28 @@ const AstrologyForm = ({ onSubmit, theme }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
+  // Guards the Save Effect from firing with the still-empty initial state
+  // before the Load Effect's async read resolves -- without this, mounting
+  // the form immediately overwrites any previously saved draft with blanks.
+  const hasLoadedRef = useRef(false);
 
   // Load Effect
   useEffect(() => {
     let cancelled = false;
     storage.getItem("astro_saved_data").then((saved) => {
-      if (!saved || cancelled) return;
-      try {
-        const data = JSON.parse(saved);
-        if (data.name) setName(data.name);
-        if (data.date) setDate(data.date);
-        if (data.time) setTime(data.time);
-        if (data.location) setLocation(data.location);
-      } catch (e) {
-        // Corrupt saved draft; ignore and keep empty fields.
+      if (cancelled) return;
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.name) setName(data.name);
+          if (data.date) setDate(data.date);
+          if (data.time) setTime(data.time);
+          if (data.location) setLocation(data.location);
+        } catch (e) {
+          // Corrupt saved draft; ignore and keep empty fields.
+        }
       }
+      hasLoadedRef.current = true;
     });
     return () => {
       cancelled = true;
@@ -520,6 +527,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
 
   // Save Effect
   useEffect(() => {
+    if (!hasLoadedRef.current) return;
     storage.setItem(
       "astro_saved_data",
       JSON.stringify({ name, date, time, location }),
