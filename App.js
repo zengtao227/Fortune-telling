@@ -854,7 +854,7 @@ function AppInner() {
                 { color: theme.accent, fontFamily: fontsLoaded ? theme.fontTitle : (Platform.OS === 'web' ? 'serif' : undefined) },
               ]}
             >
-              Fortune Telling
+              {currentView === "HOME" ? "天语" : currentView === "RESULT_IC" ? "卦语" : "星语"}
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TouchableOpacity
