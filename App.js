@@ -835,7 +835,7 @@ function AppInner() {
                 { color: theme.accent, fontFamily: fontsLoaded ? theme.fontTitle : (Platform.OS === 'web' ? 'serif' : undefined) },
               ]}
             >
-              MYSTIC TAROT
+              Fortune Telling
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <TouchableOpacity
