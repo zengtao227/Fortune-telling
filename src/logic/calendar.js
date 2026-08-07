@@ -46,11 +46,12 @@ export const calculateAlmanac = (date = new Date()) => {
         '酉': '17:00-18:59', '戌': '19:00-20:59', '亥': '21:00-22:59'
     };
     times.forEach(t => {
+        // 用时辰天神吉凶(getTianShenLuck)筛选真正的吉时，而不是"该时辰随便有宜事就算吉"
+        if (typeof t.getTianShenLuck !== 'function' || t.getTianShenLuck() !== '吉') return;
         const zhi = t.getZhi();
-        const yi = t.getYi(); // Ensure correct method is used
-        if (yi && yi.length > 0 && yi[0] !== '无') {
-            jiShi.push(`${zhi}时(${HOUR_MAP[zhi]}) 宜: ${yi.slice(0, 3).join(" ")}`);
-        }
+        const yi = t.getYi();
+        const suitable = (yi && yi.length > 0 && yi[0] !== '无') ? yi.slice(0, 3).join(" ") : "";
+        jiShi.push(`${zhi}时(${HOUR_MAP[zhi]})${suitable ? ` 宜: ${suitable}` : ""}`);
     });
 
     // 冲煞

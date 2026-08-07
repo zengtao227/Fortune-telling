@@ -20,6 +20,7 @@ import {
 import { getBigThree } from "./src/logic/astrology";
 import { calculateAlmanac, performDivination } from "./src/logic/calendar";
 import { getHexagramLines, findHexagramByLines } from "./src/logic/iching";
+import { validateAstrologyInput } from "./src/logic/inputValidation";
 import { THEMES, getTheme } from "./src/theme";
 import {
   resolveIChingMessage,
@@ -496,21 +497,28 @@ const AstrologyForm = ({ onSubmit, theme }) => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
+  // Guards the Save Effect from firing with the still-empty initial state
+  // before the Load Effect's async read resolves -- without this, mounting
+  // the form immediately overwrites any previously saved draft with blanks.
+  const hasLoadedRef = useRef(false);
 
   // Load Effect
   useEffect(() => {
     let cancelled = false;
     storage.getItem("astro_saved_data").then((saved) => {
-      if (!saved || cancelled) return;
-      try {
-        const data = JSON.parse(saved);
-        if (data.name) setName(data.name);
-        if (data.date) setDate(data.date);
-        if (data.time) setTime(data.time);
-        if (data.location) setLocation(data.location);
-      } catch (e) {
-        // Corrupt saved draft; ignore and keep empty fields.
+      if (cancelled) return;
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.name) setName(data.name);
+          if (data.date) setDate(data.date);
+          if (data.time) setTime(data.time);
+          if (data.location) setLocation(data.location);
+        } catch (e) {
+          // Corrupt saved draft; ignore and keep empty fields.
+        }
       }
+      hasLoadedRef.current = true;
     });
     return () => {
       cancelled = true;
@@ -519,6 +527,7 @@ const AstrologyForm = ({ onSubmit, theme }) => {
 
   // Save Effect
   useEffect(() => {
+    if (!hasLoadedRef.current) return;
     storage.setItem(
       "astro_saved_data",
       JSON.stringify({ name, date, time, location }),
@@ -727,57 +736,67 @@ function AppInner() {
 
   // Astro Logic
   const handleAstroSubmit = (formData) => {
-    if (!formData.date || formData.date.length < 10) {
-      alert("请输入完整的日期 YYYY-MM-DD");
+    const validation = validateAstrologyInput(formData);
+    if (!validation.ok) {
+      alert(validation.error);
       return;
     }
 
     setIsCalculating(true);
     // Scientific Calculation
     setTimeout(() => {
-      const bigThree = getBigThree({
-        date: formData.date,
-        time: formData.time,
-        location: formData.location,
-      });
+      try {
+        const bigThree = getBigThree({
+          date: formData.date,
+          time: formData.time,
+          location: formData.location,
+        });
 
-      // Map Zodiac to nearest planet in our corpus for messages
-      const zodiacToPlanetMap = {
-        Aries: "Mars",
-        Taurus: "Venus",
-        Gemini: "Mercury",
-        Cancer: "Moon",
-        Leo: "Sun",
-        Virgo: "Mercury",
-        Libra: "Venus",
-        Scorpio: "Mars",
-        Sagittarius: "Jupiter",
-        Capricorn: "Jupiter",
-        Aquarius: "Mercury",
-        Pisces: "Jupiter",
-      };
+        // Map Zodiac to nearest planet in our corpus for messages
+        const zodiacToPlanetMap = {
+          Aries: "Mars",
+          Taurus: "Venus",
+          Gemini: "Mercury",
+          Cancer: "Moon",
+          Leo: "Sun",
+          Virgo: "Mercury",
+          Libra: "Venus",
+          Scorpio: "Mars",
+          Sagittarius: "Jupiter",
+          Capricorn: "Jupiter",
+          Aquarius: "Mercury",
+          Pisces: "Jupiter",
+        };
 
-      const planet = zodiacToPlanetMap[bigThree.sun?.en] || "Sun";
-      const msg = resolveAstrologyMessage(planet);
-      const sunText = bigThree.sun?.en || "Unknown";
-      const moonText =
-        bigThree.moon?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
-      const risingText =
-        bigThree.ascendant?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
-      const timeTag = formData.time ? ` ${formData.time}` : "";
+        const planet = zodiacToPlanetMap[bigThree.sun?.en] || "Sun";
+        const msg = resolveAstrologyMessage(planet);
+        const sunText = bigThree.sun?.en || "Unknown";
+        const moonText =
+          bigThree.moon?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
+        const risingText =
+          bigThree.ascendant?.en || (bigThree.hasPreciseTime ? "Unknown" : "—");
+        const timeTag = formData.time ? ` ${formData.time}` : "";
 
-      setResultData({
-        title: `出生星宫 · ${bigThree.sun?.name || "未知"}`,
-        bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
-        hasPreciseTime: bigThree.hasPreciseTime,
-        locationEstimated: bigThree.locationEstimated,
-        message: msg || "星轨流转，你的命运此刻正在上升。",
-        extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`,
-      });
-      setIsCalculating(false);
-      setCurrentView("RESULT_AS");
-      if (!isWeb)
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        setResultData({
+          title: `出生星宫 · ${bigThree.sun?.name || "未知"}`,
+          bigThree: `🌞 Sun: ${sunText} | 🌙 Moon: ${moonText} | 🏹 Rising: ${risingText}`,
+          hasPreciseTime: bigThree.hasPreciseTime,
+          locationEstimated: bigThree.locationEstimated,
+          locationProvided: bigThree.locationProvided,
+          timeEstimated: bigThree.timeEstimated,
+          timeAmbiguous: bigThree.timeAmbiguous,
+          message: msg || "星轨流转，你的命运此刻正在上升。",
+          extra: `基于 ${formData.date}${timeTag} 的黄道刻度推演`,
+        });
+        setCurrentView("RESULT_AS");
+        if (!isWeb)
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } catch (e) {
+        console.error("getBigThree error:", e);
+        alert("星盘计算出错，请检查输入的日期/时间后重试");
+      } finally {
+        setIsCalculating(false);
+      }
     }, 1500);
   };
 
@@ -1099,7 +1118,23 @@ function AppInner() {
                   <Text
                     style={[styles.resultMeta, { color: theme.secondary }]}
                   >
-                    未识别出生地点，上升星座已用默认坐标(上海)估算
+                    {resultData.locationProvided
+                      ? "未识别出生地点，上升星座已用默认坐标与时区(上海)估算"
+                      : "未填写出生地点，上升星座已用默认坐标与时区(上海)估算"}
+                  </Text>
+                )}
+                {resultData.timeEstimated && (
+                  <Text
+                    style={[styles.resultMeta, { color: theme.secondary }]}
+                  >
+                    该时刻在当地时区因夏令时切换而不存在，已按切换幅度顺延估算
+                  </Text>
+                )}
+                {resultData.timeAmbiguous && (
+                  <Text
+                    style={[styles.resultMeta, { color: theme.secondary }]}
+                  >
+                    该时刻因夏令时回拨在当天出现两次，已按较早的一次估算
                   </Text>
                 )}
                 <View style={[styles.divider, { backgroundColor: theme.border }]} />
