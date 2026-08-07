@@ -1,17 +1,17 @@
 # Handoff
 
-最后更新：2026-08-06
+最后更新：2026-08-07
 
 ## 当前结论：F-Droid 发布路径的本地/GitLab 侧准备工作基本做完了
 
-`integration/fdroid` 现在有：真实验证过的 Android 构建、完整许可证审计、可复现构建验证、更新过的 GitLab 探路 MR。剩下的都是需要 F-Droid 官方基础设施或用户决定的事，不是能在本地继续推进的了。
+`integration/fdroid` 现在有：真实验证过的 Android 构建、完整许可证审计、可复现构建验证、更新过且已通过`fdroid rewritemeta`格式检查的 GitLab 探路 MR、修复过的 AsyncStorage 竞态。剩下的都是需要 F-Droid 官方基础设施或用户决定的事，不是能在本地继续推进的了。
 
 ## 三条分支的当前状态
 
 | 分支 | 最新 commit | 状态 |
 |---|---|---|
 | `main` | `57e9450` | 生产分支，Expo SDK 50。 |
-| `integration/fdroid` | `a0d6a57` | **当前工作分支**，Expo SDK 50。含 Phase 1 逻辑修复 + electron移除 + 许可证审计 + expo-system-ui修复。**未合并回 main**。 |
+| `integration/fdroid` | `70923f2` | **当前工作分支**，Expo SDK 50。含 Phase 1 逻辑修复 + electron移除 + 许可证审计 + expo-system-ui修复 + AsyncStorage竞态修复。**未合并回 main**。 |
 | `upgrade/expo57` | `b30e073` | **已暂停，不再继续**（见下方"Expo 57 升级：决定不做"）。分支保留，不删，以后有真实理由要升级时可以直接捡起来接着做。 |
 | `probe/expo57` | `55b53ba` | 纯证据分支，已完成使命，不需要再碰。 |
 
@@ -54,21 +54,25 @@
 - `THIRD_PARTY_NOTICES.md`是真实生成的完整清单（1202个包按许可证分组），不是PR2那种手写5条、还带着错误品牌名"Mystic Compass"的旧版本。
 - 顺手追踪了一个"看起来像埋点"的包(`@segment/loosely-validate-event`)，确认是Expo CLI自己的命令行遥测依赖链，不会打进App的JS bundle。
 
-### GitLab fdroiddata MR (`!44809`) 已更新
+### GitLab fdroiddata MR (`!44809`) 已更新，且这次真的通过了格式检查
 - metadata文件从`io.github.zengtao227.fortunetelling.yml`重命名为`metadata/com.zengtao.fortunetelling.yml`（applicationId已拍板定为`com.zengtao.fortunetelling`，用户2026-08-06确认）。
 - `Builds.commit`指向`integration/fdroid@a0d6a57`，`versionName`/`versionCode`改成真实值(`1.0.1`/`2`，不再是probe阶段瞎写的`1.1.0`/`3`)。
 - `scanignore`列表改成从这次真实本地构建验证过的native module清单，不再是"类比其他App"的未验证猜测。
 - **`Disabled:`字段保留**（用户2026-08-06明确选择：先只更新commit指向，不升级成正式申请收录）——F-Droid真实的build server和scanner还没跑过这个commit，之前的一切验证都是本地做的。
 - MR页面已加评论说明这次更新解决了哪些原来列出的blocker。
+- **2026-08-07 追加**：第一次推送后CI的`fdroid rewritemeta`格式检查失败(commit `9f85a263`)。没有直接照单全收自动格式化结果——先用真实diff核对了一遍，确认不是要删掉`expo prebuild`步骤(那样会改坏真实构建逻辑)，而是纯字段顺序/引号风格规范化，对照真实在架的Expo App(`app.ladefuchs.android.yml`)的recipe验证了`gradle: yes`和自定义`build:`列表可以共存，不是互斥的。按真实diff手动重写后推送(`dbfae23c`)，又因为少了一个文件末尾换行符再次失败，补上后(`3dd49caf`)推送——回来时先查这次的pipeline状态，如果还是失败，同样的方法(下载job log的raw diff，别只看summary)去看具体差在哪。
 
 ## 再往后要做的事（尚未开始）
 
-1. **AsyncStorage hydration race修复**（组件挂载时读取/保存两个useEffect的执行顺序问题，早前审查发现过，一直没修）。
-2. **要不要把`integration/fdroid`合并回`main`**——这个决定还没做，Phase 1的东西已经验证得很充分了，值得考虑。
-3. **PR #2处置**：倾向于关闭不合并，用户尚未最终拍板，别自己关掉。
-4. **吉神/九星等7个字段**数据层已保留，没新增UI——以后想做是独立产品功能迭代，不要混进F-Droid相关改动。
-5. **GitLab MR下一步**：等哪天真的要提交正式收录申请时，去掉`Disabled:`字段，让F-Droid真实构建服务器和scanner跑一遍，根据真实报错再迭代`scanignore`。这一步只能等外部反馈，不是能在本地继续推进的。
-6. **Android/Hermes真机时区验证**：仍然没做（需要真机或模拟器+调试入口，判断为超出目前投入产出比，长期看仍是最大的悬而未决风险点）。
+1. **要不要把`integration/fdroid`合并回`main`**——这个决定还没做，Phase 1的东西已经验证得很充分了，值得考虑。
+2. **PR #2处置**：倾向于关闭不合并，用户尚未最终拍板，别自己关掉。
+3. **吉神/九星等7个字段**数据层已保留，没新增UI——以后想做是独立产品功能迭代，不要混进F-Droid相关改动。
+4. **GitLab MR下一步**：等哪天真的要提交正式收录申请时，去掉`Disabled:`字段，让F-Droid真实构建服务器和scanner跑一遍，根据真实报错再迭代`scanignore`。这一步只能等外部反馈，不是能在本地继续推进的。
+5. **Android/Hermes真机时区验证**：仍然没做（需要真机或模拟器+调试入口，判断为超出目前投入产出比，长期看仍是最大的悬而未决风险点）。
+
+## 已完成（2026-08-07 新增）
+
+- **AsyncStorage hydration race 修复**：`AstrologyForm`组件的Load Effect(异步`getItem`)和Save Effect(`setItem`,依赖`[name,date,time,location]`)在挂载时同时触发——Save Effect用初始的空字符串状态先跑一次，早于Load Effect的异步读取完成，会把之前保存的草稿覆盖成空值；如果App在这个窗口期被关掉，草稿就真的丢了。用`hasLoadedRef`门控修复：Load Effect完成前Save Effect直接跳过。在浏览器里做了行为验证(输入草稿→整页刷新重新挂载→草稿保留)，34测试+0 lint错误。commit `70923f2`。
 
 ## 已经确认、不要再反复讨论的决定
 
