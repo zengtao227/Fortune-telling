@@ -1,6 +1,35 @@
 # Handoff
 
-最后更新：2026-08-07
+最后更新：2026-08-08
+
+## 当前状态：v1.0.2 已发布，F-Droid MR 已更新且 CI 全绿
+
+- 上游 release 源码 commit：`ac5ddb6ddf24542daa3ae978648cd62155794c28`
+- 不可变 annotated tag：`v1.0.2`（远端 peeled commit 仍为上述 commit）
+- GitHub source-only release：<https://github.com/zengtao227/Fortune-telling/releases/tag/v1.0.2>
+- Android release 已启用 R8 minify 和资源收缩；干净构建执行了 `minifyReleaseWithR8`、`shrinkReleaseRes`、`optimizeReleaseResources`
+- F-Droid MR：<https://gitlab.com/fdroid/fdroiddata/-/merge_requests/44809>
+- F-Droid 元数据 commit：`bb91b98cfbfb752c94863aa4d53ee03e7986165f`，指向上游 v1.0.2/versionCode 3
+- 新流水线：<https://gitlab.com/zengtao227/fdroiddata/-/pipelines/2743550271>，全部 9 个 jobs 通过，包括 `fdroid build` 与 `check apk`
+- reviewer 的 minify 问题已在原线程回复：<https://gitlab.com/fdroid/fdroiddata/-/merge_requests/44809#note_3661839592>
+
+## 下一步
+
+- 不再推送构建变更；等待 F-Droid maintainer review/merge 和后续索引发布。
+- F-Droid 上架完成前，不得把“MR open + CI pass”描述为“已在 F-Droid 商店可下载”。
+- GitHub release 未附带 APK；本地临时签名 APK 只用于模拟器安装验证，F-Droid 仍从源码构建并自行签名。
+
+## 关键验证
+
+- `npm test -- --runInBand`：3 suites / 34 tests 通过。
+- `npm run lint`：exit 0、0 errors；466 个既有 warnings 未在本任务扩散处理。
+- release APK 约 64 MiB；R8 `mapping.txt` 为 7,265,048 bytes；原产物 `apksigner` 明确为 unsigned。
+- 临时测试签名副本在 AVD 安装/启动成功；首页、占星表单、周易结果页和字体/图标/渐变通过冒烟，app-PID logcat 无致命异常。
+- 占星完整结果页与持续动画未由自动化可靠证明，属于非阻塞的手工验证缺口；发布目标本身已通过。
+
+---
+
+## 历史状态（2026-08-07）
 
 ## 当前结论：发布闸门的两个条件都已满足，但还没实际提交F-Droid正式收录申请
 

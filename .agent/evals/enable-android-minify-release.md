@@ -12,9 +12,9 @@
 - [x] A clean release APK builds successfully and remains unsigned.
 - [x] R8 output proves minification ran, and the APK manifest reports the expected package/version.
 - [x] The release APK installs and launches on an Android device or emulator; core Fortune Telling screens receive a smoke test.
-- [ ] Upstream main is pushed, annotated tag `v1.0.2` is published, and the remote tag resolves to the verified source commit.
-- [ ] Existing F-Droid MR !44809 is updated to version 1.0.2/versionCode 3/new commit and its pipeline passes.
-- [ ] Reviewer receives an evidence-backed reply; no duplicate MR is opened.
+- [x] Upstream main is pushed, annotated tag `v1.0.2` is published, and the remote tag resolves to the verified source commit.
+- [x] Existing F-Droid MR !44809 is updated to version 1.0.2/versionCode 3/new commit and its pipeline passes.
+- [x] Reviewer receives an evidence-backed reply; no duplicate MR is opened.
 
 ## Verification
 - Command: `npm test -- --runInBand`
@@ -40,7 +40,7 @@
 - [ ] Continuous animation remains visible after resource shrinking.
 
 ## Result
-- Status: PARTIAL
+- Status: PASS
 - Evidence:
   - Initial audit: v1.0.1/versionCode 2 is the current immutable release; minify and resource shrinking both resolve to false.
   - `npm test -- --runInBand`: 3 suites, 34 tests passed.
@@ -54,7 +54,11 @@
   - App-PID logcat scan: no `FATAL EXCEPTION`, `Resources$NotFoundException`, or `ClassNotFoundException`.
   - Clean `git archive` E2E: `npm ci` installed 1468 packages; real fdroidserver scanner returned `SCANNER_COUNT=0` and preserved Linux Hermes.
   - Scanner-clean tree built with external Gradle 8.3 and only JDK 21 visible: `BUILD SUCCESSFUL in 1m49s`; R8/resource shrinking and unsigned APK checks passed again.
+  - Upstream release commit `ac5ddb6ddf24542daa3ae978648cd62155794c28` is published as annotated tag `v1.0.2`; the GitHub release is source-only.
+  - F-Droid metadata commit `bb91b98cfbfb752c94863aa4d53ee03e7986165f` updates the existing MR to versionName `1.0.2`, versionCode `3`, and the verified upstream commit without changing its build recipe.
+  - GitLab pipeline `2743550271` passed in 7m50s; all nine jobs passed, including `fdroid build` and `check apk`.
+  - Reviewer reply is posted in the original minify discussion as note `3661839592`.
 - Remaining risks:
-  - The astrology form rendered; a full result submission is being rechecked after an Android Gboard permission prompt interfered with automation.
-  - Two captured I Ching frames were identical, so continuous animation is not yet proven by the automated smoke test.
-  - Remote publication and F-Droid CI are pending.
+  - The astrology form rendered, but ADB input into the React Native fields did not persist reliably enough to verify a full result submission; its calculation logic remains covered by the passing unit tests.
+  - Two captured I Ching frames were identical, so continuous animation is not proven by the automated smoke test.
+  - MR !44809 is open and passing, but the app is not in the F-Droid index until maintainers merge it and the repository publishes the next index update.
