@@ -2,7 +2,7 @@
     "expo": {
         "name": "FortuneTelling",
         "slug": "fortune-telling",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "automatic",
@@ -19,7 +19,7 @@
         "ios": {
             "supportsTablet": true,
             "bundleIdentifier": "com.zengtao.fortunetelling",
-            "buildNumber": "2"
+            "buildNumber": "3"
         },
         "android": {
             "adaptiveIcon": {
@@ -27,7 +27,7 @@
                 "backgroundColor": "#0c0c1e"
             },
             "package": "com.zengtao.fortunetelling",
-            "versionCode": 2
+            "versionCode": 3
         },
         "web": {
             "favicon": "./assets/favicon.png"

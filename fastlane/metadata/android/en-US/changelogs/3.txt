@@ -1,0 +1,1 @@
+Reduced the Android download size by enabling R8 code minification and unused resource shrinking.
