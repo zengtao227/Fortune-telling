@@ -1,0 +1,70 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = findProperty('android.buildToolsVersion') ?: '34.0.0'
+        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
+        compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
+        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
+        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.10'
+
+        ndkVersion = "25.1.8937393"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // AGP is pinned explicitly (RN 0.73 would otherwise bring 8.1.1, whose
+        // JdkImageTransform invokes jlink in a way that fails on JDK 21 — the only
+        // JDK available on the F-Droid build server). 8.2.2 is the highest AGP
+        // that still supports the Gradle 8.3 wrapper used here.
+        classpath('com.android.tools.build:gradle:8.2.2')
+        classpath('com.facebook.react:react-native-gradle-plugin')
+    }
+}
+
+apply plugin: "com.facebook.react.rootproject"
+
+// React Native's automatic Java version alignment is disabled in
+// gradle.properties because it requests a JDK 17 *toolchain*, which does not
+// exist on the F-Droid build server (JDK 21 only, auto-provisioning off).
+// Pin the Java/Kotlin bytecode target explicitly instead: this compiles to 17
+// while running on whatever JDK is present, and keeps javac and kotlinc in
+// agreement (otherwise Kotlin infers the target from the running JVM and fails
+// with "Unknown Kotlin JVM target: 21" on Kotlin 1.8.x).
+subprojects { sp ->
+    sp.plugins.withId('java') {
+        sp.java {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+    }
+    ['com.android.library', 'com.android.application'].each { pluginId ->
+        sp.plugins.withId(pluginId) {
+            sp.android.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
+    }
+    sp.tasks.matching { it.name.startsWith('compile') && it.name.endsWith('Kotlin') }
+        .configureEach { it.kotlinOptions.jvmTarget = '17' }
+}
+
+allprojects {
+    repositories {
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url(new File(['node', '--print', "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), '../android'))
+        }
+        maven {
+            // Android JSC is installed from npm
+            url(new File(['node', '--print', "require.resolve('jsc-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), '../dist'))
+        }
+
+        google()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+    }
+}

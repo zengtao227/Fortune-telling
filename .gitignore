@@ -2,7 +2,16 @@ node_modules/
 .expo/
 dist/
 /ios/
-/android/
+
+# android/ is committed so F-Droid can build with `subdir: android/app`.
+# Only build output, local machine state and signing material stay out.
+/android/build/
+/android/.gradle/
+/android/.idea/
+/android/local.properties
+/android/app/build/
+/android/app/debug.keystore
+*.keystore
 *.jks
 *.p12
 *.key
