@@ -2,7 +2,7 @@
 
 最后更新：2026-08-09
 
-## 当前状态：v1.0.3（ABI split）源码/tag/GitHub Release 已发布；fdroiddata fork 的 commit 已本地就绪，push 被浏览器自动化权限拦截，等用户操作
+## 当前状态：v1.0.3 ABI split 全部完成——fork pipeline 全绿，已在 MR !44809 里回复 linsui，等待 maintainer 后续 review
 
 linsui 在 MR !44809 里要求按 <https://f-droid.org/en/docs/Submitting_to_F-Droid_Quick_Start_Guide/#setup-abi-split> 做 ABI split。
 
@@ -24,19 +24,16 @@ linsui 在 MR !44809 里要求按 <https://f-droid.org/en/docs/Submitting_to_F-D
   - 端到端：`git archive v1.0.3` 干净导出 → `npm ci`（801个包，真实网络安装）→ fdroidserver `scanner.scan_source()` 真实扫描（非 monkey-patch 预演）→ **count = 0**，`android/app/build.gradle` 新增的 `ndk{}` 代码块没有触发任何 scanner 规则，不需要新增 scanignore 条目；`node_modules/react-native/sdks/hermesc/linux64-bin/hermesc` 扫描后确认仍存在
   - 已本地 commit 在 `/private/tmp/claude-501/-Users-zengtao/149a4008-a252-4aaa-ba48-7b664486a1e7/scratchpad/fork-push`（clone 自 `draft-fortunetelling-expo57`，HEAD 已验证等于线上 MR 分支的 `bb91b98`），commit `3803f00ca`，diff 已人工核对，干净且符合预期
 
-**卡在这一步**：本地无 SSH key/token 能直接 push 到 fdroiddata fork。尝试在浏览器里创建一个短期、最小权限（Developer + `write_repository`，参照教训#36）的 GitLab project access token 时，被 Claude Code 的自动权限分类器拦截（判定为敏感操作，未强行绕过）。上一次类似操作（token 名 `fdroiddata-submit`）已经在 8 月 8 日创建并使用后撤销，本次沿用同样的最小权限做法，但这次自动化输入 token name 这一步被拦。
+**推送过程中的两个新教训**（已建议补进 fdroid-release skill 的 lessons-learned.md，尚未真正写入）：
 
-## 用户需要做的下一步（二选一）
+1. **本地没有 fdroiddata fork 的 push 凭据**，浏览器自动化建 token 那一步被 Claude Code 权限分类器拦了（创建凭据类操作，未强行绕过）。改为让用户在 GitLab 网页自己建一次性 project access token（Developer + write_repository，参照教训#36）发过来，本机用 `GIT_ASKPASS` 脚本消费（token 写一次性 0600 文件，push 完立即 `shred -u`/删除文件和脚本，命令行参数里不出现明文），用完让用户手动去网页 revoke。做了两轮（`fdroiddata-abi-split`、以及第二次修 rewritemeta 用的那个），都已撤销。
+2. **同一个 fdroidserver master commit（`6af4c4216e43d0fcb29e33919cd0fe8fef7e7400`），本机 pip 装的 `ruamel.yaml`（0.19.1，PyPI 最新）和 CI 用的 `debian:trixie-slim` 镜像里 apt 装的 `ruamel.yaml` 对同一行超长文本的换行策略正好相反**——本机验证"幂等无 diff"是假阳性。第一次 push（`3803f00c`）因此在真实 CI 的 `fdroid rewritemeta` job 上失败（其余 8/9 job，包括 `fdroid build`/`check apk`，都是绿的）。按 CI 报的 diff 原样改回单行，第二次 push（`8d170ff9`）后 9/9 全绿。**结论：`fdroid rewritemeta`/`fdroid lint` 这类格式类 job 光靠"pip 装同一个 commit"不够，字面幂等验证只能算强参考，不能替代真实 CI 的最终判定——跟已有教训#31 是同一类问题的更隐蔽版本（连 commit 都一样，只是底层依赖版本不同）。**
 
-1. **推荐**：你自己在 GitLab 网页上给 `zengtao227/fdroiddata` 项目建一个短期 project access token（Developer + `write_repository`，1天有效期），把值发给我，我用完立刻在网页上撤销，不会在对话里回显 token 值本身以外的内容。
-2. 或者你直接执行（本机可能没配 SSH key，需要你自己的 GitLab 凭据）：
-   ```bash
-   cd /private/tmp/claude-501/-Users-zengtao/149a4008-a252-4aaa-ba48-7b664486a1e7/scratchpad/fork-push
-   git push origin HEAD:draft-fortunetelling-expo57
-   ```
-   （这个目录已经是 clone 自该分支 + 已 commit 好的最终状态，直接 push 即可，我不需要再碰它）
-
-推送成功后：等 fork pipeline 全绿（教训#37：`fdroid build` 绿不能覆盖别的 job 红），再去 MR 里回复 linsui，说明 ABI split 已经做好、数据支撑（69%/51MiB native libs，split 后单个 APK 22-27MiB）。**这一步（回复 reviewer、以及后续 push 后确认 pipeline）我会继续跟进，但把 push 本身留给你按上面两种方式之一执行。**
+**最终结果**：
+- Pipeline `2745242854`（commit `8d170ff9`）9/9 job 全绿。
+- 用真实 F-Droid 构建服务器签名后的产物核实过两个 ABI 真的分别编出来了：`Successfully built com.zengtao.fortunetelling:41`（armeabi-v7a，22.5 MiB）、`:42`（arm64-v8a，27.0 MiB），对比原来 64.46 MiB 的通用包。
+- 已在 MR !44809 里回复 linsui（挂在他原来那条 "Please setup abi split" thread 下面，不是新开一条），附上根因（`newArchEnabled=false` 导致标准 `gradleprops` 写法静默失效）、pipeline 链接和前后大小对比。没有替 reviewer 点 "Resolve thread"。
+- MR 描述里 "Suggested" 一栏的 `Multiple apks for native code` 复选框目前还是未勾选状态——是否要顺手勾上，留给用户或等 linsui 自己核对后处理，没有自作主张去改 MR 描述。
 
 ---
 
