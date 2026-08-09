@@ -1,8 +1,34 @@
 # Handoff
 
-最后更新：2026-08-09
+最后更新：2026-08-09（追加：linsui 第二轮评论已处理，本地已改好，等待 push 确认）
 
-## 当前状态：v1.0.3 ABI split 全部完成——fork pipeline 全绿，已在 MR !44809 里回复 linsui，等待 maintainer 后续 review
+## 当前状态：linsui 在 !44809 新评论"Remove the old version directly"——已验证并本地修好，尚未 push
+
+linsui 针对旧的 `disable: superseded by 1.0.3 ABI split`（1.0.2/versionCode 3）Build 块评论"直接删掉"。
+
+**验证结论**：这个 App 从未被 F-Droid 正式合并/构建过（`!44809` 至今仍是待审的首次提交 MR），versionCode 3 从未进过真实索引。"disable 而不删除"这个惯例是为**已发布**App保留构建/索引历史用的，对一个还没合并的新提交，留着这个 disabled 存根没有意义——linsui 是对的，属于 `should_fix`。
+
+**已在 scratchpad clone 里完成并验证**（`/private/tmp/claude-501/.../scratchpad/fork-push`，local commit `85b1f173b`，未 push）：
+- 删掉整个 `versionName: 1.0.2 / versionCode: 3` Build 块，只保留 1.0.3 的两个 ABI 分支（41/42）
+- `check-jsonschema --schemafile schemas/metadata.json` ✅
+- `fdroid lint` ✅ 0 警告
+- `fdroid rewritemeta`：本机 pip 装的 `ruamel.yaml`（0.19.1）又把长 sed 行重新换行了——这是教训#2 记录过的同一个假阳性坑，已按 CI 已验证过的单行格式手动改回，不采信本机换行结果
+- `fdroid checkupdates`：正确 resolve 到 v1.0.3 tag，无额外 diff
+
+**已 push 并确认 CI 全绿**：commit `85b1f173b` push 到 `draft-fortunetelling-expo57`，pipeline [2745280991](https://gitlab.com/zengtao227/fdroiddata/-/pipelines/2745280991) 9/9 job 全部 success（check apk / check source code / checkupdates / fdroid build / fdroid lint / fdroid rewritemeta / git redirect / schema validation / tools check scripts）。两次一次性 token 均已用完即删，用户已知晓需去 GitLab 网页手动 revoke。
+
+**下一步（需要用户确认才能做，未擅自执行）**：在 MR !44809 里回复 linsui 那条 thread，确认已按他的建议删掉旧的 disabled 1.0.2/versionCode 3 Build 块，附 pipeline 链接。回复文案未发出，等用户审核。
+
+**本轮踩坑已回灌进 fdroid-release skill**（不只是记录，已落成 checklist 步骤）：
+- `references/lessons-learned.md` 新增 #38.1（token 到手先用 API 核对 `write_repository` scope 再 push，别先跑必败的 push）、#40（未合并过的新提交里，旧 Build 块该删不该 disable，disable 是给已发布 App 保留历史用的）
+- `references/release-checklist.md` 阶段七加了"多 Build 块删/disable判断"规则和"本机 rewritemeta 幂等只是强参考"提醒；阶段八新增第13项，把 token scope 校验做成推送前必做步骤
+- `SKILL.md` 教训计数 39→40
+
+---
+
+## 历史状态（2026-08-09，v1.0.3 ABI split）
+
+**当前状态：v1.0.3 ABI split 全部完成——fork pipeline 全绿，已在 MR !44809 里回复 linsui，等待 maintainer 后续 review**
 
 linsui 在 MR !44809 里要求按 <https://f-droid.org/en/docs/Submitting_to_F-Droid_Quick_Start_Guide/#setup-abi-split> 做 ABI split。
 

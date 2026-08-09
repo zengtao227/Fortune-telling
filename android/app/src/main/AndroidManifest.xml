@@ -1,9 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+  <!-- expo-file-system (transitive via expo-asset, never imported by app code) unconditionally
+       requests these three in its own manifest. The app makes no network calls (AsyncStorage
+       only, not FileSystem) and does no external-storage I/O, so they are merged out here. -->
+  <uses-permission android:name="android.permission.INTERNET" tools:node="remove"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
+  <!-- SYSTEM_ALERT_WINDOW removed: it only exists in react-native's debug-variant manifest
+       (dev-tools overlay), no release-time dependency or app code needs it. -->
   <uses-permission android:name="android.permission.VIBRATE"/>
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
   <queries>
     <intent>
       <action android:name="android.intent.action.VIEW"/>

@@ -1,0 +1,1 @@
+Removed the unused INTERNET, READ_EXTERNAL_STORAGE, and WRITE_EXTERNAL_STORAGE permissions — the app has never used them (it makes no network requests and stores data locally via AsyncStorage). Also fixed store screenshots that were cropped to inconsistent widths.
