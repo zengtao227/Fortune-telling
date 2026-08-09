@@ -1,0 +1,1 @@
+Split the release into per-architecture APKs (armeabi-v7a / arm64-v8a) instead of bundling every native library into one universal APK, cutting the install size roughly in half on most phones.
