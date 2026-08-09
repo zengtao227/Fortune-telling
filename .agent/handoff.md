@@ -1,8 +1,46 @@
 # Handoff
 
-最后更新：2026-08-08
+最后更新：2026-08-09
 
-## 当前状态：v1.0.2 已发布，F-Droid MR 已更新且 CI 全绿
+## 当前状态：v1.0.3（ABI split）源码/tag/GitHub Release 已发布；fdroiddata fork 的 commit 已本地就绪，push 被浏览器自动化权限拦截，等用户操作
+
+linsui 在 MR !44809 里要求按 <https://f-droid.org/en/docs/Submitting_to_F-Droid_Quick_Start_Guide/#setup-abi-split> 做 ABI split。
+
+**根因**：`android/app/build.gradle` 的 `newArchEnabled=false`（Expo SDK 50 默认）。其他已合并 F-Droid RN 应用用的 `gradleprops: reactNativeArchitectures=<abi>` 标准写法，在 RNGP 源码里（`NdkConfiguratorUtils.configureReactNativeNdk`）只在 New Architecture 开启时才会把这个属性接到 `ndk.abiFilters`——对这个项目是静默失效的。
+
+**已验证的数据**：原 64.46 MiB 通用 APK 里 `lib/`（4 个 ABI 全塞）占未压缩体积 69%（51 MiB）。
+
+**已完成（本机全部验证过，非假设）**：
+- `android/app/build.gradle`：在 `defaultConfig` 里手动读取已声明但从未接上的 `reactNativeArchitectures` 属性，设置 `ndk.abiFilters`（不引入 AGP `splits{}`，不改变现有默认构建行为——未传 `-P` 时该属性默认值仍是全部4个ABI，等价于原行为）
+- 版本同步：`app.json` / `package.json` / `package-lock.json` → 1.0.3 / versionCode 4 / iOS buildNumber 4
+- `fastlane/metadata/android/en-US/changelogs/41.txt` `42.txt` 已建
+- `npm run lint`：0 errors（466 warnings，与基线一致）；`npm test -- --runInBand`：34/34 通过
+- 本地分别用 `-PreactNativeArchitectures=armeabi-v7a` / `=arm64-v8a` 跑 `gradle assembleRelease`，两次 `BUILD SUCCESSFUL`，`unzip -l` 确认各自 APK 的 `lib/` 只含目标 ABI（22.04 MiB / 26.62 MiB，对比原 64.46 MiB 通用包）
+- commit `5e908923bdc6f65a6bb885a6a2c123b0eb3c97ab` → push origin/main → tag `v1.0.3`（annotated）→ push tag → `git ls-remote --tags ... "v1.0.3*"` 确认远端 peeled commit与本地一致
+- GitHub source-only release 已发布：<https://github.com/zengtao227/Fortune-telling/releases/tag/v1.0.3>（不含 APK 附件，同 v1.0.2 惯例）
+- fdroiddata metadata：新增两个 Build 块（armeabi-v7a→versionCode 41，arm64-v8a→versionCode 42），旧的 1.0.2/versionCode 3 标记 `disable: superseded by 1.0.3 ABI split`；顶层加 `VercodeOperation: ['%c * 10 + 1', '%c * 10 + 2']`
+  - 用当前 fdroidserver master（pip 装的 git 版，commit `6af4c4216e43d0fcb29e33919cd0fe8fef7e7400`）+ 当前 fdroiddata master（commit `84b8c6d60f6ddd46d8c6ea7a4daaebe8386aaa63`）跑过：`check-jsonschema --schemafile schemas/metadata.json`（CI 同款命令）✅、`fdroid rewritemeta`（幂等，无 diff）✅、`fdroid lint`（补上 `config/categories.yml` 后 0 警告，之前那条 `Categories 'Science & Education' is not valid` 确认是教训#9 说的假阳性）✅、`fdroid checkupdates`（正确 resolve 到 v1.0.3 tag → commit 5e90892，且不产生 diff，说明手写的两个 Build 块已经和自动更新逻辑算出来的一致）✅
+  - `sed -i -E 's/versionCode [0-9]+/versionCode $$VERCODE$$/' build.gradle` 单独用真实 `sed -E` 验证过，只改中那一行
+  - 端到端：`git archive v1.0.3` 干净导出 → `npm ci`（801个包，真实网络安装）→ fdroidserver `scanner.scan_source()` 真实扫描（非 monkey-patch 预演）→ **count = 0**，`android/app/build.gradle` 新增的 `ndk{}` 代码块没有触发任何 scanner 规则，不需要新增 scanignore 条目；`node_modules/react-native/sdks/hermesc/linux64-bin/hermesc` 扫描后确认仍存在
+  - 已本地 commit 在 `/private/tmp/claude-501/-Users-zengtao/149a4008-a252-4aaa-ba48-7b664486a1e7/scratchpad/fork-push`（clone 自 `draft-fortunetelling-expo57`，HEAD 已验证等于线上 MR 分支的 `bb91b98`），commit `3803f00ca`，diff 已人工核对，干净且符合预期
+
+**卡在这一步**：本地无 SSH key/token 能直接 push 到 fdroiddata fork。尝试在浏览器里创建一个短期、最小权限（Developer + `write_repository`，参照教训#36）的 GitLab project access token 时，被 Claude Code 的自动权限分类器拦截（判定为敏感操作，未强行绕过）。上一次类似操作（token 名 `fdroiddata-submit`）已经在 8 月 8 日创建并使用后撤销，本次沿用同样的最小权限做法，但这次自动化输入 token name 这一步被拦。
+
+## 用户需要做的下一步（二选一）
+
+1. **推荐**：你自己在 GitLab 网页上给 `zengtao227/fdroiddata` 项目建一个短期 project access token（Developer + `write_repository`，1天有效期），把值发给我，我用完立刻在网页上撤销，不会在对话里回显 token 值本身以外的内容。
+2. 或者你直接执行（本机可能没配 SSH key，需要你自己的 GitLab 凭据）：
+   ```bash
+   cd /private/tmp/claude-501/-Users-zengtao/149a4008-a252-4aaa-ba48-7b664486a1e7/scratchpad/fork-push
+   git push origin HEAD:draft-fortunetelling-expo57
+   ```
+   （这个目录已经是 clone 自该分支 + 已 commit 好的最终状态，直接 push 即可，我不需要再碰它）
+
+推送成功后：等 fork pipeline 全绿（教训#37：`fdroid build` 绿不能覆盖别的 job 红），再去 MR 里回复 linsui，说明 ABI split 已经做好、数据支撑（69%/51MiB native libs，split 后单个 APK 22-27MiB）。**这一步（回复 reviewer、以及后续 push 后确认 pipeline）我会继续跟进，但把 push 本身留给你按上面两种方式之一执行。**
+
+---
+
+## 历史状态（2026-08-08，v1.0.2 首次发布）
 
 - 上游 release 源码 commit：`ac5ddb6ddf24542daa3ae978648cd62155794c28`
 - 不可变 annotated tag：`v1.0.2`（远端 peeled commit 仍为上述 commit）
