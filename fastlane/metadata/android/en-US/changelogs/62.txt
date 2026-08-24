@@ -1,0 +1,1 @@
+Fixed Android layout clipping on narrow screens. Daily almanac cards now stay within the screen, new pages open at the top, and changing I Ching hexagrams stack cleanly instead of overflowing horizontally.

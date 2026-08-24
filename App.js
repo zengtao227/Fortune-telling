@@ -12,6 +12,7 @@ import {
   ScrollView,
   Animated,
   Dimensions,
+  useWindowDimensions,
   Platform,
   TextInput,
   Image,
@@ -29,6 +30,10 @@ import {
 
 const { width, height } = Dimensions.get("window");
 const isWeb = Platform.OS === "web";
+const MAX_CONTENT_WIDTH = 420;
+
+export const getContentWidth = (viewportWidth) =>
+  Math.min(viewportWidth, MAX_CONTENT_WIDTH);
 
 // --- Persistence Helper ---
 // Web uses localStorage (sync); native uses AsyncStorage (async) — unified behind one async API.
@@ -339,15 +344,8 @@ const HexagramVisual = ({
   const hasChange = !!changeLabel;
 
   return (
-    <View style={{ alignItems: "center", width: "100%" }}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
+    <View style={styles.hexagramVisual}>
+      <View style={styles.hexagramPair}>
         {/* Original Hexagram */}
         <View style={styles.hexagramContainer}>
           <View style={[styles.hexagramBox, { borderColor: theme.border }]}>
@@ -394,16 +392,7 @@ const HexagramVisual = ({
 
         {/* Arrow if there's a change */}
         {hasChange && (
-          <Text
-            style={{
-              fontSize: 24,
-              color: theme.accent,
-              marginHorizontal: 12,
-              opacity: 0.4,
-            }}
-          >
-            →
-          </Text>
+          <Text style={[styles.hexagramArrow, { color: theme.accent }]}>↓</Text>
         )}
 
         {/* Change Hexagram */}
@@ -701,6 +690,8 @@ class ErrorBoundary extends React.Component {
 }
 
 function AppInner() {
+  const { width: viewportWidth } = useWindowDimensions();
+  const contentWidth = getContentWidth(viewportWidth);
   const [fontsLoaded] = Font.useFonts({
     Cinzel_700Bold: require("@expo-google-fonts/cinzel/700Bold/Cinzel_700Bold.ttf"),
     NotoSerifSC_400Regular: require("@expo-google-fonts/noto-serif-sc/400Regular/NotoSerifSC_400Regular.ttf"),
@@ -845,9 +836,9 @@ function AppInner() {
       <StarBackground />
 
       <View style={styles.safeArea}>
-        <ScrollView contentContainerStyle={styles.scroll}>
+        <ScrollView key={currentView} contentContainerStyle={styles.scroll}>
           {/* Header: Consistent across all views */}
-          <View style={styles.header}>
+          <View style={[styles.header, { width: contentWidth }]}>
             <Text
               style={[
                 styles.appTitle,
@@ -889,7 +880,7 @@ function AppInner() {
           </View>
 
           {/* Main Content */}
-          <View style={styles.cardContainer}>
+          <View style={[styles.cardContainer, { width: contentWidth }]}>
             {currentView === "HOME" && (
               <>
                 {/* Almanac Card */}
@@ -1228,7 +1219,7 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: { flex: 1 },
   errorScreen: {
     flex: 1,
@@ -1254,15 +1245,13 @@ const styles = StyleSheet.create({
 
   // Main constrained container acting as "Mobile Screen"
   cardContainer: {
-    width: "100%",
-    maxWidth: 420, // Phone width
+    maxWidth: MAX_CONTENT_WIDTH, // Phone width
     padding: 20,
   },
 
   header: {
     padding: 20,
-    width: "100%",
-    maxWidth: 420,
+    maxWidth: MAX_CONTENT_WIDTH,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
@@ -1304,7 +1293,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     alignItems: "center",
-    width: "100%",
+    alignSelf: "stretch",
     minHeight: 400, // Min height for consistency
     justifyContent: "center",
   },
@@ -1313,7 +1302,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontFamily: "Cinzel_700Bold",
   },
-  formContainer: { width: "100%" },
+  formContainer: { alignSelf: "stretch" },
   label: {
     fontSize: 12,
     textTransform: "uppercase",
@@ -1345,6 +1334,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 10,
     paddingHorizontal: 5,
+  },
+  hexagramVisual: {
+    alignItems: "center",
+    alignSelf: "stretch",
+  },
+  hexagramPair: {
+    alignItems: "center",
+    alignSelf: "stretch",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  hexagramArrow: {
+    fontSize: 24,
+    marginVertical: 4,
+    opacity: 0.4,
   },
   hexagramBox: {
     padding: 15,
@@ -1393,7 +1397,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
   },
-  movingLegend: { marginTop: 10, width: "100%", alignItems: "center" },
+  movingLegend: { marginTop: 10, alignSelf: "stretch", alignItems: "center" },
   movingLegendText: { fontSize: 12, letterSpacing: 1 },
 
   // Results
@@ -1408,15 +1412,15 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: "rgba(255,255,255,0.1)",
-    width: "100%",
+    alignSelf: "stretch",
     marginVertical: 20,
   },
-  messageBlock: { width: "100%" },
+  messageBlock: { alignSelf: "stretch" },
   resultLabel: {
     fontSize: 17,
     fontWeight: "bold",
     textAlign: "left",
-    width: "100%",
+    alignSelf: "stretch",
     marginBottom: 6,
   },
   messageText: {
@@ -1433,7 +1437,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     marginBottom: 25,
-    width: "100%",
+    alignSelf: "stretch",
     alignItems: "center",
   },
   almanacTitle: {
@@ -1465,7 +1469,7 @@ const styles = StyleSheet.create({
   yiJiRow: {
     flexDirection: "row",
     justifyContent: "center",
-    width: "100%",
+    alignSelf: "stretch",
     marginTop: 10,
   },
   yiJiCol: { flex: 1, alignItems: "center" },
