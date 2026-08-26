@@ -1,0 +1,1 @@
+Adds a Chinese F-Droid description and clearly notes that the app interface is currently Chinese-only.

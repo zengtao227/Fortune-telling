@@ -1,3 +1,6 @@
+<b>Language notice</b>
+The app interface and all divination content are currently available in Chinese only.
+
 Fortune Telling blends Western astrology and traditional Chinese divination into a single, calm, offline companion.
 
 <b>Western astrology</b>
