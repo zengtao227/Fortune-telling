@@ -1,8 +1,26 @@
 # Handoff
 
-最后更新：2026-08-09（追加：linsui 第二轮评论已处理，本地已改好，等待 push 确认）
+最后更新：2026-08-09（追加：已在 !44809 回复 linsui 两条 thread，本轮完结）
 
-## 当前状态：linsui 在 !44809 新评论"Remove the old version directly"——已验证并本地修好，尚未 push
+## 当前状态：v1.0.4 已 push，CI 全绿，已回复 linsui 两条 thread——本轮工作完结
+
+commit `e44a81c9e` 针对 linsui 的两条评论做了修复：
+1. 删掉未使用的 Android 权限（`INTERNET`/`READ_EXTERNAL_STORAGE`/`WRITE_EXTERNAL_STORAGE`/`SYSTEM_ALERT_WINDOW`），已用 `aapt dump permissions` 在真实构建出的 APK 上验证过。
+2. 修了 fastlane 截图宽度不一致导致 UI 被裁切的问题，原来三张宽度不统一，统一改成 312px。
+
+推送前本机已过 `check-jsonschema` / `fdroid lint` / `fdroid checkupdates`。
+
+**Pipeline [2745454091](https://gitlab.com/zengtao227/fdroiddata/-/pipelines/2745454091) 已监控到终态：`success`，9/9 job 全绿**（`fdroid build` / `checkupdates` / `git redirect` / `fdroid lint` / `fdroid rewritemeta` / `tools check scripts` / `schema validation` / `check source code` / `check apk`），复现了上一版 commit `85b1f173b`（pipeline 2745280991）的 9/9 结果。
+
+**已完成**：用户确认"回复吧"后，在浏览器里用用户已登录的 GitLab 会话（不是新建 API token）分别挂在 linsui 那两条评论下面回复（用每条评论的 Reply 图标展开线程内回复框，不是发到底部的新评论），各自附上根因说明和 pipeline 链接。评论数从 19 增到 21，两条 thread 都能在页面上确认已回复。截至目前用户/linsui 尚未点 Resolve thread，留给 reviewer 自己核对处理。
+
+**凭据方式升级**：本轮推送 fdroiddata 起改用 macOS Keychain 存长期 token（教训#41），用户在自己终端执行 `git credential-osxkeychain store`，token 明文没有再出现在聊天记录里；之后同一仓库的 push 不需要用户每次重新建一次性 token。
+
+**下一步**：等待 F-Droid maintainer 或 linsui 后续 review。fdroid-release skill 已同步这两轮的踩坑（lessons-learned #38.1/#40/#41，checklist 阶段七/八对应更新，教训计数 39→41）。
+
+---
+
+## 历史状态（2026-08-09，linsui 第一轮"Remove the old version directly"评论）
 
 linsui 针对旧的 `disable: superseded by 1.0.3 ABI split`（1.0.2/versionCode 3）Build 块评论"直接删掉"。
 
